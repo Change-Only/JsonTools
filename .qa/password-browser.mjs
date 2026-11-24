@@ -172,6 +172,7 @@ async function runDdl(actions) {
 
 const STYLE_COLS = {
   snake: ['"user_name"', '"created_at"', '"http_code"', '"updated_at"'],
+  upper_snake: ['"USER_NAME"', '"CREATED_AT"', '"HTTP_CODE"', '"UPDATED_AT"'],
   camel: ['"userName"', '"createdAt"', '"hTTPCode"', '"updatedAt"'],
   pascal: ['"UserName"', '"CreatedAt"', '"HTTPCode"', '"UpdatedAt"'],
   keep: ['"userName"', '"created-at"', '"HTTPCode"', '"updatedAt"']
@@ -189,6 +190,7 @@ for (const style of Object.keys(STYLE_COLS)) {
   rec('Oracle/' + style + ' 无 MySQL/PG 专有类型', !/TINYINT|DATETIME|JSONB|DOUBLE PRECISION/.test(d.out));
   rec('Oracle/' + style + ' PRIMARY KEY 仅一次', (d.out.match(/PRIMARY KEY/g) || []).length === 1, d.out);
   if (style === 'snake') await page.screenshot({ path: path.join(SHOTS, '08-oracle-ddl.png') });
+  if (style === 'upper_snake') await page.screenshot({ path: path.join(SHOTS, '09-upper-snake-ddl.png') });
 }
 
 const dm = await runDdl([['select', '方言', 'mysql'], ['select', '字段命名风格', 'snake'], ['text', '主键字段名', 'id']]);

@@ -1,7 +1,7 @@
 {
   "summary": {
-    "total": 101,
-    "passed": 101,
+    "total": 112,
+    "passed": 112,
     "failed": 0
   },
   "results": [
@@ -223,6 +223,42 @@
     },
     {
       "group": "C-命名风格",
+      "name": "upper_snake 列名含 USER_NAME",
+      "pass": true,
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `USER_NAME` VARCHAR(255) NOT NULL,\n  `USER_ID` INT NOT NULL,\n  `HTTP_CODE` INT NOT NULL,\n  `CREATED_AT` DATE NOT NULL\n);"
+    },
+    {
+      "group": "C-命名风格",
+      "name": "upper_snake 列名含 USER_ID",
+      "pass": true,
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `USER_NAME` VARCHAR(255) NOT NULL,\n  `USER_ID` INT NOT NULL,\n  `HTTP_CODE` INT NOT NULL,\n  `CREATED_AT` DATE NOT NULL\n);"
+    },
+    {
+      "group": "C-命名风格",
+      "name": "upper_snake 列名含 HTTP_CODE",
+      "pass": true,
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `USER_NAME` VARCHAR(255) NOT NULL,\n  `USER_ID` INT NOT NULL,\n  `HTTP_CODE` INT NOT NULL,\n  `CREATED_AT` DATE NOT NULL\n);"
+    },
+    {
+      "group": "C-命名风格",
+      "name": "upper_snake 列名含 CREATED_AT",
+      "pass": true,
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `USER_NAME` VARCHAR(255) NOT NULL,\n  `USER_ID` INT NOT NULL,\n  `HTTP_CODE` INT NOT NULL,\n  `CREATED_AT` DATE NOT NULL\n);"
+    },
+    {
+      "group": "C-命名风格",
+      "name": "upper_snake 列数 = 4",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "C-命名风格",
+      "name": "upper_snake 注释保留全部 4 个原始 JSON 键",
+      "pass": true,
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `USER_NAME` VARCHAR(255) NOT NULL  -- userName : string,\n  `USER_ID` INT NOT NULL  -- user_id : integer,\n  `HTTP_CODE` INT NOT NULL  -- HTTPCode : integer,\n  `CREATED_AT` DATE NOT NULL  -- created-at : string\n);"
+    },
+    {
+      "group": "C-命名风格",
       "name": "camel 列名含 userName",
       "pass": true,
       "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `userId` INT NOT NULL,\n  `hTTPCode` INT NOT NULL,\n  `createdAt` DATE NOT NULL\n);"
@@ -331,6 +367,24 @@
     },
     {
       "group": "C-命名风格",
+      "name": "styleName upper_snake: userName → USER_NAME",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "C-命名风格",
+      "name": "styleName upper_snake: HTTPCode → HTTP_CODE",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "C-命名风格",
+      "name": "styleName upper_snake: created-at → CREATED_AT",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "C-命名风格",
       "name": "未指定 nameStyle 时默认 camel（user_name 不出现）",
       "pass": true,
       "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `userId` INT NOT NULL,\n  `hTTPCode` INT NOT NULL,\n  `createdAt` DATE NOT NULL\n);"
@@ -376,6 +430,18 @@
       "name": "连字符键 camel 化后主键仍匹配",
       "pass": true,
       "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"userId\" INTEGER PRIMARY KEY\n);"
+    },
+    {
+      "group": "D-主键跨风格",
+      "name": "pk=user_id 在 UPPER_SNAKE_CASE 列 USER_ID 上被识别",
+      "pass": true,
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"USER_ID\" NUMBER(10) PRIMARY KEY\n);"
+    },
+    {
+      "group": "D-主键跨风格",
+      "name": "UPPER_SNAKE_CASE 主键仅标注一次",
+      "pass": true,
+      "detail": ""
     },
     {
       "group": "D-主键跨风格",

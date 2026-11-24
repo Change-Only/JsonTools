@@ -215,12 +215,12 @@
     {
       "name": "R3-树: >3000 节点大文档根默认展开且提示懒加载（不卡死/不报错）",
       "pass": true,
-      "detail": "{\"hasTree\":true,\"rows\":401,\"notice\":\"节点数约 3601，已启用懒加载（展开时才渲染子节点）以保护性能。\",\"ms\":9.1}"
+      "detail": "{\"hasTree\":true,\"rows\":401,\"notice\":\"节点数约 3601，已启用懒加载（展开时才渲染子节点）以保护性能。\",\"ms\":21.5}"
     },
     {
       "name": "R3-树: 大文档切树形渲染耗时已记录",
       "pass": true,
-      "detail": "renderMs≈9.1 可见行=401"
+      "detail": "renderMs≈21.5 可见行=401"
     },
     {
       "name": "R3-树: 极端边界({},[],null,[1],嵌套数组) 不崩溃且无空面板异常",
@@ -853,19 +853,19 @@
     },
     {
       "id": "utility-password",
-      "outLen": 71,
+      "outLen": 75,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
-      "status": "执行成功 · 输出 70 字符"
+      "status": "执行成功 · 输出 74 字符"
     },
     {
       "id": "utility-mock",
-      "outLen": 904,
+      "outLen": 908,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
-      "status": "执行成功 · 输出 959 字符"
+      "status": "执行成功 · 输出 963 字符"
     },
     {
       "id": "utility-shuffle",

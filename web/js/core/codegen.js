@@ -35,6 +35,7 @@
   function styleName(name, style) {
     switch (style) {
       case 'snake': return toSnake(name);
+      case 'upper_snake': return toSnake(name).toUpperCase();
       case 'pascal': return toPascal(name);
       case 'keep': return String(name);
       case 'camel': default: return toCamel(name);
@@ -767,7 +768,7 @@
   function ddlMatchesPk(f, colName, pk) {
     if (!pk) return false;
     if (f.jsonKey === pk || f.name === pk || colName === pk) return true;
-    var styles = ['snake', 'camel', 'pascal'];
+    var styles = ['snake', 'upper_snake', 'camel', 'pascal'];
     for (var i = 0; i < styles.length; i++) {
       var target = styleName(pk, styles[i]);
       if (colName === target) return true;

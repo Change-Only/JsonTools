@@ -21,6 +21,7 @@ Python 桌面外壳，内置 **69 个**实用工具，覆盖 JSON 的格式化�
 - **右下（深色主题）**：全应用支持浅色 / 深色一键切换。
 - 输出框支持原地编辑（点「编辑」→ 文本域可改 → 点「查看」应用），见 [docs/screenshots/06-output-editing.png](docs/screenshots/06-output-editing.png)。
 - 树形视图（JSONPath 查询等工具默认使用）支持节点「复制路径 / 复制值」，见 [docs/screenshots/05-tree-view.png](docs/screenshots/05-tree-view.png)。
+- 建表 DDL 支持 camelCase / snake_case / UPPER_SNAKE_CASE / PascalCase / 原样五种字段命名风格，见 [docs/screenshots/09-upper-snake-ddl.png](docs/screenshots/09-upper-snake-ddl.png)。
 
 ---
 
@@ -92,7 +93,7 @@ Python 桌面外壳，内置 **69 个**实用工具，覆盖 JSON 的格式化�
 | JSON → Swift | Codable + CodingKeys |
 | JSON → Dart | class + fromJson/toJson |
 | JSON → PHP | 带类型属性的 class |
-| JSON → 建表 DDL | MySQL / PostgreSQL / SQLite / Oracle，字段命名风格（camel/snake/pascal/原样）生效，含类型推断注释；Oracle 无 BOOLEAN，用 NUMBER(1)，JSON/数组/嵌套对象折叠为 CLOB |
+| JSON → 建表 DDL | MySQL / PostgreSQL / SQLite / Oracle，字段命名风格（camel/snake/UPPER_SNAKE_CASE/pascal/原样）生效，含类型推断注释；Oracle 无 BOOLEAN，用 NUMBER(1)，JSON/数组/嵌套对象折叠为 CLOB |
 | JSON → JSON Schema | Draft 2020-12，含 type/required/format 推断 |
 
 ### 3. 查询与提取（`query`）

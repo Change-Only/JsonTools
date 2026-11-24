@@ -896,21 +896,21 @@
       "name": "JWT 过期判定 expired=true",
       "pass": true,
       "expected": "truthy",
-      "actual": "[\"警告：Token 已于 2026-11-24T14:55:35.000Z 过期\"]"
+      "actual": "[\"警告：Token 已于 2026-11-24T15:08:14.000Z 过期\"]"
     },
     {
       "group": "T2-codec",
       "name": "JWT 未过期 expired=false",
       "pass": true,
       "expected": "truthy",
-      "actual": "{\"header\":{\"alg\":\"HS256\"},\"payload\":{\"sub\":\"1\",\"exp\":1795542235},\"signature\":\"sig\",\"meta\":{\"exp\":{\"value\":1795542235,\"readable\":\"2026-11-24T17:43:55.000Z\"}},\"notices\":[\"正常：Token 未过期，将于 2026-11-24T17:43:55.000Z 过期\"],\"expired\":false}"
+      "actual": "{\"header\":{\"alg\":\"HS256\"},\"payload\":{\"sub\":\"1\",\"exp\":1795542994},\"signature\":\"sig\",\"meta\":{\"exp\":{\"value\":1795542994,\"readable\":\"2026-11-24T17:56:34.000Z\"}},\"notices\":[\"正常：Token 未过期，将于 2026-11-24T17:56:34.000Z 过期\"],\"expired\":false}"
     },
     {
       "group": "T2-codec",
       "name": "JWT nbf 未生效告警",
       "pass": true,
       "expected": "truthy",
-      "actual": "[\"警告：Token 尚未生效（nbf=2026-11-24T17:43:55.000Z）\"]"
+      "actual": "[\"警告：Token 尚未生效（nbf=2026-11-24T17:56:34.000Z）\"]"
     },
     {
       "group": "T2-codec",
@@ -966,7 +966,7 @@
       "name": "UUID v4 格式合法",
       "pass": true,
       "expected": "truthy",
-      "actual": "24893dc0-2d18-465a-8a6a-b44988075f1a"
+      "actual": "7e45e099-2294-4d88-b976-63d78c214949"
     },
     {
       "group": "T2-codec",

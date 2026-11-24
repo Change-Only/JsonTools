@@ -408,7 +408,7 @@
     }
   });
 
-  var NAME_STYLE = sel('nameStyle', '字段命名风格', [{ value: 'camel', label: 'camelCase' }, { value: 'snake', label: 'snake_case' }, { value: 'pascal', label: 'PascalCase' }, { value: 'keep', label: '保持原样' }], 'camel');
+  var NAME_STYLE = sel('nameStyle', '字段命名风格', [{ value: 'camel', label: 'camelCase' }, { value: 'snake', label: 'snake_case' }, { value: 'upper_snake', label: 'UPPER_SNAKE_CASE' }, { value: 'pascal', label: 'PascalCase' }, { value: 'keep', label: '保持原样' }], 'camel');
   var OPTIONAL_MODE = sel('optionalMode', '必填性', [{ value: 'none', label: '全部必填' }, { value: 'missing', label: '缺失字段可选（?）' }, { value: 'all', label: '全部可选（?）' }], 'missing');
 
   convertTool({

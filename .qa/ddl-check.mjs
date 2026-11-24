@@ -92,6 +92,7 @@ group('C-命名风格');
 const nameObj = { userName: '张三', user_id: 1, HTTPCode: 200, 'created-at': '2024-01-01' };
 const STYLE_EXPECT = {
   snake: ['user_name', 'user_id', 'http_code', 'created_at'],
+  upper_snake: ['USER_NAME', 'USER_ID', 'HTTP_CODE', 'CREATED_AT'],
   camel: ['userName', 'userId', 'hTTPCode', 'createdAt'],
   pascal: ['UserName', 'UserId', 'HTTPCode', 'CreatedAt'],
   keep: ['userName', 'user_id', 'HTTPCode', 'created-at']
@@ -106,6 +107,9 @@ for (const style of Object.keys(STYLE_EXPECT)) {
   const outWithC = G.toDDL(nameObj, { dialect: 'mysql', nameStyle: style, withComments: true });
   ok(style + ' 注释保留全部 4 个原始 JSON 键', ['userName', 'user_id', 'HTTPCode', 'created-at'].every((k) => outWithC.indexOf('-- ' + k + ' :') >= 0), outWithC);
 }
+eq('styleName upper_snake: userName → USER_NAME', G.styleName('userName', 'upper_snake'), 'USER_NAME');
+eq('styleName upper_snake: HTTPCode → HTTP_CODE', G.styleName('HTTPCode', 'upper_snake'), 'HTTP_CODE');
+eq('styleName upper_snake: created-at → CREATED_AT', G.styleName('created-at', 'upper_snake'), 'CREATED_AT');
 const defaultOut = G.toDDL(nameObj, { dialect: 'mysql', withComments: false });
 ok('未指定 nameStyle 时默认 camel（user_name 不出现）', defaultOut.indexOf('`user_name`') < 0, defaultOut);
 ok('未指定 nameStyle 时默认 camel（userName 出现）', defaultOut.indexOf('`userName`') >= 0, defaultOut);
@@ -122,6 +126,9 @@ const pk3 = G.toDDL({ userId: 1 }, { dialect: 'postgresql', nameStyle: 'pascal',
 ok('pk=user_id 在 pascal 列 UserId 上被识别', /"UserId" INTEGER PRIMARY KEY/.test(pk3), pk3);
 const pk4 = G.toDDL({ 'user-id': 1 }, { dialect: 'sqlite', nameStyle: 'camel', primaryKey: 'user_id', withComments: false });
 ok('连字符键 camel 化后主键仍匹配', /"userId" INTEGER PRIMARY KEY/.test(pk4), pk4);
+const pk6 = G.toDDL({ user_id: 1 }, { dialect: 'oracle', nameStyle: 'upper_snake', primaryKey: 'user_id', withComments: false });
+ok('pk=user_id 在 UPPER_SNAKE_CASE 列 USER_ID 上被识别', /"USER_ID" NUMBER\(10\) PRIMARY KEY/.test(pk6), pk6);
+eq('UPPER_SNAKE_CASE 主键仅标注一次', (pk6.match(/PRIMARY KEY/g) || []).length, 1);
 const pk5 = G.toDDL({ id: 1, name: 'x' }, { dialect: 'oracle', nameStyle: 'keep', primaryKey: 'id', withComments: false });
 ok('Oracle 主键 NUMBER(10)+PRIMARY KEY', /"id" NUMBER\(10\) PRIMARY KEY/.test(pk5), pk5);
 const noPk = G.toDDL({ id: 1, name: 'x' }, { dialect: 'mysql', nameStyle: 'snake', primaryKey: '', withComments: false });
