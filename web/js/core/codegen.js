@@ -715,30 +715,73 @@
   /* ============================ DDL ============================ */
   function ddlType(f, dialect) {
     var t = f.type;
-    var isMySQL = dialect === 'mysql', isPG = dialect === 'postgresql';
+    var isMySQL = dialect === 'mysql', isPG = dialect === 'postgresql', isOracle = dialect === 'oracle';
     function num() {
-      if (t.kind === 'prim' && t.name === 'integer') return isMySQL ? 'INT' : (isPG ? 'INTEGER' : 'INTEGER');
-      if (t.kind === 'prim' && t.name === 'number') return isMySQL ? 'DOUBLE' : (isPG ? 'DOUBLE PRECISION' : 'REAL');
-      return isMySQL ? 'VARCHAR(255)' : 'VARCHAR(255)';
+      if (t.kind === 'prim' && t.name === 'integer') {
+        if (isMySQL) return 'INT';
+        if (isOracle) return 'NUMBER(10)';
+        return 'INTEGER'; // PostgreSQL / SQLite
+      }
+      if (t.kind === 'prim' && t.name === 'number') {
+        if (isMySQL) return 'DOUBLE';
+        if (isPG) return 'DOUBLE PRECISION';
+        if (isOracle) return 'NUMBER';
+        return 'REAL';
+      }
+      return isOracle ? 'VARCHAR2(255)' : 'VARCHAR(255)';
     }
     if (t.kind === 'prim') {
       if (t.name === 'integer' || t.name === 'number') return num();
-      if (t.name === 'boolean') return isMySQL ? 'TINYINT(1)' : (isPG ? 'BOOLEAN' : 'INTEGER');
+      if (t.name === 'boolean') {
+        if (isMySQL) return 'TINYINT(1)';
+        if (isPG) return 'BOOLEAN';
+        // Oracle SQL 没有 BOOLEAN 类型（仅 PL/SQL 支持），用 NUMBER(1) 存 0/1
+        if (isOracle) return 'NUMBER(1)';
+        return 'INTEGER';
+      }
       if (t.name === 'string') {
+        if (isOracle) {
+          if (f.format === 'date-time') return 'TIMESTAMP';
+          if (f.format === 'date') return 'DATE';
+          if (f.format === 'longtext') return 'CLOB';
+          return 'VARCHAR2(255)';
+        }
         if (f.format === 'date-time') return isMySQL ? 'DATETIME' : (isPG ? 'TIMESTAMP' : 'TEXT');
         if (f.format === 'date') return isMySQL ? 'DATE' : (isPG ? 'DATE' : 'TEXT');
         return isMySQL ? 'VARCHAR(255)' : 'VARCHAR(255)';
       }
-      return 'TEXT';
+      // null / any 等无法映射为 Oracle 标量类型时，用 CLOB 承载长文本
+      return isOracle ? 'CLOB' : 'TEXT';
     }
+    // 嵌套对象 / 数组 / JSON：Oracle 统一折叠为 CLOB（注释中保留原键提示）
+    if (isOracle) return 'CLOB';
     if (t.kind === 'ref') return isMySQL ? 'JSON' : (isPG ? 'JSONB' : 'TEXT');
     if (t.kind === 'array') return isMySQL ? 'JSON' : (isPG ? 'JSONB' : 'TEXT');
     return 'TEXT';
   }
+
+  /**
+   * 主键匹配：兼容原始 JSON 键、模型内部名、以及不同命名风格归一化后的列名。
+   * 例：pk='user_id' 且 nameStyle='camel' 时列名 'userId' 仍能被识别为主键。
+   */
+  function ddlMatchesPk(f, colName, pk) {
+    if (!pk) return false;
+    if (f.jsonKey === pk || f.name === pk || colName === pk) return true;
+    var styles = ['snake', 'camel', 'pascal'];
+    for (var i = 0; i < styles.length; i++) {
+      var target = styleName(pk, styles[i]);
+      if (colName === target) return true;
+      if (f.jsonKey && styleName(f.jsonKey, styles[i]) === target) return true;
+      if (f.name && styleName(f.name, styles[i]) === target) return true;
+    }
+    return false;
+  }
+
   function toDDL(value, opts) {
     opts = opts || {};
     opts.lang = 'sql'; // 供 buildModel 做 SQL 保留字规避（列名已加引号，此处额外规避常见关键字）
     var dialect = (opts.dialect || 'mysql').toLowerCase();
+    var isOracle = dialect === 'oracle';
     var table = opts.tableName || 'my_table';
     var pk = opts.primaryKey ? String(opts.primaryKey).trim() : '';
     var schema = opts.schema || inferValue(value);
@@ -751,19 +794,28 @@
     var lines = [];
     if (dialect === 'mysql') lines.push('-- MySQL 建表语句（类型由 JSON 推断，仅供参考）');
     else if (dialect === 'postgresql') lines.push('-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）');
+    else if (isOracle) lines.push('-- Oracle 建表语句（类型由 JSON 推断，仅供参考）');
     else lines.push('-- SQLite 建表语句（类型由 JSON 推断，仅供参考）');
     lines.push('CREATE TABLE ' + quote + table + quote + ' (');
     var cols = [];
+    var pkAssigned = false; // 不同 JSON 键归一化后可能同名，主键只标注一次
     rootType.fields.forEach(function (f) {
-      var colName = toSnake(f.name);
+      // 以原始 JSON 键为基准套用命名风格，避免 buildModel 的保留字/唯一化改名影响列名
+      var colName = styleName(f.jsonKey || f.name, opts.nameStyle);
       var sqlType = ddlType(f, dialect);
       var part = '  ' + quote + colName + quote + ' ' + sqlType;
-      if (f.jsonKey === pk || f.name === pk) part += ' PRIMARY KEY';
+      var isPk = !pkAssigned && ddlMatchesPk(f, colName, pk);
+      if (isPk) pkAssigned = true;
+      if (isPk) part += ' PRIMARY KEY';
       else if (!f.optional && !f.nullable) part += ' NOT NULL';
       if (opts.withComments !== false) part += '  -- ' + f.jsonKey + ' : ' + (f.type.kind === 'prim' ? f.type.name : f.type.kind);
       cols.push(part);
     });
-    if (!cols.length) cols.push('  ' + quote + 'id' + quote + ' INTEGER PRIMARY KEY');
+    if (!cols.length) {
+      // 空对象兜底：各方言使用合法的主键列类型
+      var fallbackType = isOracle ? 'NUMBER(10)' : (dialect === 'mysql' ? 'INT' : 'INTEGER');
+      cols.push('  ' + quote + 'id' + quote + ' ' + fallbackType + ' PRIMARY KEY');
+    }
     lines.push(cols.join(',\n'));
     lines.push(');');
     if (model.types.length > 1) {

@@ -512,7 +512,7 @@
     id: 'convert-ddl', cat: 'convert', name: 'JSON → 建表 DDL', icon: 'db', outLang: 'sql', view: 'code',
     desc: '依据 JSON 结构推断字段类型并生成 CREATE TABLE',
     params: [
-      sel('dialect', '方言', [{ value: 'mysql', label: 'MySQL' }, { value: 'postgresql', label: 'PostgreSQL' }, { value: 'sqlite', label: 'SQLite' }], 'mysql'),
+      sel('dialect', '方言', [{ value: 'mysql', label: 'MySQL' }, { value: 'postgresql', label: 'PostgreSQL' }, { value: 'sqlite', label: 'SQLite' }, { value: 'oracle', label: 'Oracle' }], 'mysql'),
       txt('tableName', '表名', 'my_table'), txt('primaryKey', '主键字段名', ''),
       chk('withComments', '含推断注释', true), NAME_STYLE
     ],
@@ -1024,6 +1024,42 @@
   });
 
   /* ---------- 分类六：实用工具 ---------- */
+
+  /** 规则模板下拉选项：优先取 core 的定义，缺文件时回退到同值静态表，保证下拉不为空。 */
+  function passwordTemplateOptions() {
+    var p = core().password;
+    if (p && Array.isArray(p.TEMPLATES) && p.TEMPLATES.length) {
+      return p.TEMPLATES.map(function (t) { return { value: t.value, label: t.label }; });
+    }
+    return [
+      { value: 'strong', label: '强密码（大小写+数字+符号，12-16 位）' },
+      { value: 'alnum', label: '字母数字（大小写+数字，10-20 位）' },
+      { value: 'pin', label: '纯数字 PIN（6 位）' },
+      { value: 'hex', label: 'Hex Token（32 位）' },
+      { value: 'unambiguous', label: '无歧义字符（去掉 0/O/o/1/l/I，12 位）' }
+    ];
+  }
+
+  TOOLS.push({
+    id: 'utility-password', cat: 'utility', name: '密码生成器', icon: 'key', outLang: 'text', view: 'text',
+    desc: '按正则规则随机生成密码 / Token，内置模板并支持自定义正则',
+    params: [
+      sel('template', '规则模板', passwordTemplateOptions(), 'strong'),
+      area('customPattern', '自定义正则（留空则用模板）', '', '如 [A-HJ-NP-Z2-9]{10}'),
+      num('count', '生成数量', 5, 1, 50),
+      chk('excludeAmbiguous', '排除易混淆字符（0/O/o/1/l/I/|）', false)
+    ],
+    run: function (input, params, ctx) {
+      var p = core().password;
+      if (!p || typeof p.generate !== 'function') return { output: '', error: '密码生成核心模块未加载（js/core/password.js）' };
+      var resolved = p.resolvePattern(params.template, params.customPattern);
+      var res = p.generate(resolved.pattern, { count: params.count, excludeAmbiguous: params.excludeAmbiguous });
+      var notices = (res.notices || []).slice();
+      notices.unshift((resolved.source === 'custom' ? '使用自定义正则：' : '使用模板「' + resolved.label + '」：') + resolved.pattern);
+      if (!res.ok) return { output: '', view: 'text', outLang: 'text', notices: notices, error: res.error };
+      return { output: res.output, view: 'text', outLang: 'text', notices: notices };
+    }
+  });
 
   TOOLS.push({
     id: 'utility-mock', cat: 'utility', name: 'Mock 数据生成', icon: 'dice', outLang: 'json', view: 'text',

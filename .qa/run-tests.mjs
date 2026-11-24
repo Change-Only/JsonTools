@@ -78,7 +78,7 @@ function t1() {
   while ((m = re.exec(html)) !== null) refs.push(m[1]);
   // data: / http(s): / # 不是本地文件资源（如内联 favicon）
   const localRefs = refs.filter((r) => !/^(data:|https?:|mailto:|#|\/\/)/.test(r));
-  ok('index.html 引用本地资源数 = 17（含 favicon.png）', localRefs.length === 17, '实际 ' + localRefs.length + '：' + localRefs.join(', '));
+  ok('index.html 引用本地资源数 = 18（含 favicon.png）', localRefs.length === 18, '实际 ' + localRefs.length + '：' + localRefs.join(', '));
   const missing = localRefs.filter((r) => !fs.existsSync(path.join(WEB, r)));
   ok('全部引用资源存在', missing.length === 0, '缺失：' + missing.join(', '));
   results.push({ group: 'T1-资源引用', name: '资源清单', pass: true, expected: '', actual: localRefs.join(' | ') + '  ｜ 非文件引用: ' + refs.filter((r) => !localRefs.includes(r)).join(' | ') });
@@ -130,7 +130,7 @@ function t1() {
   group('T1-注册表');
   const reg = globalThis.JT.registry;
   const tools = reg.tools;
-  ok('工具总数 = 68', tools.length === 68, '实际 ' + tools.length);
+  ok('工具总数 = 69', tools.length === 69, '实际 ' + tools.length);
   const ids = tools.map((t) => t.id);
   ok('id 唯一', new Set(ids).size === ids.length, '重复：' + ids.filter((x, i) => ids.indexOf(x) !== i).join(','));
 
@@ -566,8 +566,8 @@ function t2core() {
     ok('size 压缩后更小', size.minified.bytes <= size.original.bytes, show(size));
   }
 
-  /* ---- 全量 68 工具空/非法输入 ---- */
-  group('T2-全量68工具输入健壮性');
+  /* ---- 全量 69 工具空/非法输入 ---- */
+  group('T2-全量69工具输入健壮性');
   {
     const reg = globalThis.JT.registry;
     const inputs = ['', '   ', 'null', '[]', '123', 'abc', '"str"'];
@@ -599,7 +599,7 @@ function t2core() {
       if (r && typeof r.then === 'function') r = { pending: true };
       toolReport.push({ id: t.id, cat: t.cat, error: !!(r && r.error), outLen: r && r.output ? String(r.output).length : 0, errMsg: (r && r.error) || '' });
     }
-    ok('68 工具 × 7 非法输入：无异常且均有返回', problems.length === 0, problems.join('\n') || '0');
+    ok('69 工具 × 7 非法输入：无异常且均有返回', problems.length === 0, problems.join('\n') || '0');
     results.push({ group: curGroup, name: '工具执行摘要', pass: true, expected: '', actual: JSON.stringify(toolReport) });
   }
 

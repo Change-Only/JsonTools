@@ -1,8 +1,7 @@
 // hover-check.mjs — 验证悬浮复制条 hover 修复 + 折叠箭头增强，并产出 README 截图
 import fs from 'node:fs';
 import path from 'node:path';
-const osTmp = process.env.TEMP || '/tmp';
-const { chromium } = await import('file:///' + osTmp.replace(/\\/g, '/') + '/jtb-pw/node_modules/playwright-core/index.mjs');
+import { chromium } from './pw-loader.mjs';
 
 const BASE = process.argv[2] || 'http://127.0.0.1:8898';
 const SHOTS = process.argv[3] || 'docs/screenshots';

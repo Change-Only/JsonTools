@@ -1,7 +1,7 @@
 // edit-check.mjs — 验证「输出框内容可编辑」：进入编辑态 / 编辑同步 / 退出渲染 / 非法内容降级
 import fs from 'node:fs';
 import path from 'node:path';
-const { chromium } = await import('file:///' + (process.env.TEMP || '/tmp').replace(/\\/g, '/') + '/jtb-pw/node_modules/playwright-core/index.mjs');
+import { chromium } from './pw-loader.mjs';
 
 const BASE = process.argv[2] || 'http://127.0.0.1:8898';
 const SHOTS = process.argv[3] || 'docs/screenshots';

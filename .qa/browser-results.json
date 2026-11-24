@@ -8,27 +8,27 @@
       "detail": "group=6"
     },
     {
-      "name": "首屏工具项总数 = 68",
+      "name": "首屏工具项总数 = 69",
       "pass": true,
-      "detail": "nav=68"
+      "detail": "nav=69"
     },
     {
       "name": "首屏输入自动载入示例并已美化",
       "pass": true,
-      "detail": "outLen=804 parse=true"
+      "detail": "outLen=755 parse=true"
     },
     {
-      "name": "68 工具逐个执行：无空白输出",
+      "name": "69 工具逐个执行：无空白输出",
       "pass": true,
       "detail": "all-ok"
     },
     {
-      "name": "68 工具逐个执行：真实报错工具数已记录",
+      "name": "69 工具逐个执行：真实报错工具数已记录",
       "pass": true,
       "detail": "realErr=3"
     },
     {
-      "name": "68 工具遍历期间无 pageerror",
+      "name": "69 工具遍历期间无 pageerror",
       "pass": true,
       "detail": "pageerror=0"
     },
@@ -95,17 +95,17 @@
     {
       "name": "P3-1 展平输出使用规范 a[0] 形式",
       "pass": true,
-      "detail": "flat=\"{\\n  \\\"a.b\\\": 1,\\n  \\\"list[0]\\\": 10,\\n  \\\"list[1]\\\": 20,\\n  \\\"nested.arr[0].x\\\": 1,\\n  \\\"nested.arr[1].x\\\": 2\\n}\\n\""
+      "detail": "flat=\"{  \\\"a.b\\\": 1,  \\\"list[0]\\\": 10,  \\\"list[1]\\\": 20,  \\\"nested.arr[0].x\\\": 1,  \\\"nested.arr[1].x\\\": 2}\""
     },
     {
       "name": "P2-2/P3-1 展平→还原 UI 全流程深等价",
       "pass": true,
-      "detail": "back=\"{\\n  \\\"a\\\": {\\n    \\\"b\\\": 1\\n  },\\n  \\\"list\\\": [\\n    10,\\n    20\\n  ],\\n  \\\"nested\\\": {\\n    \\\"arr\\\": [\\n      {\\n        \\\"x\\\": 1\\n      },\\n      {\\n       "
+      "detail": "back=\"{  \\\"a\\\": {    \\\"b\\\": 1  },  \\\"list\\\": [    10,    20  ],  \\\"nested\\\": {    \\\"arr\\\": [      {        \\\"x\\\": 1      },      {        \\\"x\\\": 2      }    ]  }}\""
     },
     {
       "name": "P3-4 输出面板出现「文本/树形」切换控件",
       "pass": true,
-      "detail": "{\"visible\":true,\"labels\":[\"文本\",\"树形\"],\"treeDisabled\":false}"
+      "detail": "{\"visible\":true,\"labels\":[\"文本\",\"树形\",\"编辑\"],\"treeDisabled\":false}"
     },
     {
       "name": "P3-4 点「树形」渲染树节点且可折叠/展开",
@@ -115,7 +115,7 @@
     {
       "name": "P3-4 切回「文本」恢复正常",
       "pass": true,
-      "detail": "{\"tree\":false,\"code\":804}"
+      "detail": "{\"tree\":false,\"code\":755}"
     },
     {
       "name": "P3-4 非 JSON 结果：树形切换置灰且有 tooltip",
@@ -215,12 +215,12 @@
     {
       "name": "R3-树: >3000 节点大文档根默认展开且提示懒加载（不卡死/不报错）",
       "pass": true,
-      "detail": "{\"hasTree\":true,\"rows\":401,\"notice\":\"节点数约 3601，已启用懒加载（展开时才渲染子节点）以保护性能。\",\"ms\":13.5}"
+      "detail": "{\"hasTree\":true,\"rows\":401,\"notice\":\"节点数约 3601，已启用懒加载（展开时才渲染子节点）以保护性能。\",\"ms\":9.1}"
     },
     {
       "name": "R3-树: 大文档切树形渲染耗时已记录",
       "pass": true,
-      "detail": "renderMs≈13.5 可见行=401"
+      "detail": "renderMs≈9.1 可见行=401"
     },
     {
       "name": "R3-树: 极端边界({},[],null,[1],嵌套数组) 不崩溃且无空面板异常",
@@ -275,12 +275,12 @@
     {
       "name": "R3-UI: flatten(separator=__) 输出含 d.e__f.g",
       "pass": true,
-      "detail": "{ \"a.b\": 1, \"c\": 2, \"d.e__f.g\": 3 } "
+      "detail": "{ \"a.b\": 1, \"c\": 2, \"d.e__f.g\": 3}"
     },
     {
       "name": "R3-UI: flatten→回灌→还原(separator=__) 深等价",
       "pass": true,
-      "detail": "{ \"a.b\": 1, \"c\": 2, \"d.e\": { \"f.g\": 3 } } "
+      "detail": "{ \"a.b\": 1, \"c\": 2, \"d.e\": { \"f.g\": 3 }}"
     },
     {
       "name": "R3-UI: 非法 JSON 错误定位含行号",
@@ -288,9 +288,9 @@
       "detail": "{\"code\":\"\\n\",\"bar\":\"第 4 行Expected ',' or '}' after property value in JSON at position 23 (line 4 column 3)\"}"
     },
     {
-      "name": "R4-回归: 首屏工具项总数仍 = 68",
+      "name": "R4-回归: 首屏工具项总数仍 = 69",
       "pass": true,
-      "detail": "nav=68"
+      "detail": "nav=69"
     },
     {
       "name": "R4-回归: 树形默认展开可见节点 ≥ 8",
@@ -325,7 +325,7 @@
     {
       "name": "file:// 直开可正常渲染（非白屏）",
       "pass": true,
-      "detail": "{\"nav\":68,\"hasApp\":true}"
+      "detail": "{\"nav\":69,\"hasApp\":true}"
     },
     {
       "name": "file:// 下 codec-hash 正常或友好提示",
@@ -341,7 +341,7 @@
   "toolReport": [
     {
       "id": "format-pretty",
-      "outLen": 804,
+      "outLen": 755,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -349,7 +349,7 @@
     },
     {
       "id": "format-minify",
-      "outLen": 523,
+      "outLen": 522,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -381,7 +381,7 @@
     },
     {
       "id": "format-lax",
-      "outLen": 804,
+      "outLen": 755,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -389,7 +389,7 @@
     },
     {
       "id": "format-sort-keys",
-      "outLen": 804,
+      "outLen": 755,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -397,7 +397,7 @@
     },
     {
       "id": "format-sort-array",
-      "outLen": 804,
+      "outLen": 755,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -405,7 +405,7 @@
     },
     {
       "id": "format-dedupe",
-      "outLen": 804,
+      "outLen": 755,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -413,7 +413,7 @@
     },
     {
       "id": "format-flatten",
-      "outLen": 910,
+      "outLen": 859,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -421,7 +421,7 @@
     },
     {
       "id": "format-null-clean",
-      "outLen": 785,
+      "outLen": 737,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -429,7 +429,7 @@
     },
     {
       "id": "format-default-fill",
-      "outLen": 47,
+      "outLen": 42,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -437,7 +437,7 @@
     },
     {
       "id": "format-single-line",
-      "outLen": 523,
+      "outLen": 522,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -589,15 +589,15 @@
     },
     {
       "id": "convert-ddl",
-      "outLen": 498,
+      "outLen": 497,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
-      "status": "执行成功 · 输出 497 字符"
+      "status": "执行成功 · 输出 496 字符"
     },
     {
       "id": "convert-schema",
-      "outLen": 1178,
+      "outLen": 1113,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -645,7 +645,7 @@
     },
     {
       "id": "query-collect",
-      "outLen": 298,
+      "outLen": 273,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -653,7 +653,7 @@
     },
     {
       "id": "query-pick",
-      "outLen": 21,
+      "outLen": 16,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -661,7 +661,7 @@
     },
     {
       "id": "query-omit",
-      "outLen": 804,
+      "outLen": 755,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -669,7 +669,7 @@
     },
     {
       "id": "query-pluck",
-      "outLen": 27,
+      "outLen": 22,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -693,7 +693,7 @@
     },
     {
       "id": "query-merge",
-      "outLen": 20,
+      "outLen": 17,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -701,7 +701,7 @@
     },
     {
       "id": "query-patch",
-      "outLen": 809,
+      "outLen": 759,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -773,7 +773,7 @@
     },
     {
       "id": "validate-example",
-      "outLen": 555,
+      "outLen": 520,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -852,16 +852,24 @@
       "status": "执行成功 · 输出 953 字符"
     },
     {
-      "id": "utility-mock",
-      "outLen": 945,
+      "id": "utility-password",
+      "outLen": 71,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
-      "status": "执行成功 · 输出 944 字符"
+      "status": "执行成功 · 输出 70 字符"
+    },
+    {
+      "id": "utility-mock",
+      "outLen": 904,
+      "errVisible": false,
+      "hasCustom": false,
+      "err": false,
+      "status": "执行成功 · 输出 959 字符"
     },
     {
       "id": "utility-shuffle",
-      "outLen": 804,
+      "outLen": 755,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -869,7 +877,7 @@
     },
     {
       "id": "utility-split",
-      "outLen": 906,
+      "outLen": 855,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
@@ -877,7 +885,7 @@
     },
     {
       "id": "utility-sample",
-      "outLen": 804,
+      "outLen": 755,
       "errVisible": false,
       "hasCustom": false,
       "err": false,

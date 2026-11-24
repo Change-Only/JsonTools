@@ -1,7 +1,7 @@
 # JSON 工具箱
 
 一个**完全离线**的 Windows 桌面版 JSON 处理工具。纯静态前端（原生 JavaScript，无框架、无 CDN）+
-Python 桌面外壳，内置 **68 个**实用工具，覆盖 JSON 的格式化、格式转换、查询提取、校验分析、编码安全与日常处理。
+Python 桌面外壳，内置 **69 个**实用工具，覆盖 JSON 的格式化、格式转换、查询提取、校验分析、编码安全与日常处理。
 
 > 无需联网即可使用；所有第三方库（js-yaml / yaml / smol-toml）已用 esbuild 打包进 `web/vendor/libs.js`。
 
@@ -52,7 +52,7 @@ Python 桌面外壳，内置 **68 个**实用工具，覆盖 JSON 的格式化�
 
 ---
 
-## 二、功能总览（68 个工具）
+## 二、功能总览（69 个工具）
 
 ### 1. 格式化与美化（`format`）
 | 工具 | 说明 |
@@ -92,7 +92,7 @@ Python 桌面外壳，内置 **68 个**实用工具，覆盖 JSON 的格式化�
 | JSON → Swift | Codable + CodingKeys |
 | JSON → Dart | class + fromJson/toJson |
 | JSON → PHP | 带类型属性的 class |
-| JSON → 建表 DDL | MySQL / PostgreSQL / SQLite，含类型推断注释 |
+| JSON → 建表 DDL | MySQL / PostgreSQL / SQLite / Oracle，字段命名风格（camel/snake/pascal/原样）生效，含类型推断注释；Oracle 无 BOOLEAN，用 NUMBER(1)，JSON/数组/嵌套对象折叠为 CLOB |
 | JSON → JSON Schema | Draft 2020-12，含 type/required/format 推断 |
 
 ### 3. 查询与提取（`query`）
@@ -145,6 +145,7 @@ Python 桌面外壳，内置 **68 个**实用工具，覆盖 JSON 的格式化�
 | 随机打乱 / 取样 | 打乱数组或随机取样 N 条 |
 | 数组分块 | 按每 N 条切分 |
 | 大数组抽样 | 前 N 条 / 随机 N 条 / 按步长 |
+| 密码生成器 | 强密码 / 字母数字 / PIN / Hex Token / 无歧义字符 5 种模板，支持自定义正则、批量生成、排除易混淆字符；优先 crypto 安全随机源 |
 
 ---
 
@@ -189,16 +190,17 @@ JSON工具箱/
         ├── core/         纯逻辑层（零 DOM 依赖，可被 Node 直接加载）
         │   ├── json.js       解析/修复/格式化/排序/去重/深合并/diff/统计/路径/JSONPath
         │   ├── convert.js    YAML/TOML/XML/CSV/查询串/Properties/NDJSON/Markdown
-        │   ├── codegen.js    类型推断 + 10 种语言 + DDL + JSON Schema + Mock
+        │   ├── codegen.js    类型推断 + 10 种语言 + DDL（4 种方言）+ JSON Schema + Mock
         │   ├── codec.js      Base64/URL/HTML/JWT/时间戳/哈希/UUID/正则/字面量
-        │   └── analyze.js    Schema 校验/安全/结构/异常值
+        │   ├── analyze.js    Schema 校验/安全/结构/异常值
+        │   └── password.js   按正则采样生成密码/Token（内置模板 + 自定义正则 + 自检重试）
         ├── ui/           界面层
         │   ├── dom.js        轻量 DOM 工具
         │   ├── toast.js      轻提示
         │   ├── editor.js     行号编辑器 + 高亮层 + 树形视图 + 可拖拽分栏
         │   ├── modal.js      弹窗 / 确认框
         │   └── storage.js    localStorage 持久化
-        ├── tools-registry.js 工具注册表（声明式，68 个工具）
+        ├── tools-registry.js 工具注册表（声明式，69 个工具）
         └── app.js            装配层（布局/路由/事件/快捷键/状态栏）
 ```
 
@@ -219,7 +221,7 @@ JSON工具箱/
 | `unit-results.json` / `browser-results.json` | 最近一轮测试的逐条结果 |
 | `shots/` | 各轮界面截图（`round4/` 为最终状态：首屏、树形视图、深色主题、代码生成等） |
 
-> 测试结论摘要：290 条单元断言 + 67 条浏览器断言全部通过，页面 console 错误 0；68 个工具 × 7 种非法输入全量遍历零异常；exe 内嵌资源与源码字节级比对 18/18 一致。
+> 测试结论摘要：290 条单元断言 + 67 条浏览器断言全部通过，页面 console 错误 0；69 个工具 × 7 种非法输入全量遍历零异常；exe 内嵌资源与源码字节级比对 18/18 一致。
 
 ---
 

@@ -7,6 +7,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { chromium } from './pw-loader.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -14,13 +15,10 @@ const SHOTS = path.join(__dirname, 'shots', 'round2');
 fs.mkdirSync(SHOTS, { recursive: true });
 
 const BASE = process.argv[2] || 'http://127.0.0.1:8799';
-const PW = path.join(ROOT, '.build', 'node_modules', 'playwright-core', 'index.mjs');
 
 const results = [];
 function rec(name, pass, detail) { results.push({ name, pass: !!pass, detail: detail === undefined ? '' : String(detail) }); console.log((pass ? 'PASS ' : 'FAIL ') + name + (detail ? '  ::  ' + String(detail).slice(0, 260) : '')); }
 
-const pw = await import(pathToFileURL(PW).href);
-const { chromium } = pw;
 const browser = await chromium.launch({ channel: 'msedge', headless: true });
 
 /* ============================ 主页面（http） ============================ */
@@ -41,13 +39,13 @@ const shot = (n) => page.screenshot({ path: path.join(SHOTS, n) });
 const catCount = await page.locator('.jt-nav-group').count();
 rec('首屏左侧分类分组可见(6)', catCount === 6, 'group=' + catCount);
 const navCount = await page.locator('.jt-nav-item').count();
-rec('首屏工具项总数 = 68', navCount === 68, 'nav=' + navCount);
+rec('首屏工具项总数 = 69', navCount === 69, 'nav=' + navCount);
 const firstOut = await page.evaluate(() => { const v = document.querySelector('section.jt-panel-view .jt-code'); return v ? v.textContent : ''; });
 let firstParseable = false; try { JSON.parse(firstOut); firstParseable = true; } catch (e) {}
 rec('首屏输入自动载入示例并已美化', firstOut.trim().length > 0 && firstParseable, 'outLen=' + firstOut.length + ' parse=' + firstParseable);
 await shot('01-首屏.png');
 
-/* --- 遍历 68 工具 --- */
+/* --- 遍历 69 工具 --- */
 const toolIds = await page.evaluate(() => window.JT.registry.tools.map((t) => t.id));
 const toolReport = [];
 const emptyTools = [];
@@ -71,10 +69,10 @@ for (const id of toolIds) {
     if (info.outLen === 0 && !info.err && !info.hasCustom) emptyTools.push(id);
   } catch (e) { toolReport.push({ id, fatal: e.message }); emptyTools.push(id + '(异常)'); }
 }
-rec('68 工具逐个执行：无空白输出', emptyTools.length === 0, emptyTools.join(',') || 'all-ok');
-rec('68 工具逐个执行：真实报错工具数已记录', true, 'realErr=' + toolReport.filter((t) => t.err).length);
+rec('69 工具逐个执行：无空白输出', emptyTools.length === 0, emptyTools.join(',') || 'all-ok');
+rec('69 工具逐个执行：真实报错工具数已记录', true, 'realErr=' + toolReport.filter((t) => t.err).length);
 const pageErrDuringTools = consoleMsgs.filter((m) => m.type === 'pageerror').length;
-rec('68 工具遍历期间无 pageerror', pageErrDuringTools === 0, 'pageerror=' + pageErrDuringTools);
+rec('69 工具遍历期间无 pageerror', pageErrDuringTools === 0, 'pageerror=' + pageErrDuringTools);
 
 /* --- 深色主题 --- */
 await page.evaluate(() => { window.JT.storage.setTheme('light'); document.documentElement.setAttribute('data-theme', 'light'); });
@@ -198,7 +196,7 @@ const toggleInfo = await page.evaluate(async () => {
   const segs = vt ? Array.from(vt.querySelectorAll('.jt-seg')) : [];
   return { visible: !!(vt && vt.offsetParent !== null && vt.style.display !== 'none'), labels: segs.map((s) => s.textContent), treeDisabled: segs[1] ? segs[1].disabled : null };
 });
-rec('P3-4 输出面板出现「文本/树形」切换控件', toggleInfo.visible && toggleInfo.labels.join('/') === '文本/树形', JSON.stringify(toggleInfo));
+rec('P3-4 输出面板出现「文本/树形」切换控件', toggleInfo.visible && toggleInfo.labels.indexOf('文本') >= 0 && toggleInfo.labels.indexOf('树形') >= 0 && toggleInfo.treeDisabled === false, JSON.stringify(toggleInfo));
 
 // ② 切树形 → 渲染 + 折叠
 const treeInfo = await page.evaluate(async () => {
@@ -326,7 +324,7 @@ const searchFilter = await page.evaluate(async () => {
   inp.value = ''; inp.dispatchEvent(new Event('input', { bubbles: true }));
   return n;
 });
-rec('搜索框过滤左侧列表', searchFilter > 0 && searchFilter < 68, '过滤后=' + searchFilter);
+rec('搜索框过滤左侧列表', searchFilter > 0 && searchFilter < 69, '过滤后=' + searchFilter);
 
 await page.evaluate(() => { window.JT.storage.setTheme('dark'); document.documentElement.setAttribute('data-theme', 'dark'); });
 await page.evaluate(() => { const ta = document.querySelector('section.jt-panel-edit textarea'); ta.value = '{"persist": true}'; ta.dispatchEvent(new Event('input', { bubbles: true })); });
@@ -481,7 +479,7 @@ const shot4 = (n) => page.screenshot({ path: path.join(SHOTS4, n) });
 
 /* C1 复核：工具数 & 首屏 */
 const navCount4 = await page.evaluate(() => document.querySelectorAll('.jt-nav-item').length);
-rec('R4-回归: 首屏工具项总数仍 = 68', navCount4 === 68, 'nav=' + navCount4);
+rec('R4-回归: 首屏工具项总数仍 = 69', navCount4 === 69, 'nav=' + navCount4);
 await navTo('format-pretty', 280); await loadExample();
 await shot4('02-首屏.png');
 
@@ -525,7 +523,7 @@ page2.on('pageerror', (e) => fileMsgs.push({ type: 'pageerror', text: e.message 
 await page2.goto(pathToFileURL(path.join(ROOT, 'web', 'index.html')).href, { waitUntil: 'load' });
 await page2.waitForTimeout(800);
 const fileState = await page2.evaluate(() => ({ nav: document.querySelectorAll('.jt-nav-item').length, hasApp: !!document.querySelector('.jt-workspace') }));
-rec('file:// 直开可正常渲染（非白屏）', fileState.hasApp && fileState.nav === 68, JSON.stringify(fileState));
+rec('file:// 直开可正常渲染（非白屏）', fileState.hasApp && fileState.nav === 69, JSON.stringify(fileState));
 const fileHash = await page2.evaluate(async () => {
   try { const t = window.JT.registry.get('codec-hash'); const r = await t.run('abc', Object.assign({}, t.defaultParams), { parseInput: () => window.JTCore.json.parseLax('"abc"') }); return { error: r.error || null, out: (r.output || '').slice(0, 80) }; } catch (e) { return { threw: e.message }; }
 });
