@@ -1,0 +1,1311 @@
+{
+  "suite": "mdddl-check",
+  "total": 217,
+  "passed": 217,
+  "failed": 0,
+  "failures": [],
+  "results": [
+    {
+      "group": "(none)",
+      "name": "mdddl 模块加载",
+      "pass": true,
+      "detail": "parseTable/mapType/toDDL 均为函数"
+    },
+    {
+      "group": "parseTable-标准",
+      "name": "标准表无 error",
+      "pass": true,
+      "detail": "期望 \"\"，实际 \"\""
+    },
+    {
+      "group": "parseTable-标准",
+      "name": "标准表 2 列",
+      "pass": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "group": "parseTable-标准",
+      "name": "标准表列1完整",
+      "pass": true,
+      "detail": "期望 {\"name\":\"user_name\",\"type\":\"varchar\",\"length\":64,\"notNull\":true,\"comment\":\"用户登录名\"}，实际 {\"name\":\"user_name\",\"type\":\"varchar\",\"length\":64,\"notNull\":true,\"comment\":\"用户登录名\"}"
+    },
+    {
+      "group": "parseTable-标准",
+      "name": "标准表列2完整",
+      "pass": true,
+      "detail": "期望 {\"name\":\"age\",\"type\":\"int\",\"length\":\"\",\"notNull\":false,\"comment\":\"年龄\"}，实际 {\"name\":\"age\",\"type\":\"int\",\"length\":\"\",\"notNull\":false,\"comment\":\"年龄\"}"
+    },
+    {
+      "group": "parseTable-别名",
+      "name": "中文别名无 error",
+      "pass": true,
+      "detail": "期望 \"\"，实际 \"\""
+    },
+    {
+      "group": "parseTable-别名",
+      "name": "中文别名列解析",
+      "pass": true,
+      "detail": "期望 {\"name\":\"id\",\"type\":\"int\",\"length\":\"\",\"notNull\":true,\"comment\":\"主键编号\"}，实际 {\"name\":\"id\",\"type\":\"int\",\"length\":\"\",\"notNull\":true,\"comment\":\"主键编号\"}"
+    },
+    {
+      "group": "parseTable-别名",
+      "name": "英文别名+对齐行无 error",
+      "pass": true,
+      "detail": "期望 \"\"，实际 \"\""
+    },
+    {
+      "group": "parseTable-别名",
+      "name": "英文别名列解析",
+      "pass": true,
+      "detail": "期望 {\"name\":\"email\",\"type\":\"varchar\",\"length\":128,\"notNull\":true,\"comment\":\"邮箱\"}，实际 {\"name\":\"email\",\"type\":\"varchar\",\"length\":128,\"notNull\":true,\"comment\":\"邮箱\"}"
+    },
+    {
+      "group": "parseTable-无首尾竖线与对齐",
+      "name": "无首尾 | 无 error",
+      "pass": true,
+      "detail": "期望 \"\"，实际 \"\""
+    },
+    {
+      "group": "parseTable-无首尾竖线与对齐",
+      "name": "无首尾 | 列解析",
+      "pass": true,
+      "detail": "期望 {\"name\":\"user_name\",\"type\":\"varchar\",\"length\":32,\"notNull\":true,\"comment\":\"名称\"}，实际 {\"name\":\"user_name\",\"type\":\"varchar\",\"length\":32,\"notNull\":true,\"comment\":\"名称\"}"
+    },
+    {
+      "group": "parseTable-无首尾竖线与对齐",
+      "name": "对齐行被跳过",
+      "pass": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "group": "parseTable-无首尾竖线与对齐",
+      "name": "对齐行列内容",
+      "pass": true,
+      "detail": "期望 \"col_a\"，实际 \"col_a\""
+    },
+    {
+      "group": "parseTable-转义竖线",
+      "name": "转义竖线：仍为 1 列",
+      "pass": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "group": "parseTable-转义竖线",
+      "name": "转义竖线：comment 还原为 a|b",
+      "pass": true,
+      "detail": "期望 \"a|b\"，实际 \"a|b\""
+    },
+    {
+      "group": "parseTable-转义竖线",
+      "name": "转义竖线：name 正确",
+      "pass": true,
+      "detail": "期望 \"col_a\"，实际 \"col_a\""
+    },
+    {
+      "group": "parseTable-列数不足与超出",
+      "name": "不足+超出共 2 行",
+      "pass": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "group": "parseTable-列数不足与超出",
+      "name": "列数不足 notice",
+      "pass": true,
+      "detail": "[\"存在列数不足的行（少于 5 列），缺失单元格已按空处理\",\"存在列数超出的行（多于 5 列），多余单元格已忽略\"]"
+    },
+    {
+      "group": "parseTable-列数不足与超出",
+      "name": "列数超出 notice",
+      "pass": true,
+      "detail": "[\"存在列数不足的行（少于 5 列），缺失单元格已按空处理\",\"存在列数超出的行（多于 5 列），多余单元格已忽略\"]"
+    },
+    {
+      "group": "parseTable-空行缺名",
+      "name": "空行/缺名后剩 2 列",
+      "pass": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "group": "parseTable-空行缺名",
+      "name": "缺名称行 notice",
+      "pass": true,
+      "detail": "[\"第 4 行缺少英文名称，已跳过\"]"
+    },
+    {
+      "group": "parseTable-无分隔行",
+      "name": "无 --- 分隔行仍解析",
+      "pass": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "group": "parseTable-无分隔行",
+      "name": "无 --- 首行内容",
+      "pass": true,
+      "detail": "期望 \"col_a\"，实际 \"col_a\""
+    },
+    {
+      "group": "parseTable-位置回退",
+      "name": "位置回退无 error",
+      "pass": true,
+      "detail": "期望 \"\"，实际 \"\""
+    },
+    {
+      "group": "parseTable-位置回退",
+      "name": "位置回退列解析",
+      "pass": true,
+      "detail": "期望 {\"name\":\"col\",\"type\":\"varchar\",\"length\":12,\"notNull\":true,\"comment\":\"说明\"}，实际 {\"name\":\"col\",\"type\":\"varchar\",\"length\":12,\"notNull\":true,\"comment\":\"说明\"}"
+    },
+    {
+      "group": "parseTable-位置回退",
+      "name": "位置回退 notice",
+      "pass": true,
+      "detail": "[\"表头列「A」未能识别，已忽略\",\"表头列「B」未能识别，已忽略\",\"表头列「C」未能识别，已忽略\",\"表头列「D」未能识别，已忽略\",\"表头列「E」未能识别，已忽略\",\"表头未识别出「英文名称」与「类型」，已按 5 列默认顺序（名称/类型/最大长度/非空/说明）解析\"]"
+    },
+    {
+      "group": "parseTable-无法识别表头报错",
+      "name": "无法识别表头返回 error",
+      "pass": true,
+      "detail": "无法识别表头：至少需要「英文名称」与「类型」两列"
+    },
+    {
+      "group": "parseTable-无法识别表头报错",
+      "name": "无法识别表头 error 为中文",
+      "pass": true,
+      "detail": "无法识别表头：至少需要「英文名称」与「类型」两列"
+    },
+    {
+      "group": "parseTable-无法识别表头报错",
+      "name": "errorLine 指向表头行",
+      "pass": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "group": "parseTable-空输入报错",
+      "name": "空输入 error",
+      "pass": true,
+      "detail": "输入为空：请粘贴 Markdown 表格"
+    },
+    {
+      "group": "parseTable-空输入报错",
+      "name": "纯空白行 error",
+      "pass": true,
+      "detail": "输入为空：请粘贴 Markdown 表格"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 真值 是",
+      "pass": true,
+      "detail": "期望 true，实际 true"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 真值 Y",
+      "pass": true,
+      "detail": "期望 true，实际 true"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 真值 yes",
+      "pass": true,
+      "detail": "期望 true，实际 true"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 真值 TRUE",
+      "pass": true,
+      "detail": "期望 true，实际 true"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 真值 1",
+      "pass": true,
+      "detail": "期望 true，实际 true"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 真值 非空",
+      "pass": true,
+      "detail": "期望 true，实际 true"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 真值 not null",
+      "pass": true,
+      "detail": "期望 true，实际 true"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 真值 必填",
+      "pass": true,
+      "detail": "期望 true，实际 true"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 假值 否",
+      "pass": true,
+      "detail": "期望 false，实际 false"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 假值 N",
+      "pass": true,
+      "detail": "期望 false，实际 false"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 假值 no",
+      "pass": true,
+      "detail": "期望 false，实际 false"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 假值 false",
+      "pass": true,
+      "detail": "期望 false，实际 false"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 假值 0",
+      "pass": true,
+      "detail": "期望 false，实际 false"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 假值 空",
+      "pass": true,
+      "detail": "期望 false，实际 false"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 假值 可空",
+      "pass": true,
+      "detail": "期望 false，实际 false"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 假值 (空)",
+      "pass": true,
+      "detail": "期望 false，实际 false"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 非法值按否",
+      "pass": true,
+      "detail": "期望 false，实际 false"
+    },
+    {
+      "group": "parseTable-notNull全集",
+      "name": "notNull 非法值 notice",
+      "pass": true,
+      "detail": "[\"第 3 行「是否非空」值「unknown」无法识别，已按「否」处理\"]"
+    },
+    {
+      "group": "parseTable-内嵌类型长度",
+      "name": "varchar(64) type",
+      "pass": true,
+      "detail": "期望 \"varchar\"，实际 \"varchar\""
+    },
+    {
+      "group": "parseTable-内嵌类型长度",
+      "name": "varchar(64) length",
+      "pass": true,
+      "detail": "期望 64，实际 64"
+    },
+    {
+      "group": "parseTable-内嵌类型长度",
+      "name": "decimal(10,2) type",
+      "pass": true,
+      "detail": "期望 \"decimal\"，实际 \"decimal\""
+    },
+    {
+      "group": "parseTable-内嵌类型长度",
+      "name": "decimal(10,2) length=10",
+      "pass": true,
+      "detail": "期望 10，实际 10"
+    },
+    {
+      "group": "mapType-整数",
+      "name": "int→INT(mysql)",
+      "pass": true,
+      "detail": "期望 \"INT\"，实际 \"INT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "int→INTEGER(pg)",
+      "pass": true,
+      "detail": "期望 \"INTEGER\"，实际 \"INTEGER\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "int→NUMBER(10)(oracle)",
+      "pass": true,
+      "detail": "期望 \"NUMBER(10)\"，实际 \"NUMBER(10)\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "integer→INT",
+      "pass": true,
+      "detail": "期望 \"INT\"，实际 \"INT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "int32→INT",
+      "pass": true,
+      "detail": "期望 \"INT\"，实际 \"INT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "serial→INT",
+      "pass": true,
+      "detail": "期望 \"INT\"，实际 \"INT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "bigint→BIGINT(mysql)",
+      "pass": true,
+      "detail": "期望 \"BIGINT\"，实际 \"BIGINT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "bigint→BIGINT(pg)",
+      "pass": true,
+      "detail": "期望 \"BIGINT\"，实际 \"BIGINT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "bigint→NUMBER(19)(oracle)",
+      "pass": true,
+      "detail": "期望 \"NUMBER(19)\"，实际 \"NUMBER(19)\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "int64→BIGINT",
+      "pass": true,
+      "detail": "期望 \"BIGINT\"，实际 \"BIGINT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "long→BIGINT",
+      "pass": true,
+      "detail": "期望 \"BIGINT\"，实际 \"BIGINT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "bigserial→BIGINT",
+      "pass": true,
+      "detail": "期望 \"BIGINT\"，实际 \"BIGINT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "smallint→SMALLINT(mysql)",
+      "pass": true,
+      "detail": "期望 \"SMALLINT\"，实际 \"SMALLINT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "smallint→NUMBER(5)(oracle)",
+      "pass": true,
+      "detail": "期望 \"NUMBER(5)\"，实际 \"NUMBER(5)\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "short→SMALLINT",
+      "pass": true,
+      "detail": "期望 \"SMALLINT\"，实际 \"SMALLINT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "int16→SMALLINT",
+      "pass": true,
+      "detail": "期望 \"SMALLINT\"，实际 \"SMALLINT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "smallserial→SMALLINT",
+      "pass": true,
+      "detail": "期望 \"SMALLINT\"，实际 \"SMALLINT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "tinyint→TINYINT(mysql)",
+      "pass": true,
+      "detail": "期望 \"TINYINT\"，实际 \"TINYINT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "tinyint→SMALLINT(pg)",
+      "pass": true,
+      "detail": "期望 \"SMALLINT\"，实际 \"SMALLINT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "tinyint→NUMBER(3)(oracle)",
+      "pass": true,
+      "detail": "期望 \"NUMBER(3)\"，实际 \"NUMBER(3)\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "byte→TINYINT",
+      "pass": true,
+      "detail": "期望 \"TINYINT\"，实际 \"TINYINT\""
+    },
+    {
+      "group": "mapType-整数",
+      "name": "int8→TINYINT",
+      "pass": true,
+      "detail": "期望 \"TINYINT\"，实际 \"TINYINT\""
+    },
+    {
+      "group": "mapType-浮点与定点",
+      "name": "float→DOUBLE(mysql)",
+      "pass": true,
+      "detail": "期望 \"DOUBLE\"，实际 \"DOUBLE\""
+    },
+    {
+      "group": "mapType-浮点与定点",
+      "name": "float→DOUBLE PRECISION(pg)",
+      "pass": true,
+      "detail": "期望 \"DOUBLE PRECISION\"，实际 \"DOUBLE PRECISION\""
+    },
+    {
+      "group": "mapType-浮点与定点",
+      "name": "float→NUMBER(oracle)",
+      "pass": true,
+      "detail": "期望 \"NUMBER\"，实际 \"NUMBER\""
+    },
+    {
+      "group": "mapType-浮点与定点",
+      "name": "double→DOUBLE",
+      "pass": true,
+      "detail": "期望 \"DOUBLE\"，实际 \"DOUBLE\""
+    },
+    {
+      "group": "mapType-浮点与定点",
+      "name": "real→DOUBLE",
+      "pass": true,
+      "detail": "期望 \"DOUBLE\"，实际 \"DOUBLE\""
+    },
+    {
+      "group": "mapType-浮点与定点",
+      "name": "decimal(10)→DECIMAL(10,2)",
+      "pass": true,
+      "detail": "期望 \"DECIMAL(10,2)\"，实际 \"DECIMAL(10,2)\""
+    },
+    {
+      "group": "mapType-浮点与定点",
+      "name": "decimal 默认精度10",
+      "pass": true,
+      "detail": "期望 \"DECIMAL(10,2)\"，实际 \"DECIMAL(10,2)\""
+    },
+    {
+      "group": "mapType-浮点与定点",
+      "name": "decimal scale=3",
+      "pass": true,
+      "detail": "期望 \"DECIMAL(12,3)\"，实际 \"DECIMAL(12,3)\""
+    },
+    {
+      "group": "mapType-浮点与定点",
+      "name": "scale>precision 收敛",
+      "pass": true,
+      "detail": "期望 \"DECIMAL(2,2)\"，实际 \"DECIMAL(2,2)\""
+    },
+    {
+      "group": "mapType-浮点与定点",
+      "name": "numeric→NUMERIC(pg)",
+      "pass": true,
+      "detail": "期望 \"NUMERIC\"，实际 \"NUMERIC\""
+    },
+    {
+      "group": "mapType-浮点与定点",
+      "name": "number→NUMBER(oracle)",
+      "pass": true,
+      "detail": "期望 \"NUMBER\"，实际 \"NUMBER\""
+    },
+    {
+      "group": "mapType-浮点与定点",
+      "name": "dec→DECIMAL(mysql)",
+      "pass": true,
+      "detail": "期望 \"DECIMAL(8,2)\"，实际 \"DECIMAL(8,2)\""
+    },
+    {
+      "group": "mapType-浮点与定点",
+      "name": "money→DECIMAL(mysql)",
+      "pass": true,
+      "detail": "期望 \"DECIMAL(8,2)\"，实际 \"DECIMAL(8,2)\""
+    },
+    {
+      "group": "mapType-字符串与长度边界",
+      "name": "varchar 默认255",
+      "pass": true,
+      "detail": "期望 \"VARCHAR(255)\"，实际 \"VARCHAR(255)\""
+    },
+    {
+      "group": "mapType-字符串与长度边界",
+      "name": "varchar 64(mysql)",
+      "pass": true,
+      "detail": "期望 \"VARCHAR(64)\"，实际 \"VARCHAR(64)\""
+    },
+    {
+      "group": "mapType-字符串与长度边界",
+      "name": "varchar 64(pg)",
+      "pass": true,
+      "detail": "期望 \"VARCHAR(64)\"，实际 \"VARCHAR(64)\""
+    },
+    {
+      "group": "mapType-字符串与长度边界",
+      "name": "varchar 100(oracle)",
+      "pass": true,
+      "detail": "期望 \"VARCHAR2(100)\"，实际 \"VARCHAR2(100)\""
+    },
+    {
+      "group": "mapType-字符串与长度边界",
+      "name": "varchar2 100(oracle)",
+      "pass": true,
+      "detail": "期望 \"VARCHAR2(100)\"，实际 \"VARCHAR2(100)\""
+    },
+    {
+      "group": "mapType-字符串与长度边界",
+      "name": "string→VARCHAR",
+      "pass": true,
+      "detail": "期望 \"VARCHAR(20)\"，实际 \"VARCHAR(20)\""
+    },
+    {
+      "group": "mapType-字符串与长度边界",
+      "name": "char→VARCHAR",
+      "pass": true,
+      "detail": "期望 \"VARCHAR(20)\"，实际 \"VARCHAR(20)\""
+    },
+    {
+      "group": "mapType-字符串与长度边界",
+      "name": "nvarchar→VARCHAR",
+      "pass": true,
+      "detail": "期望 \"VARCHAR(20)\"，实际 \"VARCHAR(20)\""
+    },
+    {
+      "group": "mapType-字符串与长度边界",
+      "name": "varchar 5001→CLOB(oracle)",
+      "pass": true,
+      "detail": "期望 \"CLOB\"，实际 \"CLOB\""
+    },
+    {
+      "group": "mapType-字符串与长度边界",
+      "name": "Oracle 超长 notice",
+      "pass": true,
+      "detail": "[\"长度 5001 超过 Oracle VARCHAR2 上限 4000，已改用 CLOB\"]"
+    },
+    {
+      "group": "mapType-字符串与长度边界",
+      "name": "varchar 4000(oracle)仍VARCHAR2",
+      "pass": true,
+      "detail": "期望 \"VARCHAR2(4000)\"，实际 \"VARCHAR2(4000)\""
+    },
+    {
+      "group": "mapType-字符串与长度边界",
+      "name": "varchar 70000→LONGTEXT(mysql)",
+      "pass": true,
+      "detail": "期望 \"LONGTEXT\"，实际 \"LONGTEXT\""
+    },
+    {
+      "group": "mapType-字符串与长度边界",
+      "name": "MySQL 过大 notice",
+      "pass": true,
+      "detail": "[\"长度 70000 过大，已改用长文本类型\"]"
+    },
+    {
+      "group": "mapType-字符串与长度边界",
+      "name": "varchar 70000→TEXT(pg)",
+      "pass": true,
+      "detail": "期望 \"TEXT\"，实际 \"TEXT\""
+    },
+    {
+      "group": "mapType-字符串与长度边界",
+      "name": "PG 过大 notice",
+      "pass": true,
+      "detail": "[\"长度 70000 过大，已改用长文本类型\"]"
+    },
+    {
+      "group": "mapType-大文本",
+      "name": "text→TEXT(mysql)",
+      "pass": true,
+      "detail": "期望 \"TEXT\"，实际 \"TEXT\""
+    },
+    {
+      "group": "mapType-大文本",
+      "name": "text→TEXT(pg)",
+      "pass": true,
+      "detail": "期望 \"TEXT\"，实际 \"TEXT\""
+    },
+    {
+      "group": "mapType-大文本",
+      "name": "text→CLOB(oracle)",
+      "pass": true,
+      "detail": "期望 \"CLOB\"，实际 \"CLOB\""
+    },
+    {
+      "group": "mapType-大文本",
+      "name": "clob→CLOB(oracle)",
+      "pass": true,
+      "detail": "期望 \"CLOB\"，实际 \"CLOB\""
+    },
+    {
+      "group": "mapType-大文本",
+      "name": "longtext→LONGTEXT(mysql)",
+      "pass": true,
+      "detail": "期望 \"LONGTEXT\"，实际 \"LONGTEXT\""
+    },
+    {
+      "group": "mapType-大文本",
+      "name": "mediumtext→TEXT(mysql)",
+      "pass": true,
+      "detail": "期望 \"TEXT\"，实际 \"TEXT\""
+    },
+    {
+      "group": "mapType-布尔",
+      "name": "bool→TINYINT(1)(mysql)",
+      "pass": true,
+      "detail": "期望 \"TINYINT(1)\"，实际 \"TINYINT(1)\""
+    },
+    {
+      "group": "mapType-布尔",
+      "name": "bool→BOOLEAN(pg)",
+      "pass": true,
+      "detail": "期望 \"BOOLEAN\"，实际 \"BOOLEAN\""
+    },
+    {
+      "group": "mapType-布尔",
+      "name": "bool→NUMBER(1)(oracle)",
+      "pass": true,
+      "detail": "期望 \"NUMBER(1)\"，实际 \"NUMBER(1)\""
+    },
+    {
+      "group": "mapType-布尔",
+      "name": "Oracle BOOLEAN notice",
+      "pass": true,
+      "detail": "[\"Oracle SQL 无 BOOLEAN 类型，已用 NUMBER(1)（0/1）代替\"]"
+    },
+    {
+      "group": "mapType-布尔",
+      "name": "boolean→BOOLEAN(pg)",
+      "pass": true,
+      "detail": "期望 \"BOOLEAN\"，实际 \"BOOLEAN\""
+    },
+    {
+      "group": "mapType-布尔",
+      "name": "bit→TINYINT(1)(mysql)",
+      "pass": true,
+      "detail": "期望 \"TINYINT(1)\"，实际 \"TINYINT(1)\""
+    },
+    {
+      "group": "mapType-日期时间",
+      "name": "date→DATE(mysql)",
+      "pass": true,
+      "detail": "期望 \"DATE\"，实际 \"DATE\""
+    },
+    {
+      "group": "mapType-日期时间",
+      "name": "date→DATE(oracle)",
+      "pass": true,
+      "detail": "期望 \"DATE\"，实际 \"DATE\""
+    },
+    {
+      "group": "mapType-日期时间",
+      "name": "datetime→DATETIME(mysql)",
+      "pass": true,
+      "detail": "期望 \"DATETIME\"，实际 \"DATETIME\""
+    },
+    {
+      "group": "mapType-日期时间",
+      "name": "datetime→TIMESTAMP(pg)",
+      "pass": true,
+      "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
+    },
+    {
+      "group": "mapType-日期时间",
+      "name": "datetime→TIMESTAMP(oracle)",
+      "pass": true,
+      "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
+    },
+    {
+      "group": "mapType-日期时间",
+      "name": "timestamp→TIMESTAMP",
+      "pass": true,
+      "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
+    },
+    {
+      "group": "mapType-日期时间",
+      "name": "timestamptz→TIMESTAMP",
+      "pass": true,
+      "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
+    },
+    {
+      "group": "mapType-日期时间",
+      "name": "time→TIME(mysql)",
+      "pass": true,
+      "detail": "期望 \"TIME\"，实际 \"TIME\""
+    },
+    {
+      "group": "mapType-日期时间",
+      "name": "time→TIME(pg)",
+      "pass": true,
+      "detail": "期望 \"TIME\"，实际 \"TIME\""
+    },
+    {
+      "group": "mapType-日期时间",
+      "name": "time→TIMESTAMP(oracle)",
+      "pass": true,
+      "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
+    },
+    {
+      "group": "mapType-JSON与对象",
+      "name": "json→JSON(mysql)",
+      "pass": true,
+      "detail": "期望 \"JSON\"，实际 \"JSON\""
+    },
+    {
+      "group": "mapType-JSON与对象",
+      "name": "json→JSONB(pg)",
+      "pass": true,
+      "detail": "期望 \"JSONB\"，实际 \"JSONB\""
+    },
+    {
+      "group": "mapType-JSON与对象",
+      "name": "json→CLOB(oracle)",
+      "pass": true,
+      "detail": "期望 \"CLOB\"，实际 \"CLOB\""
+    },
+    {
+      "group": "mapType-JSON与对象",
+      "name": "Oracle JSON notice",
+      "pass": true,
+      "detail": "[\"Oracle 无原生 JSON 标量列类型，已用 CLOB 承载\"]"
+    },
+    {
+      "group": "mapType-JSON与对象",
+      "name": "jsonb→JSONB(pg)",
+      "pass": true,
+      "detail": "期望 \"JSONB\"，实际 \"JSONB\""
+    },
+    {
+      "group": "mapType-JSON与对象",
+      "name": "array→JSON(mysql)",
+      "pass": true,
+      "detail": "期望 \"JSON\"，实际 \"JSON\""
+    },
+    {
+      "group": "mapType-JSON与对象",
+      "name": "object→JSON(mysql)",
+      "pass": true,
+      "detail": "期望 \"JSON\"，实际 \"JSON\""
+    },
+    {
+      "group": "mapType-JSON与对象",
+      "name": "map→JSON(mysql)",
+      "pass": true,
+      "detail": "期望 \"JSON\"，实际 \"JSON\""
+    },
+    {
+      "group": "mapType-JSON与对象",
+      "name": "list→JSON(mysql)",
+      "pass": true,
+      "detail": "期望 \"JSON\"，实际 \"JSON\""
+    },
+    {
+      "group": "mapType-二进制与UUID",
+      "name": "blob→BLOB(mysql)",
+      "pass": true,
+      "detail": "期望 \"BLOB\"，实际 \"BLOB\""
+    },
+    {
+      "group": "mapType-二进制与UUID",
+      "name": "blob→BYTEA(pg)",
+      "pass": true,
+      "detail": "期望 \"BYTEA\"，实际 \"BYTEA\""
+    },
+    {
+      "group": "mapType-二进制与UUID",
+      "name": "blob→BLOB(oracle)",
+      "pass": true,
+      "detail": "期望 \"BLOB\"，实际 \"BLOB\""
+    },
+    {
+      "group": "mapType-二进制与UUID",
+      "name": "bytea→BYTEA(pg)",
+      "pass": true,
+      "detail": "期望 \"BYTEA\"，实际 \"BYTEA\""
+    },
+    {
+      "group": "mapType-二进制与UUID",
+      "name": "binary→BLOB(mysql)",
+      "pass": true,
+      "detail": "期望 \"BLOB\"，实际 \"BLOB\""
+    },
+    {
+      "group": "mapType-二进制与UUID",
+      "name": "varbinary→BLOB(mysql)",
+      "pass": true,
+      "detail": "期望 \"BLOB\"，实际 \"BLOB\""
+    },
+    {
+      "group": "mapType-二进制与UUID",
+      "name": "longblob→LONGBLOB(mysql)",
+      "pass": true,
+      "detail": "期望 \"LONGBLOB\"，实际 \"LONGBLOB\""
+    },
+    {
+      "group": "mapType-二进制与UUID",
+      "name": "uuid→CHAR(36)(mysql)",
+      "pass": true,
+      "detail": "期望 \"CHAR(36)\"，实际 \"CHAR(36)\""
+    },
+    {
+      "group": "mapType-二进制与UUID",
+      "name": "uuid→UUID(pg)",
+      "pass": true,
+      "detail": "期望 \"UUID\"，实际 \"UUID\""
+    },
+    {
+      "group": "mapType-二进制与UUID",
+      "name": "uuid→VARCHAR2(36)(oracle)",
+      "pass": true,
+      "detail": "期望 \"VARCHAR2(36)\"，实际 \"VARCHAR2(36)\""
+    },
+    {
+      "group": "mapType-未知类型透传",
+      "name": "未知 foobar 透传",
+      "pass": true,
+      "detail": "期望 \"FOOBAR\"，实际 \"FOOBAR\""
+    },
+    {
+      "group": "mapType-未知类型透传",
+      "name": "未知类型 notice",
+      "pass": true,
+      "detail": "[\"未知类型 foobar，已原样输出\"]"
+    },
+    {
+      "group": "mapType-未知类型透传",
+      "name": "未知 weird-type 安全过滤",
+      "pass": true,
+      "detail": "期望 \"WEIRDTYPE\"，实际 \"WEIRDTYPE\""
+    },
+    {
+      "group": "mapType-未知类型透传",
+      "name": "未知类型过滤 notice",
+      "pass": true,
+      "detail": "[\"未知类型 weird-type，已原样输出\"]"
+    },
+    {
+      "group": "mapType-未知类型透传",
+      "name": "未知类型带括号",
+      "pass": true,
+      "detail": "期望 \"MYTYPE(8)\"，实际 \"MYTYPE(8)\""
+    },
+    {
+      "group": "toDDL-MySQL",
+      "name": "MySQL 无 error",
+      "pass": true,
+      "detail": "期望 \"\"，实际 \"\""
+    },
+    {
+      "group": "toDDL-MySQL",
+      "name": "MySQL 头注释",
+      "pass": true,
+      "detail": "未包含「-- MySQL 建表语句」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `user_name` VARCHAR(64) NOT NULL  -- 登录名,\n  `age` INT  -- 年龄\n);"
+    },
+    {
+      "group": "toDDL-MySQL",
+      "name": "MySQL CREATE TABLE 反引号",
+      "pass": true,
+      "detail": "未包含「CREATE TABLE `t_user` (」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `user_name` VARCHAR(64) NOT NULL  -- 登录名,\n  `age` INT  -- 年龄\n);"
+    },
+    {
+      "group": "toDDL-MySQL",
+      "name": "MySQL VARCHAR 列+NOT NULL+行尾注释",
+      "pass": true,
+      "detail": "未包含「`user_name` VARCHAR(64) NOT NULL  -- 登录名」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `user_name` VARCHAR(64) NOT NULL  -- 登录名,\n  `age` INT  -- 年龄\n);"
+    },
+    {
+      "group": "toDDL-MySQL",
+      "name": "MySQL INT 列",
+      "pass": true,
+      "detail": "未包含「`age` INT」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `user_name` VARCHAR(64) NOT NULL  -- 登录名,\n  `age` INT  -- 年龄\n);"
+    },
+    {
+      "group": "toDDL-MySQL",
+      "name": "MySQL 结束括号",
+      "pass": true,
+      "detail": "未包含「);」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `user_name` VARCHAR(64) NOT NULL  -- 登录名,\n  `age` INT  -- 年龄\n);"
+    },
+    {
+      "group": "toDDL-PostgreSQL",
+      "name": "PG 无 error",
+      "pass": true,
+      "detail": "期望 \"\"，实际 \"\""
+    },
+    {
+      "group": "toDDL-PostgreSQL",
+      "name": "PG 头注释",
+      "pass": true,
+      "detail": "未包含「-- PostgreSQL 建表语句」；全文：-- PostgreSQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR(64) NOT NULL,\n  \"age\" INTEGER\n);\n\nCOMMENT ON COLUMN \"t_user\".\"user_name\" IS '登录名';\nCOMMENT ON COLUMN \"t_user\".\"age\" IS '年龄';"
+    },
+    {
+      "group": "toDDL-PostgreSQL",
+      "name": "PG 双引号 CREATE",
+      "pass": true,
+      "detail": "未包含「CREATE TABLE \"t_user\" (」；全文：-- PostgreSQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR(64) NOT NULL,\n  \"age\" INTEGER\n);\n\nCOMMENT ON COLUMN \"t_user\".\"user_name\" IS '登录名';\nCOMMENT ON COLUMN \"t_user\".\"age\" IS '年龄';"
+    },
+    {
+      "group": "toDDL-PostgreSQL",
+      "name": "PG 双引号列",
+      "pass": true,
+      "detail": "未包含「\"user_name\" VARCHAR(64) NOT NULL」；全文：-- PostgreSQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR(64) NOT NULL,\n  \"age\" INTEGER\n);\n\nCOMMENT ON COLUMN \"t_user\".\"user_name\" IS '登录名';\nCOMMENT ON COLUMN \"t_user\".\"age\" IS '年龄';"
+    },
+    {
+      "group": "toDDL-PostgreSQL",
+      "name": "PG 无行尾 -- 注释",
+      "pass": true,
+      "detail": "不应包含「-- 登录名」；全文：-- PostgreSQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR(64) NOT NULL,\n  \"age\" INTEGER\n);\n\nCOMMENT ON COLUMN \"t_user\".\"user_name\" IS '登录名';\nCOMMENT ON COLUMN \"t_user\".\"age\" IS '年龄';"
+    },
+    {
+      "group": "toDDL-PostgreSQL",
+      "name": "PG COMMENT ON COLUMN 登录名",
+      "pass": true,
+      "detail": "未包含「COMMENT ON COLUMN \"t_user\".\"user_name\" IS '登录名';」；全文：-- PostgreSQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR(64) NOT NULL,\n  \"age\" INTEGER\n);\n\nCOMMENT ON COLUMN \"t_user\".\"user_name\" IS '登录名';\nCOMMENT ON COLUMN \"t_user\".\"age\" IS '年龄';"
+    },
+    {
+      "group": "toDDL-PostgreSQL",
+      "name": "PG COMMENT ON COLUMN 年龄",
+      "pass": true,
+      "detail": "未包含「COMMENT ON COLUMN \"t_user\".\"age\" IS '年龄';」；全文：-- PostgreSQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR(64) NOT NULL,\n  \"age\" INTEGER\n);\n\nCOMMENT ON COLUMN \"t_user\".\"user_name\" IS '登录名';\nCOMMENT ON COLUMN \"t_user\".\"age\" IS '年龄';"
+    },
+    {
+      "group": "toDDL-Oracle",
+      "name": "Oracle 无 error",
+      "pass": true,
+      "detail": "期望 \"\"，实际 \"\""
+    },
+    {
+      "group": "toDDL-Oracle",
+      "name": "Oracle 头注释",
+      "pass": true,
+      "detail": "未包含「-- Oracle 建表语句」；全文：-- Oracle 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR2(64) NOT NULL,\n  \"age\" NUMBER(10)\n);\n\nCOMMENT ON COLUMN \"t_user\".\"user_name\" IS '登录名';\nCOMMENT ON COLUMN \"t_user\".\"age\" IS '年龄';"
+    },
+    {
+      "group": "toDDL-Oracle",
+      "name": "Oracle 双引号 CREATE",
+      "pass": true,
+      "detail": "未包含「CREATE TABLE \"t_user\" (」；全文：-- Oracle 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR2(64) NOT NULL,\n  \"age\" NUMBER(10)\n);\n\nCOMMENT ON COLUMN \"t_user\".\"user_name\" IS '登录名';\nCOMMENT ON COLUMN \"t_user\".\"age\" IS '年龄';"
+    },
+    {
+      "group": "toDDL-Oracle",
+      "name": "Oracle VARCHAR2 列",
+      "pass": true,
+      "detail": "未包含「\"user_name\" VARCHAR2(64) NOT NULL」；全文：-- Oracle 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR2(64) NOT NULL,\n  \"age\" NUMBER(10)\n);\n\nCOMMENT ON COLUMN \"t_user\".\"user_name\" IS '登录名';\nCOMMENT ON COLUMN \"t_user\".\"age\" IS '年龄';"
+    },
+    {
+      "group": "toDDL-Oracle",
+      "name": "Oracle COMMENT ON COLUMN",
+      "pass": true,
+      "detail": "未包含「COMMENT ON COLUMN \"t_user\".\"user_name\" IS '登录名';」；全文：-- Oracle 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR2(64) NOT NULL,\n  \"age\" NUMBER(10)\n);\n\nCOMMENT ON COLUMN \"t_user\".\"user_name\" IS '登录名';\nCOMMENT ON COLUMN \"t_user\".\"age\" IS '年龄';"
+    },
+    {
+      "group": "toDDL-withComments开关",
+      "name": "withComments=false 无注释(mysql)",
+      "pass": true,
+      "detail": "不应包含「登录名」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `user_name` VARCHAR(64) NOT NULL,\n  `age` INT\n);"
+    },
+    {
+      "group": "toDDL-withComments开关",
+      "name": "withComments=false 无注释(pg)",
+      "pass": true,
+      "detail": "不应包含「COMMENT ON COLUMN」；全文：-- PostgreSQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t\" (\n  \"user_name\" VARCHAR(64) NOT NULL,\n  \"age\" INTEGER\n);"
+    },
+    {
+      "group": "toDDL-withComments开关",
+      "name": "withComments 默认 true",
+      "pass": true,
+      "detail": "未包含「-- 登录名」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `user_name` VARCHAR(64) NOT NULL  -- 登录名,\n  `age` INT  -- 年龄\n);"
+    },
+    {
+      "group": "toDDL-注释转义",
+      "name": "PG 单引号转义为两个",
+      "pass": true,
+      "detail": "未包含「IS 'it''s ok';」；全文：-- PostgreSQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t\" (\n  \"c\" VARCHAR(10)\n);\n\nCOMMENT ON COLUMN \"t\".\"c\" IS 'it''s ok';"
+    },
+    {
+      "group": "toDDL-注释转义",
+      "name": "MySQL 反引号转义为单引号",
+      "pass": true,
+      "detail": "未包含「a'b」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `c` VARCHAR(10)  -- a'b c\n);"
+    },
+    {
+      "group": "toDDL-注释转义",
+      "name": "MySQL 注释换行被替换为空格",
+      "pass": true,
+      "detail": "不应包含「\nc」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `c` VARCHAR(10)  -- a'b c\n);"
+    },
+    {
+      "group": "toDDL-主键跨风格",
+      "name": "pk=user_name 命中 userName→user_name",
+      "pass": true,
+      "detail": "未包含「`user_name` VARCHAR(32) PRIMARY KEY」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `user_name` VARCHAR(32) PRIMARY KEY\n);"
+    },
+    {
+      "group": "toDDL-主键跨风格",
+      "name": "主键行不再追加 NOT NULL",
+      "pass": true,
+      "detail": "不应包含「PRIMARY KEY NOT NULL」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `user_name` VARCHAR(32) PRIMARY KEY\n);"
+    },
+    {
+      "group": "toDDL-主键跨风格",
+      "name": "pk=userName 命中 userName→user_name",
+      "pass": true,
+      "detail": "未包含「`user_name` VARCHAR(32) PRIMARY KEY」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `user_name` VARCHAR(32) PRIMARY KEY\n);"
+    },
+    {
+      "group": "toDDL-主键跨风格",
+      "name": "重复主键只标一次",
+      "pass": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "group": "toDDL-主键跨风格",
+      "name": "主键未找到 notice",
+      "pass": true,
+      "detail": "[\"主键字段「not_exist」未在表格中找到，已忽略\"]"
+    },
+    {
+      "group": "toDDL-主键跨风格",
+      "name": "主键未找到无 PRIMARY KEY",
+      "pass": true,
+      "detail": "不应包含「PRIMARY KEY」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `user_name` VARCHAR(64) NOT NULL  -- 登录名,\n  `age` INT  -- 年龄\n);"
+    },
+    {
+      "group": "toDDL-重复列名",
+      "name": "重复列名改为 a_1",
+      "pass": true,
+      "detail": "未包含「`a_1` INT」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `a` INT,\n  `a_1` INT\n);"
+    },
+    {
+      "group": "toDDL-重复列名",
+      "name": "重复列名 notice",
+      "pass": true,
+      "detail": "[\"列名 a 重复，已自动改名为 a_1\"]"
+    },
+    {
+      "group": "toDDL-非法表名与空列",
+      "name": "非法表名被清理",
+      "pass": true,
+      "detail": "未包含「CREATE TABLE `badname` (」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `badname` (\n  `user_name` VARCHAR(64) NOT NULL  -- 登录名,\n  `age` INT  -- 年龄\n);"
+    },
+    {
+      "group": "toDDL-非法表名与空列",
+      "name": "非法表名 notice",
+      "pass": true,
+      "detail": "[\"表名包含引号/分号等非法字符，已自动清理\"]"
+    },
+    {
+      "group": "toDDL-非法表名与空列",
+      "name": "表名清理后为空 error",
+      "pass": true,
+      "detail": "表名非法或为空，请重新填写"
+    },
+    {
+      "group": "toDDL-非法表名与空列",
+      "name": "空列 error",
+      "pass": true,
+      "detail": "没有可生成 DDL 的列：请检查 Markdown 表格是否包含数据行"
+    },
+    {
+      "group": "toDDL-未知方言降级",
+      "name": "未知方言按 MySQL 头注释",
+      "pass": true,
+      "detail": "未包含「-- MySQL 建表语句」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `user_name` VARCHAR(64) NOT NULL  -- 登录名,\n  `age` INT  -- 年龄\n);"
+    },
+    {
+      "group": "toDDL-未知方言降级",
+      "name": "未知方言 notice",
+      "pass": true,
+      "detail": "[\"未知方言「sqlite」，已按 MySQL 输出\"]"
+    },
+    {
+      "group": "toDDL-五种命名风格",
+      "name": "命名风格 camel → `userName`",
+      "pass": true,
+      "detail": "未包含「`userName`」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `userName` VARCHAR(20)\n);"
+    },
+    {
+      "group": "toDDL-五种命名风格",
+      "name": "命名风格 snake → `user_name`",
+      "pass": true,
+      "detail": "未包含「`user_name`」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `user_name` VARCHAR(20)\n);"
+    },
+    {
+      "group": "toDDL-五种命名风格",
+      "name": "命名风格 upper_snake → `USER_NAME`",
+      "pass": true,
+      "detail": "未包含「`USER_NAME`」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `USER_NAME` VARCHAR(20)\n);"
+    },
+    {
+      "group": "toDDL-五种命名风格",
+      "name": "命名风格 pascal → `UserName`",
+      "pass": true,
+      "detail": "未包含「`UserName`」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `UserName` VARCHAR(20)\n);"
+    },
+    {
+      "group": "toDDL-五种命名风格",
+      "name": "命名风格 keep → `userName`",
+      "pass": true,
+      "detail": "未包含「`userName`」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `userName` VARCHAR(20)\n);"
+    },
+    {
+      "group": "run-正常与回退",
+      "name": "convert-md-ddl 工具存在",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "group": "run-正常与回退",
+      "name": "run view=code",
+      "pass": true,
+      "detail": "期望 \"code\"，实际 \"code\""
+    },
+    {
+      "group": "run-正常与回退",
+      "name": "run outLang=sql",
+      "pass": true,
+      "detail": "期望 \"sql\"，实际 \"sql\""
+    },
+    {
+      "group": "run-正常与回退",
+      "name": "run Oracle 输出",
+      "pass": true,
+      "detail": "未包含「-- Oracle 建表语句」；全文：-- Oracle 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR2(64) NOT NULL,\n  \"age\" NUMBER(10)\n);\n\nCOMMENT ON COLUMN \"t_user\".\"user_name\" IS '用户登录名';\nCOMMENT ON COLUMN \"t_user\".\"age\" IS '年龄';"
+    },
+    {
+      "group": "run-正常与回退",
+      "name": "run 无 error",
+      "pass": true,
+      "detail": "期望 \"\"，实际 \"\""
+    },
+    {
+      "group": "run-正常与回退",
+      "name": "run mdTable 空回退 input",
+      "pass": true,
+      "detail": "未包含「-- MySQL 建表语句」；全文：-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t` (\n  `user_name` VARCHAR(64) NOT NULL  -- 用户登录名,\n  `age` INT  -- 年龄\n);"
+    },
+    {
+      "group": "run-正常与回退",
+      "name": "run 无法识别表头返回中文 error",
+      "pass": true,
+      "detail": "无法识别表头：至少需要「英文名称」与「类型」两列"
+    },
+    {
+      "group": "run-正常与回退",
+      "name": "run 空输入返回中文 error",
+      "pass": true,
+      "detail": "输入为空：请粘贴 Markdown 表格"
+    },
+    {
+      "group": "注册表",
+      "name": "工具总数 71",
+      "pass": true,
+      "detail": "期望 71，实际 71"
+    },
+    {
+      "group": "注册表",
+      "name": "convert 分类 22",
+      "pass": true,
+      "detail": "期望 22，实际 22"
+    },
+    {
+      "group": "注册表",
+      "name": "tool id",
+      "pass": true,
+      "detail": "期望 \"convert-md-ddl\"，实际 \"convert-md-ddl\""
+    },
+    {
+      "group": "注册表",
+      "name": "tool cat",
+      "pass": true,
+      "detail": "期望 \"convert\"，实际 \"convert\""
+    },
+    {
+      "group": "注册表",
+      "name": "tool name",
+      "pass": true,
+      "detail": "期望 \"Markdown 表格 → 建表 DDL\"，实际 \"Markdown 表格 → 建表 DDL\""
+    },
+    {
+      "group": "注册表",
+      "name": "tool icon",
+      "pass": true,
+      "detail": "期望 \"db\"，实际 \"db\""
+    },
+    {
+      "group": "注册表",
+      "name": "tool outLang",
+      "pass": true,
+      "detail": "期望 \"sql\"，实际 \"sql\""
+    },
+    {
+      "group": "注册表",
+      "name": "tool view",
+      "pass": true,
+      "detail": "期望 \"code\"，实际 \"code\""
+    },
+    {
+      "group": "注册表",
+      "name": "参数 id 顺序齐全",
+      "pass": true,
+      "detail": "期望 [\"mdTable\",\"dialect\",\"tableName\",\"primaryKey\",\"withComments\",\"nameStyle\"]，实际 [\"mdTable\",\"dialect\",\"tableName\",\"primaryKey\",\"withComments\",\"nameStyle\"]"
+    },
+    {
+      "group": "注册表",
+      "name": "参数类型齐全",
+      "pass": true,
+      "detail": "期望 [\"textarea\",\"select\",\"text\",\"text\",\"checkbox\",\"select\"]，实际 [\"textarea\",\"select\",\"text\",\"text\",\"checkbox\",\"select\"]"
+    },
+    {
+      "group": "注册表",
+      "name": "dialect 三个选项",
+      "pass": true,
+      "detail": "期望 [\"mysql\",\"postgresql\",\"oracle\"]，实际 [\"mysql\",\"postgresql\",\"oracle\"]"
+    },
+    {
+      "group": "注册表",
+      "name": "withComments 默认 true",
+      "pass": true,
+      "detail": "期望 true，实际 true"
+    },
+    {
+      "group": "注册表",
+      "name": "nameStyle 五选项",
+      "pass": true,
+      "detail": "期望 [\"camel\",\"snake\",\"upper_snake\",\"pascal\",\"keep\"]，实际 [\"camel\",\"snake\",\"upper_snake\",\"pascal\",\"keep\"]"
+    },
+    {
+      "group": "静态资源",
+      "name": "index.html 含 mdddl.js",
+      "pass": true,
+      "detail": "scripts=vendor/libs.js,js/core/json.js,js/core/convert.js,js/core/codegen.js,js/core/codec.js,js/core/analyze.js,js/core/password.js,js/core/treebuild.js,js/core/mdddl.js,js/ui/dom.js,js/ui/toast.js,js/ui/storage.js,js/ui/modal.js,js/ui/editor.js,js/tools-registry.js,js/app.js"
+    },
+    {
+      "group": "静态资源",
+      "name": "mdddl.js 在 core 段（treebuild.js 之后）",
+      "pass": true,
+      "detail": "tbPos=7 mdddlPos=8"
+    },
+    {
+      "group": "静态资源",
+      "name": "mdddl.js 早于 UI 段",
+      "pass": true,
+      "detail": "mdddlPos=8 uiPos=9"
+    },
+    {
+      "group": "静态资源",
+      "name": "README 工具数 71",
+      "pass": true,
+      "detail": "readme head=# JSON 工具箱\n\n一个**完全离线**的 Windows 桌面版 JSON 处理工具。纯静态前端（原生 JavaScript，无框架、无 CDN）+\nPython 桌面外壳，内置 **71 个**实用工具，覆盖 JSON 的格式化、格式转换、查询提取、校验分析、编码安全与日常处理。\n\n> 无需联网即可使用；所有第三方库（js-yaml / yaml / smol-toml）已用 esbuil"
+    }
+  ]
+}

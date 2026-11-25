@@ -8,9 +8,9 @@
       "detail": "group=6"
     },
     {
-      "name": "首屏工具项总数 = 70",
+      "name": "首屏工具项总数 = 71",
       "pass": true,
-      "detail": "nav=70"
+      "detail": "nav=71"
     },
     {
       "name": "首屏输入自动载入示例并已美化",
@@ -18,17 +18,17 @@
       "detail": "outLen=755 parse=true"
     },
     {
-      "name": "70 工具逐个执行：无空白输出",
+      "name": "71 工具逐个执行：无空白输出",
       "pass": true,
       "detail": "all-ok"
     },
     {
-      "name": "70 工具逐个执行：真实报错工具数已记录",
+      "name": "71 工具逐个执行：真实报错工具数已记录",
       "pass": true,
       "detail": "realErr=3"
     },
     {
-      "name": "70 工具遍历期间无 pageerror",
+      "name": "71 工具遍历期间无 pageerror",
       "pass": true,
       "detail": "pageerror=0"
     },
@@ -215,12 +215,12 @@
     {
       "name": "R3-树: >3000 节点大文档根默认展开且提示懒加载（不卡死/不报错）",
       "pass": true,
-      "detail": "{\"hasTree\":true,\"rows\":401,\"notice\":\"节点数约 3601，已启用懒加载（展开时才渲染子节点）以保护性能。\",\"ms\":12.3}"
+      "detail": "{\"hasTree\":true,\"rows\":401,\"notice\":\"节点数约 3601，已启用懒加载（展开时才渲染子节点）以保护性能。\",\"ms\":54.2}"
     },
     {
       "name": "R3-树: 大文档切树形渲染耗时已记录",
       "pass": true,
-      "detail": "renderMs≈12.3 可见行=401"
+      "detail": "renderMs≈54.2 可见行=401"
     },
     {
       "name": "R3-树: 极端边界({},[],null,[1],嵌套数组) 不崩溃且无空面板异常",
@@ -288,9 +288,9 @@
       "detail": "{\"code\":\"\\n\",\"bar\":\"第 4 行Expected ',' or '}' after property value in JSON at position 23 (line 4 column 3)\"}"
     },
     {
-      "name": "R4-回归: 首屏工具项总数仍 = 70",
+      "name": "R4-回归: 首屏工具项总数仍 = 71",
       "pass": true,
-      "detail": "nav=70"
+      "detail": "nav=71"
     },
     {
       "name": "R4-回归: 树形默认展开可见节点 ≥ 8",
@@ -325,7 +325,7 @@
     {
       "name": "file:// 直开可正常渲染（非白屏）",
       "pass": true,
-      "detail": "{\"nav\":70,\"hasApp\":true}"
+      "detail": "{\"nav\":71,\"hasApp\":true}"
     },
     {
       "name": "file:// 下 codec-hash 正常或友好提示",
@@ -596,6 +596,14 @@
       "status": "执行成功 · 输出 496 字符"
     },
     {
+      "id": "convert-md-ddl",
+      "outLen": 129,
+      "errVisible": false,
+      "hasCustom": false,
+      "err": false,
+      "status": "执行成功 · 输出 128 字符"
+    },
+    {
       "id": "convert-schema",
       "outLen": 1113,
       "errVisible": false,
@@ -861,19 +869,19 @@
     },
     {
       "id": "utility-password",
-      "outLen": 72,
+      "outLen": 78,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
-      "status": "执行成功 · 输出 71 字符"
+      "status": "执行成功 · 输出 77 字符"
     },
     {
       "id": "utility-mock",
-      "outLen": 906,
+      "outLen": 901,
       "errVisible": false,
       "hasCustom": false,
       "err": false,
-      "status": "执行成功 · 输出 961 字符"
+      "status": "执行成功 · 输出 956 字符"
     },
     {
       "id": "utility-shuffle",

@@ -1,0 +1,302 @@
+{
+  "meta": {
+    "task": "Markdown 表格 → 建表 DDL · 浏览器端到端验证",
+    "qa": "严过关 (Yan) / software-qa-engineer",
+    "startedAt": "2026-11-25T03:01:27.042Z",
+    "baseURL": "http://127.0.0.1:8898",
+    "browser": "Microsoft Edge (channel: msedge, headless)",
+    "nodeVersion": "v22.22.2",
+    "playwrightPath": "C:\\Users\\YZX\\.workbuddy\\binaries\\node\\workspace\\node_modules\\playwright-core\\index.mjs"
+  },
+  "assertions": [
+    {
+      "id": "B01a",
+      "name": "左栏工具数 = 71",
+      "passed": true,
+      "expected": "71",
+      "actual": "71"
+    },
+    {
+      "id": "B01b",
+      "name": "convert-md-ddl 在左栏可见",
+      "passed": true,
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "B01c",
+      "name": "JTCore.mdddl 已加载",
+      "passed": true,
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "B02a",
+      "name": "参数标签顺序正确",
+      "passed": true,
+      "expected": "Markdown 表格|方言|表名|主键字段名|含字段注释|字段命名风格",
+      "actual": "[\"Markdown 表格\",\"方言\",\"表名\",\"主键字段名\",\"含字段注释\",\"字段命名风格\"]"
+    },
+    {
+      "id": "B02b",
+      "name": "参数类型正确",
+      "passed": true,
+      "expected": "textarea|select|text|text|checkbox|select",
+      "actual": "[\"textarea\",\"select\",\"text\",\"text\",\"checkbox\",\"select\"]"
+    },
+    {
+      "id": "B02c",
+      "name": "默认值：方言 mysql / withComments true / nameStyle camel",
+      "passed": true,
+      "expected": "mysql/true/camel",
+      "actual": "[\"| 英文名称 | 类型 | 最大长度 | 是否非空 | 参数说明 |\\n| --- | --- | --- | --- | --- |\\n| user_name | varchar | 64 | 是 | 用户登录名 |\\n| age | int |  | 否 | 年龄 |\",\"mysql\",\"my_table\",\"\",\"true\",\"camel\"]"
+    },
+    {
+      "id": "B03a",
+      "name": "无错误条",
+      "passed": true,
+      "expected": "无错误",
+      "actual": "{\"visible\":false,\"text\":\"\",\"status\":\"执行成功 · 输出 127 字符\"}"
+    },
+    {
+      "id": "B03b",
+      "name": "MySQL 头注释",
+      "passed": true,
+      "expected": "含 MySQL 头注释",
+      "actual": "-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `user_name` VARCHAR(64) NOT NULL  -- 用户登录名,\n  `age` INT  -- 年龄\n);\n"
+    },
+    {
+      "id": "B03c",
+      "name": "反引号 CREATE TABLE",
+      "passed": true,
+      "expected": "反引号表名",
+      "actual": "-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `user_name` VARCHAR(64) NOT NULL  -- 用户登录名,\n  `age` INT  -- 年龄\n);\n"
+    },
+    {
+      "id": "B03d",
+      "name": "VARCHAR(64) + NOT NULL + 行尾注释",
+      "passed": true,
+      "expected": "`user_name` VARCHAR(64) NOT NULL  -- 用户登录名",
+      "actual": "-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `user_name` VARCHAR(64) NOT NULL  -- 用户登录名,\n  `age` INT  -- 年龄\n);\n"
+    },
+    {
+      "id": "B03e",
+      "name": "age 为 INT 且可空",
+      "passed": true,
+      "expected": "INT 且无 NOT NULL",
+      "actual": "-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `user_name` VARCHAR(64) NOT NULL  -- 用户登录名,\n  `age` INT  -- 年龄\n);\n"
+    },
+    {
+      "id": "B04a",
+      "name": "Oracle 头注释",
+      "passed": true,
+      "expected": "含 Oracle 头注释",
+      "actual": "-- Oracle 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR2(64) NOT NULL,\n  \"age\" NUMBER(10)\n);\n\nCOMMENT ON COLUMN \""
+    },
+    {
+      "id": "B04b",
+      "name": "双引号 CREATE TABLE",
+      "passed": true,
+      "expected": "双引号表名",
+      "actual": "-- Oracle 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR2(64) NOT NULL,\n  \"age\" NUMBER(10)\n);\n\nCOMMENT ON COLUMN \""
+    },
+    {
+      "id": "B04c",
+      "name": "VARCHAR2 列 + NOT NULL",
+      "passed": true,
+      "expected": "VARCHAR2(64) NOT NULL",
+      "actual": "-- Oracle 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR2(64) NOT NULL,\n  \"age\" NUMBER(10)\n);\n\nCOMMENT ON COLUMN \"t_user\".\"user_name\" IS '用户登录名';\nCOMMENT ON COLUMN \"t_user\".\"age\" IS '年龄';\n"
+    },
+    {
+      "id": "B04d",
+      "name": "COMMENT ON COLUMN 语句",
+      "passed": true,
+      "expected": "COMMENT ON COLUMN \"t_user\".\"user_name\" IS 用户登录名",
+      "actual": "-- Oracle 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR2(64) NOT NULL,\n  \"age\" NUMBER(10)\n);\n\nCOMMENT ON COLUMN \"t_user\".\"user_name\" IS '用户登录名';\nCOMMENT ON COLUMN \"t_user\".\"age\" IS '年龄';\n"
+    },
+    {
+      "id": "B05a",
+      "name": "PG 头注释",
+      "passed": true,
+      "expected": "含 PG 头注释",
+      "actual": "-- PostgreSQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"c\" VARCHAR(10)\n);\n\nCOMMENT ON COLUMN \"t_user\".\"c\" IS 'it''s ok';\n"
+    },
+    {
+      "id": "B05b",
+      "name": "双引号列",
+      "passed": true,
+      "expected": "双引号列",
+      "actual": "-- PostgreSQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"c\" VARCHAR(10)\n);\n\nCOMMENT ON COLUMN \"t_user\".\"c\" IS 'it''s ok';\n"
+    },
+    {
+      "id": "B05c",
+      "name": "单引号转义为两个",
+      "passed": true,
+      "expected": "IS 'it''s ok';",
+      "actual": "-- PostgreSQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"c\" VARCHAR(10)\n);\n\nCOMMENT ON COLUMN \"t_user\".\"c\" IS 'it''s ok';\n"
+    },
+    {
+      "id": "B06-camel",
+      "name": "camel → `userName`",
+      "passed": true,
+      "expected": "`userName`",
+      "actual": "-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `userName` VARCHAR(64) NOT NULL  -- 用户登录名,\n  `age` INT  -- 年龄\n);\n"
+    },
+    {
+      "id": "B06-snake",
+      "name": "snake → `user_name`",
+      "passed": true,
+      "expected": "`user_name`",
+      "actual": "-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `user_name` VARCHAR(64) NOT NULL  -- 用户登录名,\n  `age` INT  -- 年龄\n);\n"
+    },
+    {
+      "id": "B06-upper_snake",
+      "name": "upper_snake → `USER_NAME`",
+      "passed": true,
+      "expected": "`USER_NAME`",
+      "actual": "-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `USER_NAME` VARCHAR(64) NOT NULL  -- 用户登录名,\n  `AGE` INT  -- 年龄\n);\n"
+    },
+    {
+      "id": "B06-pascal",
+      "name": "pascal → `UserName`",
+      "passed": true,
+      "expected": "`UserName`",
+      "actual": "-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `UserName` VARCHAR(64) NOT NULL  -- 用户登录名,\n  `Age` INT  -- 年龄\n);\n"
+    },
+    {
+      "id": "B06-keep",
+      "name": "keep → `user_name`",
+      "passed": true,
+      "expected": "`user_name`",
+      "actual": "-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `user_name` VARCHAR(64) NOT NULL  -- 用户登录名,\n  `age` INT  -- 年龄\n);\n"
+    },
+    {
+      "id": "B07a",
+      "name": "勾选时有行尾注释",
+      "passed": true,
+      "expected": "含 -- 用户登录名",
+      "actual": "-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `user_name` VARCHAR(64) NOT NULL  -- 用户登录名,\n  `age` INT  -- 年龄\n);\n"
+    },
+    {
+      "id": "B07b",
+      "name": "取消后无注释",
+      "passed": true,
+      "expected": "无注释",
+      "actual": "-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `user_name` VARCHAR(64) NOT NULL,\n  `age` INT\n);\n"
+    },
+    {
+      "id": "B08a",
+      "name": "主键跨风格标记",
+      "passed": true,
+      "expected": "PRIMARY KEY 标记",
+      "actual": "-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `user_name` VARCHAR(64) PRIMARY KEY  -- 用户登录名,\n  `age` INT  -- 年龄\n);\n"
+    },
+    {
+      "id": "B08b",
+      "name": "仅标一次",
+      "passed": true,
+      "expected": "1 次",
+      "actual": "-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `user_name` VARCHAR(64) PRIMARY KEY  -- 用户登录名,\n  `age` INT  -- 年龄\n);\n"
+    },
+    {
+      "id": "B09",
+      "name": "name/type/length/not null/comment 表头产出 DDL",
+      "passed": true,
+      "expected": "email VARCHAR(128) NOT NULL 且无错误",
+      "actual": "{\"out\":\"-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\\nCREATE TABLE `t_user` (\\n  `email` VARCHAR(128) NOT NULL  -- 邮箱地址\\n);\\n\",\"err\":{\"visible\":false,\"text\":\"\",\"status\":\"执行成功 · 输出 103 字符\"}}"
+    },
+    {
+      "id": "B10a",
+      "name": "位置回退产出 DDL",
+      "passed": true,
+      "expected": "col VARCHAR(12) NOT NULL",
+      "actual": "-- MySQL 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE `t_user` (\n  `col` VARCHAR(12) NOT NULL  -- 说明\n);\n"
+    },
+    {
+      "id": "B10b",
+      "name": "位置回退 notice",
+      "passed": true,
+      "expected": "含回退提示",
+      "actual": "[\"表头列「A」未能识别，已忽略\",\"表头列「B」未能识别，已忽略\",\"表头列「C」未能识别，已忽略\",\"表头列「D」未能识别，已忽略\",\"表头列「E」未能识别，已忽略\",\"表头未识别出「英文名称」与「类型」，已按 5 列默认顺序（名称/类型/最大长度/非空/说明）解析\"]"
+    },
+    {
+      "id": "B11",
+      "name": "无法识别表头显示中文错误条",
+      "passed": true,
+      "expected": "错误条含「无法识别表头」",
+      "actual": "{\"visible\":true,\"text\":\"无法识别表头：至少需要「英文名称」与「类型」两列\",\"status\":\"无法识别表头：至少需要「英文名称」与「类型」两列\"}"
+    },
+    {
+      "id": "B12",
+      "name": "空输入显示中文错误条",
+      "passed": true,
+      "expected": "错误条含「输入为空」",
+      "actual": "{\"visible\":true,\"text\":\"输入为空：请粘贴 Markdown 表格\",\"status\":\"输入为空：请粘贴 Markdown 表格\"}"
+    },
+    {
+      "id": "B13a",
+      "name": "截图前 Oracle DDL 正常",
+      "passed": true,
+      "expected": "含 Oracle DDL",
+      "actual": "-- Oracle 建表语句（由 Markdown 表格生成，仅供参考）\nCREATE TABLE \"t_user\" (\n  \"user_name\" VARCHAR2(64) PRIMARY KEY,\n  \"age\" NUMBER(10)\n);\n\nCOMMENT ON COLUM"
+    },
+    {
+      "id": "B13b",
+      "name": "docs/screenshots/11-markdown-ddl.png 已生成且 >5KB",
+      "passed": true,
+      "expected": ">5000 bytes",
+      "actual": "110681"
+    },
+    {
+      "id": "B14a",
+      "name": "console error = 0",
+      "passed": true,
+      "expected": "0",
+      "actual": "[]"
+    },
+    {
+      "id": "B14b",
+      "name": "pageerror = 0",
+      "passed": true,
+      "expected": "0",
+      "actual": "[]"
+    },
+    {
+      "id": "B14c",
+      "name": "失败请求 = 0",
+      "passed": true,
+      "expected": "0",
+      "actual": "[]"
+    },
+    {
+      "id": "B14d",
+      "name": "HTTP>=400 响应 = 0",
+      "passed": true,
+      "expected": "0",
+      "actual": "[]"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "C:\\Users\\YZX\\WorkBuddy\\JSON工具箱\\docs\\screenshots\\11-markdown-ddl.png",
+      "scene": "真实工具界面 · 参数 + Oracle 输出",
+      "bytes": 110681,
+      "returnedBytes": 110681
+    }
+  ],
+  "console": {
+    "errors": [],
+    "pageErrors": [],
+    "failedRequests": [],
+    "badResponses": []
+  },
+  "defects": [],
+  "routing": "NoOne",
+  "verdict": "PASS",
+  "summary": {
+    "total": 38,
+    "passed": 38,
+    "failed": 0
+  },
+  "finishedAt": "2026-11-25T03:01:36.355Z"
+}

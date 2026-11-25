@@ -525,6 +525,41 @@
   });
 
   convertTool({
+    id: 'convert-md-ddl', cat: 'convert', name: 'Markdown 表格 → 建表 DDL', icon: 'db', outLang: 'sql', view: 'code',
+    desc: '输入 Markdown 表格（表头含英文名称/类型/最大长度/是否非空/参数说明），生成 MySQL / PostgreSQL / Oracle 建表语句，可选字段命名风格',
+    params: [
+      area('mdTable', 'Markdown 表格',
+        '| 英文名称 | 类型 | 最大长度 | 是否非空 | 参数说明 |\n| --- | --- | --- | --- | --- |\n| user_name | varchar | 64 | 是 | 用户登录名 |\n| age | int |  | 否 | 年龄 |',
+        '| 英文名称 | 类型 | 最大长度 | 是否非空 | 参数说明 |\n| --- | --- | --- | --- | --- |'),
+      sel('dialect', '方言', [{ value: 'mysql', label: 'MySQL' }, { value: 'postgresql', label: 'PostgreSQL' }, { value: 'oracle', label: 'Oracle' }], 'mysql'),
+      txt('tableName', '表名', 'my_table'), txt('primaryKey', '主键字段名', ''),
+      chk('withComments', '含字段注释', true), NAME_STYLE
+    ],
+    run: function (input, params, ctx) {
+      var mod = core().mdddl;
+      if (!mod || typeof mod.parseTable !== 'function' || typeof mod.toDDL !== 'function') {
+        return { output: '', view: 'code', outLang: 'sql', error: 'Markdown DDL 核心模块未加载（js/core/mdddl.js）' };
+      }
+      try {
+        var text = params.mdTable;
+        if (text == null || String(text).trim() === '') text = input;
+        var parsed = mod.parseTable(text);
+        if (parsed.error) {
+          return { output: '', view: 'code', outLang: 'sql', notices: parsed.notices || [], error: parsed.error, errorLine: parsed.errorLine || null };
+        }
+        var report = (parsed.notices || []).slice();
+        var res = mod.toDDL(parsed.columns, {
+          dialect: params.dialect, tableName: params.tableName, primaryKey: params.primaryKey,
+          withComments: params.withComments, nameStyle: params.nameStyle, report: report
+        });
+        return { output: res.output || '', view: 'code', outLang: 'sql', notices: res.notices || [], error: res.error || '', errorLine: null };
+      } catch (e) {
+        return { output: '', view: 'code', outLang: 'sql', error: '生成 DDL 失败：' + ((e && e.message) || String(e)) };
+      }
+    }
+  });
+
+  convertTool({
     id: 'convert-schema', cat: 'convert', name: 'JSON → JSON Schema', icon: 'schema', outLang: 'json', view: 'code',
     desc: '生成 Draft 2020-12 JSON Schema（含类型/必填/format 推断）',
     params: [txt('title', 'Schema 标题', 'Root'), txt('id', '$id（可空）', '')],

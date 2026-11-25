@@ -210,7 +210,7 @@ ok('大样本覆盖全部 16 个 hex 字符', Object.keys(charFreq).length === 1
 
 /* ============================ K. 注册表装配（静态+运行时） ============================ */
 group('K-注册表装配');
-eq('工具总数 = 70', reg.tools.length, 70);
+eq('工具总数 = 71', reg.tools.length, 71);
 const tw = reg.get('utility-password');
 ok('utility-password 可查', !!tw);
 eq('utility-password 分类 = utility', tw.cat, 'utility');

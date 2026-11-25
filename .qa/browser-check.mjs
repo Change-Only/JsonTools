@@ -39,13 +39,13 @@ const shot = (n) => page.screenshot({ path: path.join(SHOTS, n) });
 const catCount = await page.locator('.jt-nav-group').count();
 rec('首屏左侧分类分组可见(6)', catCount === 6, 'group=' + catCount);
 const navCount = await page.locator('.jt-nav-item').count();
-rec('首屏工具项总数 = 70', navCount === 70, 'nav=' + navCount);
+rec('首屏工具项总数 = 71', navCount === 71, 'nav=' + navCount);
 const firstOut = await page.evaluate(() => { const v = document.querySelector('section.jt-panel-view .jt-code'); return v ? v.textContent : ''; });
 let firstParseable = false; try { JSON.parse(firstOut); firstParseable = true; } catch (e) {}
 rec('首屏输入自动载入示例并已美化', firstOut.trim().length > 0 && firstParseable, 'outLen=' + firstOut.length + ' parse=' + firstParseable);
 await shot('01-首屏.png');
 
-/* --- 遍历 70 工具 --- */
+/* --- 遍历 71 工具 --- */
 const toolIds = await page.evaluate(() => window.JT.registry.tools.map((t) => t.id));
 const toolReport = [];
 const emptyTools = [];
@@ -69,10 +69,10 @@ for (const id of toolIds) {
     if (info.outLen === 0 && !info.err && !info.hasCustom) emptyTools.push(id);
   } catch (e) { toolReport.push({ id, fatal: e.message }); emptyTools.push(id + '(异常)'); }
 }
-rec('70 工具逐个执行：无空白输出', emptyTools.length === 0, emptyTools.join(',') || 'all-ok');
-rec('70 工具逐个执行：真实报错工具数已记录', true, 'realErr=' + toolReport.filter((t) => t.err).length);
+rec('71 工具逐个执行：无空白输出', emptyTools.length === 0, emptyTools.join(',') || 'all-ok');
+rec('71 工具逐个执行：真实报错工具数已记录', true, 'realErr=' + toolReport.filter((t) => t.err).length);
 const pageErrDuringTools = consoleMsgs.filter((m) => m.type === 'pageerror').length;
-rec('70 工具遍历期间无 pageerror', pageErrDuringTools === 0, 'pageerror=' + pageErrDuringTools);
+rec('71 工具遍历期间无 pageerror', pageErrDuringTools === 0, 'pageerror=' + pageErrDuringTools);
 
 /* --- 深色主题 --- */
 await page.evaluate(() => { window.JT.storage.setTheme('light'); document.documentElement.setAttribute('data-theme', 'light'); });
@@ -324,7 +324,7 @@ const searchFilter = await page.evaluate(async () => {
   inp.value = ''; inp.dispatchEvent(new Event('input', { bubbles: true }));
   return n;
 });
-rec('搜索框过滤左侧列表', searchFilter > 0 && searchFilter < 70, '过滤后=' + searchFilter);
+rec('搜索框过滤左侧列表', searchFilter > 0 && searchFilter < 71, '过滤后=' + searchFilter);
 
 await page.evaluate(() => { window.JT.storage.setTheme('dark'); document.documentElement.setAttribute('data-theme', 'dark'); });
 await page.evaluate(() => { const ta = document.querySelector('section.jt-panel-edit textarea'); ta.value = '{"persist": true}'; ta.dispatchEvent(new Event('input', { bubbles: true })); });
@@ -479,7 +479,7 @@ const shot4 = (n) => page.screenshot({ path: path.join(SHOTS4, n) });
 
 /* C1 复核：工具数 & 首屏 */
 const navCount4 = await page.evaluate(() => document.querySelectorAll('.jt-nav-item').length);
-rec('R4-回归: 首屏工具项总数仍 = 70', navCount4 === 70, 'nav=' + navCount4);
+rec('R4-回归: 首屏工具项总数仍 = 71', navCount4 === 71, 'nav=' + navCount4);
 await navTo('format-pretty', 280); await loadExample();
 await shot4('02-首屏.png');
 
@@ -523,7 +523,7 @@ page2.on('pageerror', (e) => fileMsgs.push({ type: 'pageerror', text: e.message 
 await page2.goto(pathToFileURL(path.join(ROOT, 'web', 'index.html')).href, { waitUntil: 'load' });
 await page2.waitForTimeout(800);
 const fileState = await page2.evaluate(() => ({ nav: document.querySelectorAll('.jt-nav-item').length, hasApp: !!document.querySelector('.jt-workspace') }));
-rec('file:// 直开可正常渲染（非白屏）', fileState.hasApp && fileState.nav === 70, JSON.stringify(fileState));
+rec('file:// 直开可正常渲染（非白屏）', fileState.hasApp && fileState.nav === 71, JSON.stringify(fileState));
 const fileHash = await page2.evaluate(async () => {
   try { const t = window.JT.registry.get('codec-hash'); const r = await t.run('abc', Object.assign({}, t.defaultParams), { parseInput: () => window.JTCore.json.parseLax('"abc"') }); return { error: r.error || null, out: (r.output || '').slice(0, 80) }; } catch (e) { return { threw: e.message }; }
 });

@@ -483,18 +483,18 @@ await runCase('registry', 'R01', '静态：index.html 加载顺序与 README 工
     'password.js < treebuild.js < <!-- UI 层 --> < dom.js',
     { pwdPos, tbPos, uiMark, domPos });
   const readme = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
-  record('registry', 'R01b', 'README 工具数 70 且含新工具条目与截图引用',
-    /内置 \*\*70 个\*\*/.test(readme) && /功能总览（70 个工具）/.test(readme) &&
+  record('registry', 'R01b', 'README 工具数 71 且含新工具条目与截图引用',
+    /内置 \*\*71 个\*\*/.test(readme) && /功能总览（71 个工具）/.test(readme) &&
     readme.includes('JSON 数组 → 父子结构') &&
     readme.includes('docs/screenshots/10-parent-child-tree.png') &&
     !/内置 \*\*69 个\*\*/.test(readme),
-    '工具数 70、新工具条目、10 号截图引用齐全且无残留 69',
-    { has70: readme.includes('**70 个**'), hasEntry: readme.includes('JSON 数组 → 父子结构') });
+    '工具数 71、新工具条目、10 号截图引用齐全且无残留 69',
+    { has70: readme.includes('**71 个**'), hasEntry: readme.includes('JSON 数组 → 父子结构') });
 });
 
-await runCase('registry', 'R02', '动态：工具总数 70 且新工具可查', async () => {
-  record('registry', 'R02a', '注册表工具总数 = 70',
-    REG.tools.length === 70, '70', REG.tools.length);
+await runCase('registry', 'R02', '动态：工具总数 71 且新工具可查', async () => {
+  record('registry', 'R02a', '注册表工具总数 = 71',
+    REG.tools.length === 71, '71', REG.tools.length);
   const t = REG.get('convert-parent-child');
   record('registry', 'R02b', 'convert-parent-child 可查且元数据正确',
     !!t && t.id === 'convert-parent-child' && t.cat === 'convert' &&
@@ -503,7 +503,7 @@ await runCase('registry', 'R02', '动态：工具总数 70 且新工具可查', 
     t && { id: t.id, cat: t.cat, name: t.name, outLang: t.outLang, view: t.view });
   record('registry', 'R02c', '工具 id 全局唯一',
     new Set(REG.tools.map(x => x.id)).size === REG.tools.length,
-    '70 个 id 唯一', new Set(REG.tools.map(x => x.id)).size);
+    '71 个 id 唯一', new Set(REG.tools.map(x => x.id)).size);
 });
 
 await runCase('registry', 'R03', '动态：7 个参数 id/类型/默认值齐全', async () => {
@@ -636,7 +636,7 @@ await runCase('registry', 'R08', '工具 run()：字段名空/同名 → 中文�
     { empty: empty.error, same: same.error, sameChild: sameChild.error });
 });
 
-await runCase('registry', 'R09', '全量 70 工具：新增工具未破坏既有工具可执行性', async () => {
+await runCase('registry', 'R09', '全量 71 工具：新增工具未破坏既有工具可执行性', async () => {
   const input = '{"a":1,"b":[1,2,3]}';
   const ctx = { parseInput: () => ({ ok: true, value: { a: 1, b: [1, 2, 3] } }) };
   const broken = [];
@@ -646,7 +646,7 @@ await runCase('registry', 'R09', '全量 70 工具：新增工具未破坏既有
       if (!res || typeof res !== 'object') broken.push(t.id + ':无返回');
     } catch (e) { broken.push(t.id + ':抛异常 ' + (e && e.message)); }
   }
-  record('registry', 'R09', '70 工具逐一调用 run() 无异常、均有返回',
+  record('registry', 'R09', '71 工具逐一调用 run() 无异常、均有返回',
     broken.length === 0, '0 个异常', broken);
 });
 

@@ -182,10 +182,10 @@ await page.goto(BASE + '/index.html', { waitUntil: 'load' });
 await page.waitForSelector('.jt-workspace', { timeout: 10000 });
 await page.waitForTimeout(400);
 
-await runCase('B01', '首屏加载：70 个工具、新工具可见、无控制台错误', async () => {
+await runCase('B01', '首屏加载：71 个工具、新工具可见、无控制台错误', async () => {
   const nav = await page.locator('.jt-nav-item').count();
   const visible = await page.locator('.jt-nav-item[data-id="' + TOOL_ID + '"]').count();
-  rec('B01a', '左栏工具数 = 70', nav === 70, '70', nav);
+  rec('B01a', '左栏工具数 = 71', nav === 71, '71', nav);
   rec('B01b', '新工具 convert-parent-child 在左栏可见',
     visible === 1 && (await page.locator('.jt-nav-item[data-id="' + TOOL_ID + '"]').innerText()).includes('父子结构'),
     '1 个节点且文案含"父子结构"', visible);
@@ -539,7 +539,7 @@ await runCase('B21', '刷新后草稿与工具选择保持（参数不丢）', a
   await setParam('子节点字段名', 'children');
 });
 
-await runCase('B22', '趟过全部 70 工具后返回本工具仍正常', async () => {
+await runCase('B22', '趟过全部 71 工具后返回本工具仍正常', async () => {
   const ids = await page.evaluate(() => window.JT.registry.tools.map(t => t.id));
   const bad = [];
   for (const id of ids) {
@@ -555,7 +555,7 @@ await runCase('B22', '趟过全部 70 工具后返回本工具仍正常', async 
   }
   await navTo(TOOL_ID);
   const out = await readOut();
-  rec('B22', '70 工具遍历无异常，返回本工具仍有输出',
+  rec('B22', '71 工具遍历无异常，返回本工具仍有输出',
     bad.length === 0 && out.length > 0,
     '0 异常且输出非空', { bad, outLen: out.length });
 });

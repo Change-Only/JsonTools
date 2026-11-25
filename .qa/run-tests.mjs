@@ -78,7 +78,7 @@ function t1() {
   while ((m = re.exec(html)) !== null) refs.push(m[1]);
   // data: / http(s): / # 不是本地文件资源（如内联 favicon）
   const localRefs = refs.filter((r) => !/^(data:|https?:|mailto:|#|\/\/)/.test(r));
-  ok('index.html 引用本地资源数 = 19（含 favicon.png 与 treebuild.js）', localRefs.length === 19, '实际 ' + localRefs.length + '：' + localRefs.join(', '));
+  ok('index.html 引用本地资源数 = 20（含 favicon.png、treebuild.js 与 mdddl.js）', localRefs.length === 20 && localRefs.some((r) => /mdddl\.js$/.test(r)), '实际 ' + localRefs.length + '：' + localRefs.join(', '));
   const missing = localRefs.filter((r) => !fs.existsSync(path.join(WEB, r)));
   ok('全部引用资源存在', missing.length === 0, '缺失：' + missing.join(', '));
   results.push({ group: 'T1-资源引用', name: '资源清单', pass: true, expected: '', actual: localRefs.join(' | ') + '  ｜ 非文件引用: ' + refs.filter((r) => !localRefs.includes(r)).join(' | ') });
@@ -130,7 +130,7 @@ function t1() {
   group('T1-注册表');
   const reg = globalThis.JT.registry;
   const tools = reg.tools;
-  ok('工具总数 = 70', tools.length === 70, '实际 ' + tools.length);
+  ok('工具总数 = 71', tools.length === 71, '实际 ' + tools.length);
   const ids = tools.map((t) => t.id);
   ok('id 唯一', new Set(ids).size === ids.length, '重复：' + ids.filter((x, i) => ids.indexOf(x) !== i).join(','));
 

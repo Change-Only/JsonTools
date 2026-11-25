@@ -2,7 +2,7 @@
   "meta": {
     "task": "JSON 数组 → 父子结构 集成版 · 浏览器端到端验证",
     "qa": "严过关 (Yan) / software-qa-engineer",
-    "startedAt": "2026-11-25T02:15:12.747Z",
+    "startedAt": "2026-11-25T03:03:12.747Z",
     "baseURL": "http://127.0.0.1:8898",
     "browser": "Microsoft Edge (channel: msedge, headless)",
     "nodeVersion": "v22.22.2",
@@ -11,10 +11,10 @@
   "assertions": [
     {
       "id": "B01a",
-      "name": "左栏工具数 = 70",
+      "name": "左栏工具数 = 71",
       "passed": true,
-      "expected": "70",
-      "actual": "70"
+      "expected": "71",
+      "actual": "71"
     },
     {
       "id": "B01b",
@@ -84,7 +84,7 @@
       "name": "docs/screenshots/10-parent-child-tree.png 已生成且 >5KB",
       "passed": true,
       "expected": ">5000 bytes",
-      "actual": "147435"
+      "actual": "147483"
     },
     {
       "id": "B06",
@@ -98,7 +98,7 @@
       "name": "下载文件名 .json 且内容等于输出、可 JSON.parse",
       "passed": true,
       "expected": "后缀 .json 且内容合法且与输出深等价",
-      "actual": "{\"name\":\"output-1795572915650.json\",\"len\":884,\"ok\":true}"
+      "actual": "{\"name\":\"output-1795575795589.json\",\"len\":884,\"ok\":true}"
     },
     {
       "id": "B08",
@@ -207,7 +207,7 @@
     },
     {
       "id": "B22",
-      "name": "70 工具遍历无异常，返回本工具仍有输出",
+      "name": "71 工具遍历无异常，返回本工具仍有输出",
       "passed": true,
       "expected": "0 异常且输出非空",
       "actual": "{\"bad\":[],\"outLen\":884}"
@@ -238,8 +238,8 @@
     {
       "file": "C:\\Users\\YZX\\WorkBuddy\\JSON工具箱\\docs\\screenshots\\10-parent-child-tree.png",
       "scene": "集成后真实工具界面 · 树形视图",
-      "bytes": 147435,
-      "returnedBytes": 147435
+      "bytes": 147483,
+      "returnedBytes": 147483
     }
   ],
   "console": {
@@ -256,5 +256,5 @@
     "passed": 32,
     "failed": 0
   },
-  "finishedAt": "2026-11-25T02:15:24.573Z"
+  "finishedAt": "2026-11-25T03:03:25.516Z"
 }

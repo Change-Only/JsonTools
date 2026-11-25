@@ -2,7 +2,7 @@
   "meta": {
     "task": "JSON 数组 → 父子结构 集成版 Node 层专项验证",
     "qa": "严过关 (Yan) / software-qa-engineer",
-    "startedAt": "2026-11-25T02:12:18.102Z",
+    "startedAt": "2026-11-25T03:01:51.368Z",
     "nodeVersion": "v22.22.2",
     "spec": "team-lead 任务书：树构建/边界/注册表/工具 run",
     "mode": "独立证伪式：直接以设计行为为准断言，源码不符即判失败"
@@ -385,23 +385,23 @@
         "name": "treebuild.js 位于 core 段（password.js 之后、UI 层之前）",
         "passed": true,
         "expected": "password.js < treebuild.js < <!-- UI 层 --> < dom.js",
-        "actual": "{\"pwdPos\":961,\"tbPos\":1007,\"uiMark\":1042,\"domPos\":1071}"
+        "actual": "{\"pwdPos\":961,\"tbPos\":1007,\"uiMark\":1085,\"domPos\":1114}"
       },
       {
         "layer": "registry",
         "id": "R01b",
-        "name": "README 工具数 70 且含新工具条目与截图引用",
+        "name": "README 工具数 71 且含新工具条目与截图引用",
         "passed": true,
-        "expected": "工具数 70、新工具条目、10 号截图引用齐全且无残留 69",
+        "expected": "工具数 71、新工具条目、10 号截图引用齐全且无残留 69",
         "actual": "{\"has70\":true,\"hasEntry\":true}"
       },
       {
         "layer": "registry",
         "id": "R02a",
-        "name": "注册表工具总数 = 70",
+        "name": "注册表工具总数 = 71",
         "passed": true,
-        "expected": "70",
-        "actual": "70"
+        "expected": "71",
+        "actual": "71"
       },
       {
         "layer": "registry",
@@ -416,8 +416,8 @@
         "id": "R02c",
         "name": "工具 id 全局唯一",
         "passed": true,
-        "expected": "70 个 id 唯一",
-        "actual": "70"
+        "expected": "71 个 id 唯一",
+        "actual": "71"
       },
       {
         "layer": "registry",
@@ -550,7 +550,7 @@
       {
         "layer": "registry",
         "id": "R09",
-        "name": "70 工具逐一调用 run() 无异常、均有返回",
+        "name": "71 工具逐一调用 run() 无异常、均有返回",
         "passed": true,
         "expected": "0 个异常",
         "actual": "[]"
@@ -932,23 +932,23 @@
       "name": "treebuild.js 位于 core 段（password.js 之后、UI 层之前）",
       "passed": true,
       "expected": "password.js < treebuild.js < <!-- UI 层 --> < dom.js",
-      "actual": "{\"pwdPos\":961,\"tbPos\":1007,\"uiMark\":1042,\"domPos\":1071}"
+      "actual": "{\"pwdPos\":961,\"tbPos\":1007,\"uiMark\":1085,\"domPos\":1114}"
     },
     {
       "layer": "registry",
       "id": "R01b",
-      "name": "README 工具数 70 且含新工具条目与截图引用",
+      "name": "README 工具数 71 且含新工具条目与截图引用",
       "passed": true,
-      "expected": "工具数 70、新工具条目、10 号截图引用齐全且无残留 69",
+      "expected": "工具数 71、新工具条目、10 号截图引用齐全且无残留 69",
       "actual": "{\"has70\":true,\"hasEntry\":true}"
     },
     {
       "layer": "registry",
       "id": "R02a",
-      "name": "注册表工具总数 = 70",
+      "name": "注册表工具总数 = 71",
       "passed": true,
-      "expected": "70",
-      "actual": "70"
+      "expected": "71",
+      "actual": "71"
     },
     {
       "layer": "registry",
@@ -963,8 +963,8 @@
       "id": "R02c",
       "name": "工具 id 全局唯一",
       "passed": true,
-      "expected": "70 个 id 唯一",
-      "actual": "70"
+      "expected": "71 个 id 唯一",
+      "actual": "71"
     },
     {
       "layer": "registry",
@@ -1097,7 +1097,7 @@
     {
       "layer": "registry",
       "id": "R09",
-      "name": "70 工具逐一调用 run() 无异常、均有返回",
+      "name": "71 工具逐一调用 run() 无异常、均有返回",
       "passed": true,
       "expected": "0 个异常",
       "actual": "[]"
@@ -1126,5 +1126,5 @@
       }
     }
   },
-  "finishedAt": "2026-11-25T02:12:18.169Z"
+  "finishedAt": "2026-11-25T03:01:51.436Z"
 }
