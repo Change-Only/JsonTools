@@ -72,14 +72,14 @@ const ora = G.toDDL(typeObj, { dialect: 'oracle', tableName: 'T_TYPES', nameStyl
 ok('Oracle integer → NUMBER(10)', hasCol(ora, '"', 'intCol', 'NUMBER(10)'), ora);
 ok('Oracle number → NUMBER', hasCol(ora, '"', 'numCol', 'NUMBER'), ora);
 ok('Oracle boolean → NUMBER(1)', hasCol(ora, '"', 'boolCol', 'NUMBER(1)'), ora);
-ok('Oracle date → DATE', hasCol(ora, '"', 'dateCol', 'DATE'), ora);
+ok('Oracle date → TIMESTAMP', hasCol(ora, '"', 'dateCol', 'TIMESTAMP'), ora);
 ok('Oracle date-time → TIMESTAMP', hasCol(ora, '"', 'dtCol', 'TIMESTAMP'), ora);
 ok('Oracle string → VARCHAR2(255)', hasCol(ora, '"', 'strCol', 'VARCHAR2(255)'), ora);
 ok('Oracle 嵌套对象 → CLOB', hasCol(ora, '"', 'objCol', 'CLOB'), ora);
 ok('Oracle 数组 → CLOB', hasCol(ora, '"', 'arrCol', 'CLOB'), ora);
 ok('Oracle null → CLOB', hasCol(ora, '"', 'nullCol', 'CLOB'), ora);
 ok('Oracle 布尔列注释保留 boolean', /-- boolCol : boolean/.test(ora), ora);
-ok('Oracle 不出现 MySQL/PG 专有类型', !/TINYINT|JSONB|DOUBLE PRECISION|DATETIME/.test(ora), ora);
+ok('Oracle 不出现 DATE/TIME/DATETIME 等时间类型', !/\b(DATE|TIME|DATETIME)\b|TINYINT|JSONB|DOUBLE PRECISION/.test(ora), ora);
 ok('Oracle 不出现无长度裸 VARCHAR(', !/\bVARCHAR\(/.test(ora), ora);
 const bigSchema = { type: 'object', props: { big: { type: 'string', format: 'longtext' } }, required: { big: true } };
 const oraLong = G.toDDL(null, { dialect: 'oracle', schema: bigSchema, nameStyle: 'keep', withComments: false });
@@ -145,8 +145,8 @@ const mysqlOut = G.toDDL(legacyObj, { dialect: 'mysql', nameStyle: 'snake', with
 ok('MySQL integer → INT', hasCol(mysqlOut, '`', 'int_val', 'INT'), mysqlOut);
 ok('MySQL number → DOUBLE', hasCol(mysqlOut, '`', 'float_val', 'DOUBLE'), mysqlOut);
 ok('MySQL boolean → TINYINT(1)', hasCol(mysqlOut, '`', 'flag', 'TINYINT(1)'), mysqlOut);
-ok('MySQL date → DATE', hasCol(mysqlOut, '`', 'day', 'DATE'), mysqlOut);
-ok('MySQL date-time → DATETIME', hasCol(mysqlOut, '`', 'ts', 'DATETIME'), mysqlOut);
+ok('MySQL date → TIMESTAMP', hasCol(mysqlOut, '`', 'day', 'TIMESTAMP'), mysqlOut);
+ok('MySQL date-time → TIMESTAMP', hasCol(mysqlOut, '`', 'ts', 'TIMESTAMP'), mysqlOut);
 ok('MySQL string → VARCHAR(255)', hasCol(mysqlOut, '`', 'title', 'VARCHAR(255)'), mysqlOut);
 ok('MySQL 对象 → JSON', hasCol(mysqlOut, '`', 'obj', 'JSON'), mysqlOut);
 ok('MySQL 数组 → JSON', hasCol(mysqlOut, '`', 'arr', 'JSON'), mysqlOut);
@@ -154,7 +154,7 @@ const pgOut = G.toDDL(legacyObj, { dialect: 'postgresql', nameStyle: 'snake', wi
 ok('PG integer → INTEGER', hasCol(pgOut, '"', 'int_val', 'INTEGER'), pgOut);
 ok('PG number → DOUBLE PRECISION', hasCol(pgOut, '"', 'float_val', 'DOUBLE PRECISION'), pgOut);
 ok('PG boolean → BOOLEAN', hasCol(pgOut, '"', 'flag', 'BOOLEAN'), pgOut);
-ok('PG date → DATE', hasCol(pgOut, '"', 'day', 'DATE'), pgOut);
+ok('PG date → TIMESTAMP', hasCol(pgOut, '"', 'day', 'TIMESTAMP'), pgOut);
 ok('PG date-time → TIMESTAMP', hasCol(pgOut, '"', 'ts', 'TIMESTAMP'), pgOut);
 ok('PG string → VARCHAR(255)', hasCol(pgOut, '"', 'title', 'VARCHAR(255)'), pgOut);
 ok('PG 对象 → JSONB', hasCol(pgOut, '"', 'obj', 'JSONB'), pgOut);
@@ -162,8 +162,8 @@ const liteOut = G.toDDL(legacyObj, { dialect: 'sqlite', nameStyle: 'snake', with
 ok('SQLite integer → INTEGER', hasCol(liteOut, '"', 'int_val', 'INTEGER'), liteOut);
 ok('SQLite number → REAL', hasCol(liteOut, '"', 'float_val', 'REAL'), liteOut);
 ok('SQLite boolean → INTEGER', hasCol(liteOut, '"', 'flag', 'INTEGER'), liteOut);
-ok('SQLite date → TEXT', hasCol(liteOut, '"', 'day', 'TEXT'), liteOut);
-ok('SQLite date-time → TEXT', hasCol(liteOut, '"', 'ts', 'TEXT'), liteOut);
+ok('SQLite date → TIMESTAMP', hasCol(liteOut, '"', 'day', 'TIMESTAMP'), liteOut);
+ok('SQLite date-time → TIMESTAMP', hasCol(liteOut, '"', 'ts', 'TIMESTAMP'), liteOut);
 ok('SQLite 对象 → TEXT', hasCol(liteOut, '"', 'obj', 'TEXT'), liteOut);
 const mysqlEmpty = G.toDDL({}, { dialect: 'mysql' });
 const pgEmpty = G.toDDL({}, { dialect: 'postgresql' });
@@ -197,6 +197,25 @@ const rMy = dd.run('', { dialect: 'mysql', tableName: 't_emp', primaryKey: '', w
 ok('run(mysql) 头注释含 MySQL', /-- MySQL 建表语句/.test(rMy.output), rMy.output);
 ok('run(mysql) 反引号标识符', /`user_id` INT/.test(rMy.output), rMy.output);
 ok('run(mysql) boolean → TINYINT(1)', /`active` TINYINT\(1\)/.test(rMy.output), rMy.output);
+
+/* ============================ H. 所有时间格式统一 TIMESTAMP ============================ */
+group('H-时间格式统一TIMESTAMP');
+const timeSchema = {
+  type: 'object',
+  props: {
+    tDate: { type: 'string', format: 'date' },
+    tTime: { type: 'string', format: 'time' },
+    tDateTime: { type: 'string', format: 'date-time' }
+  },
+  required: { tDate: true, tTime: true, tDateTime: true }
+};
+for (const d of Object.keys(DIALECT_HEADER)) {
+  const q = d === 'mysql' ? '`' : '"';
+  const out = G.toDDL(null, { dialect: d, schema: timeSchema, nameStyle: 'keep', withComments: false });
+  ok(d + ' time → TIMESTAMP', hasCol(out, q, 'tTime', 'TIMESTAMP'), out);
+  ok(d + ' 三种时间格式均为 TIMESTAMP', ['tDate', 'tTime', 'tDateTime'].every((c) => hasCol(out, q, c, 'TIMESTAMP')), out);
+  ok(d + ' 无 DATE/TIME/DATETIME 残留', !/\b(DATE|TIME|DATETIME)\b/.test(out), out);
+}
 
 /* ============================ 汇总 ============================ */
 const passed = results.filter((r) => r.pass).length;

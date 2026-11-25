@@ -263,16 +263,20 @@ if (!M || typeof M.parseTable !== 'function' || typeof M.mapType !== 'function' 
   mt('bit→TINYINT(1)(mysql)', 'bit', 0, 'mysql', 'TINYINT(1)');
 
   group('mapType-日期时间');
-  mt('date→DATE(mysql)', 'date', 0, 'mysql', 'DATE');
-  mt('date→DATE(oracle)', 'date', 0, 'oracle', 'DATE');
-  mt('datetime→DATETIME(mysql)', 'datetime', 0, 'mysql', 'DATETIME');
+  mt('date→TIMESTAMP(mysql)', 'date', 0, 'mysql', 'TIMESTAMP');
+  mt('date→TIMESTAMP(oracle)', 'date', 0, 'oracle', 'TIMESTAMP');
+  mt('datetime→TIMESTAMP(mysql)', 'datetime', 0, 'mysql', 'TIMESTAMP');
   mt('datetime→TIMESTAMP(pg)', 'datetime', 0, 'postgresql', 'TIMESTAMP');
   mt('datetime→TIMESTAMP(oracle)', 'datetime', 0, 'oracle', 'TIMESTAMP');
-  mt('timestamp→TIMESTAMP', 'timestamp', 0, 'mysql', 'TIMESTAMP');
-  mt('timestamptz→TIMESTAMP', 'timestamptz', 0, 'postgresql', 'TIMESTAMP');
-  mt('time→TIME(mysql)', 'time', 0, 'mysql', 'TIME');
-  mt('time→TIME(pg)', 'time', 0, 'postgresql', 'TIME');
+  mt('timestamp→TIMESTAMP(mysql)', 'timestamp', 0, 'mysql', 'TIMESTAMP');
+  mt('timestamptz→TIMESTAMP(pg)', 'timestamptz', 0, 'postgresql', 'TIMESTAMP');
+  mt('time→TIMESTAMP(mysql)', 'time', 0, 'mysql', 'TIMESTAMP');
+  mt('time→TIMESTAMP(pg)', 'time', 0, 'postgresql', 'TIMESTAMP');
   mt('time→TIMESTAMP(oracle)', 'time', 0, 'oracle', 'TIMESTAMP');
+  mt('datetime2→TIMESTAMP(mysql)', 'datetime2', 0, 'mysql', 'TIMESTAMP');
+  mt('smalldatetime→TIMESTAMP(mysql)', 'smalldatetime', 0, 'mysql', 'TIMESTAMP');
+  mt('timestamp with time zone→TIMESTAMP(pg)', 'timestamp with time zone', 0, 'postgresql', 'TIMESTAMP');
+  mt('time with time zone→TIMESTAMP(oracle)', 'time with time zone', 0, 'oracle', 'TIMESTAMP');
 
   group('mapType-JSON与对象');
   mt('json→JSON(mysql)', 'json', 0, 'mysql', 'JSON');

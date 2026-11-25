@@ -1,7 +1,7 @@
 {
   "summary": {
-    "total": 112,
-    "passed": 112,
+    "total": 124,
+    "passed": 124,
     "failed": 0
   },
   "results": [
@@ -105,73 +105,73 @@
       "group": "B-Oracle类型映射",
       "name": "Oracle integer → NUMBER(10)",
       "pass": true,
-      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" DATE NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" TIMESTAMP NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
     },
     {
       "group": "B-Oracle类型映射",
       "name": "Oracle number → NUMBER",
       "pass": true,
-      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" DATE NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" TIMESTAMP NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
     },
     {
       "group": "B-Oracle类型映射",
       "name": "Oracle boolean → NUMBER(1)",
       "pass": true,
-      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" DATE NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" TIMESTAMP NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
     },
     {
       "group": "B-Oracle类型映射",
-      "name": "Oracle date → DATE",
+      "name": "Oracle date → TIMESTAMP",
       "pass": true,
-      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" DATE NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" TIMESTAMP NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
     },
     {
       "group": "B-Oracle类型映射",
       "name": "Oracle date-time → TIMESTAMP",
       "pass": true,
-      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" DATE NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" TIMESTAMP NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
     },
     {
       "group": "B-Oracle类型映射",
       "name": "Oracle string → VARCHAR2(255)",
       "pass": true,
-      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" DATE NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" TIMESTAMP NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
     },
     {
       "group": "B-Oracle类型映射",
       "name": "Oracle 嵌套对象 → CLOB",
       "pass": true,
-      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" DATE NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" TIMESTAMP NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
     },
     {
       "group": "B-Oracle类型映射",
       "name": "Oracle 数组 → CLOB",
       "pass": true,
-      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" DATE NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" TIMESTAMP NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
     },
     {
       "group": "B-Oracle类型映射",
       "name": "Oracle null → CLOB",
       "pass": true,
-      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" DATE NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" TIMESTAMP NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
     },
     {
       "group": "B-Oracle类型映射",
       "name": "Oracle 布尔列注释保留 boolean",
       "pass": true,
-      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" DATE NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" TIMESTAMP NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
     },
     {
       "group": "B-Oracle类型映射",
-      "name": "Oracle 不出现 MySQL/PG 专有类型",
+      "name": "Oracle 不出现 DATE/TIME/DATETIME 等时间类型",
       "pass": true,
-      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" DATE NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" TIMESTAMP NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
     },
     {
       "group": "B-Oracle类型映射",
       "name": "Oracle 不出现无长度裸 VARCHAR(",
       "pass": true,
-      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" DATE NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"T_TYPES\" (\n  \"intCol\" NUMBER(10) NOT NULL  -- intCol : integer,\n  \"numCol\" NUMBER NOT NULL  -- numCol : number,\n  \"boolCol\" NUMBER(1) NOT NULL  -- boolCol : boolean,\n  \"dateCol\" TIMESTAMP NOT NULL  -- dateCol : string,\n  \"dtCol\" TIMESTAMP NOT NULL  -- dtCol : string,\n  \"strCol\" VARCHAR2(255) NOT NULL  -- strCol : string,\n  \"objCol\" CLOB NOT NULL  -- objCol : ref,\n  \"arrCol\" CLOB NOT NULL  -- arrCol : array,\n  \"nullCol\" CLOB NOT NULL  -- nullCol : null\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObjCol"
     },
     {
       "group": "B-Oracle类型映射",
@@ -189,25 +189,25 @@
       "group": "C-命名风格",
       "name": "snake 列名含 user_name",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `user_name` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `http_code` INT NOT NULL,\n  `created_at` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `user_name` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `http_code` INT NOT NULL,\n  `created_at` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "snake 列名含 user_id",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `user_name` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `http_code` INT NOT NULL,\n  `created_at` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `user_name` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `http_code` INT NOT NULL,\n  `created_at` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "snake 列名含 http_code",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `user_name` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `http_code` INT NOT NULL,\n  `created_at` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `user_name` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `http_code` INT NOT NULL,\n  `created_at` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "snake 列名含 created_at",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `user_name` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `http_code` INT NOT NULL,\n  `created_at` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `user_name` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `http_code` INT NOT NULL,\n  `created_at` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
@@ -219,31 +219,31 @@
       "group": "C-命名风格",
       "name": "snake 注释保留全部 4 个原始 JSON 键",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `user_name` VARCHAR(255) NOT NULL  -- userName : string,\n  `user_id` INT NOT NULL  -- user_id : integer,\n  `http_code` INT NOT NULL  -- HTTPCode : integer,\n  `created_at` DATE NOT NULL  -- created-at : string\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `user_name` VARCHAR(255) NOT NULL  -- userName : string,\n  `user_id` INT NOT NULL  -- user_id : integer,\n  `http_code` INT NOT NULL  -- HTTPCode : integer,\n  `created_at` TIMESTAMP NOT NULL  -- created-at : string\n);"
     },
     {
       "group": "C-命名风格",
       "name": "upper_snake 列名含 USER_NAME",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `USER_NAME` VARCHAR(255) NOT NULL,\n  `USER_ID` INT NOT NULL,\n  `HTTP_CODE` INT NOT NULL,\n  `CREATED_AT` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `USER_NAME` VARCHAR(255) NOT NULL,\n  `USER_ID` INT NOT NULL,\n  `HTTP_CODE` INT NOT NULL,\n  `CREATED_AT` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "upper_snake 列名含 USER_ID",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `USER_NAME` VARCHAR(255) NOT NULL,\n  `USER_ID` INT NOT NULL,\n  `HTTP_CODE` INT NOT NULL,\n  `CREATED_AT` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `USER_NAME` VARCHAR(255) NOT NULL,\n  `USER_ID` INT NOT NULL,\n  `HTTP_CODE` INT NOT NULL,\n  `CREATED_AT` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "upper_snake 列名含 HTTP_CODE",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `USER_NAME` VARCHAR(255) NOT NULL,\n  `USER_ID` INT NOT NULL,\n  `HTTP_CODE` INT NOT NULL,\n  `CREATED_AT` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `USER_NAME` VARCHAR(255) NOT NULL,\n  `USER_ID` INT NOT NULL,\n  `HTTP_CODE` INT NOT NULL,\n  `CREATED_AT` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "upper_snake 列名含 CREATED_AT",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `USER_NAME` VARCHAR(255) NOT NULL,\n  `USER_ID` INT NOT NULL,\n  `HTTP_CODE` INT NOT NULL,\n  `CREATED_AT` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `USER_NAME` VARCHAR(255) NOT NULL,\n  `USER_ID` INT NOT NULL,\n  `HTTP_CODE` INT NOT NULL,\n  `CREATED_AT` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
@@ -255,31 +255,31 @@
       "group": "C-命名风格",
       "name": "upper_snake 注释保留全部 4 个原始 JSON 键",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `USER_NAME` VARCHAR(255) NOT NULL  -- userName : string,\n  `USER_ID` INT NOT NULL  -- user_id : integer,\n  `HTTP_CODE` INT NOT NULL  -- HTTPCode : integer,\n  `CREATED_AT` DATE NOT NULL  -- created-at : string\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `USER_NAME` VARCHAR(255) NOT NULL  -- userName : string,\n  `USER_ID` INT NOT NULL  -- user_id : integer,\n  `HTTP_CODE` INT NOT NULL  -- HTTPCode : integer,\n  `CREATED_AT` TIMESTAMP NOT NULL  -- created-at : string\n);"
     },
     {
       "group": "C-命名风格",
       "name": "camel 列名含 userName",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `userId` INT NOT NULL,\n  `hTTPCode` INT NOT NULL,\n  `createdAt` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `userId` INT NOT NULL,\n  `hTTPCode` INT NOT NULL,\n  `createdAt` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "camel 列名含 userId",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `userId` INT NOT NULL,\n  `hTTPCode` INT NOT NULL,\n  `createdAt` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `userId` INT NOT NULL,\n  `hTTPCode` INT NOT NULL,\n  `createdAt` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "camel 列名含 hTTPCode",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `userId` INT NOT NULL,\n  `hTTPCode` INT NOT NULL,\n  `createdAt` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `userId` INT NOT NULL,\n  `hTTPCode` INT NOT NULL,\n  `createdAt` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "camel 列名含 createdAt",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `userId` INT NOT NULL,\n  `hTTPCode` INT NOT NULL,\n  `createdAt` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `userId` INT NOT NULL,\n  `hTTPCode` INT NOT NULL,\n  `createdAt` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
@@ -291,31 +291,31 @@
       "group": "C-命名风格",
       "name": "camel 注释保留全部 4 个原始 JSON 键",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL  -- userName : string,\n  `userId` INT NOT NULL  -- user_id : integer,\n  `hTTPCode` INT NOT NULL  -- HTTPCode : integer,\n  `createdAt` DATE NOT NULL  -- created-at : string\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL  -- userName : string,\n  `userId` INT NOT NULL  -- user_id : integer,\n  `hTTPCode` INT NOT NULL  -- HTTPCode : integer,\n  `createdAt` TIMESTAMP NOT NULL  -- created-at : string\n);"
     },
     {
       "group": "C-命名风格",
       "name": "pascal 列名含 UserName",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `UserName` VARCHAR(255) NOT NULL,\n  `UserId` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `CreatedAt` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `UserName` VARCHAR(255) NOT NULL,\n  `UserId` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `CreatedAt` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "pascal 列名含 UserId",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `UserName` VARCHAR(255) NOT NULL,\n  `UserId` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `CreatedAt` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `UserName` VARCHAR(255) NOT NULL,\n  `UserId` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `CreatedAt` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "pascal 列名含 HTTPCode",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `UserName` VARCHAR(255) NOT NULL,\n  `UserId` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `CreatedAt` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `UserName` VARCHAR(255) NOT NULL,\n  `UserId` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `CreatedAt` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "pascal 列名含 CreatedAt",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `UserName` VARCHAR(255) NOT NULL,\n  `UserId` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `CreatedAt` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `UserName` VARCHAR(255) NOT NULL,\n  `UserId` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `CreatedAt` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
@@ -327,31 +327,31 @@
       "group": "C-命名风格",
       "name": "pascal 注释保留全部 4 个原始 JSON 键",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `UserName` VARCHAR(255) NOT NULL  -- userName : string,\n  `UserId` INT NOT NULL  -- user_id : integer,\n  `HTTPCode` INT NOT NULL  -- HTTPCode : integer,\n  `CreatedAt` DATE NOT NULL  -- created-at : string\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `UserName` VARCHAR(255) NOT NULL  -- userName : string,\n  `UserId` INT NOT NULL  -- user_id : integer,\n  `HTTPCode` INT NOT NULL  -- HTTPCode : integer,\n  `CreatedAt` TIMESTAMP NOT NULL  -- created-at : string\n);"
     },
     {
       "group": "C-命名风格",
       "name": "keep 列名含 userName",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `created-at` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `created-at` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "keep 列名含 user_id",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `created-at` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `created-at` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "keep 列名含 HTTPCode",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `created-at` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `created-at` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "keep 列名含 created-at",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `created-at` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `user_id` INT NOT NULL,\n  `HTTPCode` INT NOT NULL,\n  `created-at` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
@@ -363,7 +363,7 @@
       "group": "C-命名风格",
       "name": "keep 注释保留全部 4 个原始 JSON 键",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL  -- userName : string,\n  `user_id` INT NOT NULL  -- user_id : integer,\n  `HTTPCode` INT NOT NULL  -- HTTPCode : integer,\n  `created-at` DATE NOT NULL  -- created-at : string\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL  -- userName : string,\n  `user_id` INT NOT NULL  -- user_id : integer,\n  `HTTPCode` INT NOT NULL  -- HTTPCode : integer,\n  `created-at` TIMESTAMP NOT NULL  -- created-at : string\n);"
     },
     {
       "group": "C-命名风格",
@@ -387,13 +387,13 @@
       "group": "C-命名风格",
       "name": "未指定 nameStyle 时默认 camel（user_name 不出现）",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `userId` INT NOT NULL,\n  `hTTPCode` INT NOT NULL,\n  `createdAt` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `userId` INT NOT NULL,\n  `hTTPCode` INT NOT NULL,\n  `createdAt` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "C-命名风格",
       "name": "未指定 nameStyle 时默认 camel（userName 出现）",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `userId` INT NOT NULL,\n  `hTTPCode` INT NOT NULL,\n  `createdAt` DATE NOT NULL\n);"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `userName` VARCHAR(255) NOT NULL,\n  `userId` INT NOT NULL,\n  `hTTPCode` INT NOT NULL,\n  `createdAt` TIMESTAMP NOT NULL\n);"
     },
     {
       "group": "D-主键跨风格",
@@ -459,127 +459,127 @@
       "group": "E-旧方言类型回归",
       "name": "MySQL integer → INT",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` DATE NOT NULL,\n  `ts` DATETIME NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` TIMESTAMP NOT NULL,\n  `ts` TIMESTAMP NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
       "name": "MySQL number → DOUBLE",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` DATE NOT NULL,\n  `ts` DATETIME NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` TIMESTAMP NOT NULL,\n  `ts` TIMESTAMP NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
       "name": "MySQL boolean → TINYINT(1)",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` DATE NOT NULL,\n  `ts` DATETIME NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` TIMESTAMP NOT NULL,\n  `ts` TIMESTAMP NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
-      "name": "MySQL date → DATE",
+      "name": "MySQL date → TIMESTAMP",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` DATE NOT NULL,\n  `ts` DATETIME NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` TIMESTAMP NOT NULL,\n  `ts` TIMESTAMP NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
-      "name": "MySQL date-time → DATETIME",
+      "name": "MySQL date-time → TIMESTAMP",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` DATE NOT NULL,\n  `ts` DATETIME NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` TIMESTAMP NOT NULL,\n  `ts` TIMESTAMP NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
       "name": "MySQL string → VARCHAR(255)",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` DATE NOT NULL,\n  `ts` DATETIME NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` TIMESTAMP NOT NULL,\n  `ts` TIMESTAMP NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
       "name": "MySQL 对象 → JSON",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` DATE NOT NULL,\n  `ts` DATETIME NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` TIMESTAMP NOT NULL,\n  `ts` TIMESTAMP NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
       "name": "MySQL 数组 → JSON",
       "pass": true,
-      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` DATE NOT NULL,\n  `ts` DATETIME NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `int_val` INT NOT NULL,\n  `float_val` DOUBLE NOT NULL,\n  `flag` TINYINT(1) NOT NULL,\n  `day` TIMESTAMP NOT NULL,\n  `ts` TIMESTAMP NOT NULL,\n  `title` VARCHAR(255) NOT NULL,\n  `obj` JSON NOT NULL,\n  `arr` JSON NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
       "name": "PG integer → INTEGER",
       "pass": true,
-      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" DOUBLE PRECISION NOT NULL,\n  \"flag\" BOOLEAN NOT NULL,\n  \"day\" DATE NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" JSONB NOT NULL,\n  \"arr\" JSONB NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" DOUBLE PRECISION NOT NULL,\n  \"flag\" BOOLEAN NOT NULL,\n  \"day\" TIMESTAMP NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" JSONB NOT NULL,\n  \"arr\" JSONB NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
       "name": "PG number → DOUBLE PRECISION",
       "pass": true,
-      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" DOUBLE PRECISION NOT NULL,\n  \"flag\" BOOLEAN NOT NULL,\n  \"day\" DATE NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" JSONB NOT NULL,\n  \"arr\" JSONB NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" DOUBLE PRECISION NOT NULL,\n  \"flag\" BOOLEAN NOT NULL,\n  \"day\" TIMESTAMP NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" JSONB NOT NULL,\n  \"arr\" JSONB NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
       "name": "PG boolean → BOOLEAN",
       "pass": true,
-      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" DOUBLE PRECISION NOT NULL,\n  \"flag\" BOOLEAN NOT NULL,\n  \"day\" DATE NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" JSONB NOT NULL,\n  \"arr\" JSONB NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" DOUBLE PRECISION NOT NULL,\n  \"flag\" BOOLEAN NOT NULL,\n  \"day\" TIMESTAMP NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" JSONB NOT NULL,\n  \"arr\" JSONB NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
-      "name": "PG date → DATE",
+      "name": "PG date → TIMESTAMP",
       "pass": true,
-      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" DOUBLE PRECISION NOT NULL,\n  \"flag\" BOOLEAN NOT NULL,\n  \"day\" DATE NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" JSONB NOT NULL,\n  \"arr\" JSONB NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" DOUBLE PRECISION NOT NULL,\n  \"flag\" BOOLEAN NOT NULL,\n  \"day\" TIMESTAMP NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" JSONB NOT NULL,\n  \"arr\" JSONB NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
       "name": "PG date-time → TIMESTAMP",
       "pass": true,
-      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" DOUBLE PRECISION NOT NULL,\n  \"flag\" BOOLEAN NOT NULL,\n  \"day\" DATE NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" JSONB NOT NULL,\n  \"arr\" JSONB NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" DOUBLE PRECISION NOT NULL,\n  \"flag\" BOOLEAN NOT NULL,\n  \"day\" TIMESTAMP NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" JSONB NOT NULL,\n  \"arr\" JSONB NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
       "name": "PG string → VARCHAR(255)",
       "pass": true,
-      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" DOUBLE PRECISION NOT NULL,\n  \"flag\" BOOLEAN NOT NULL,\n  \"day\" DATE NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" JSONB NOT NULL,\n  \"arr\" JSONB NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" DOUBLE PRECISION NOT NULL,\n  \"flag\" BOOLEAN NOT NULL,\n  \"day\" TIMESTAMP NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" JSONB NOT NULL,\n  \"arr\" JSONB NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
       "name": "PG 对象 → JSONB",
       "pass": true,
-      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" DOUBLE PRECISION NOT NULL,\n  \"flag\" BOOLEAN NOT NULL,\n  \"day\" DATE NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" JSONB NOT NULL,\n  \"arr\" JSONB NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" DOUBLE PRECISION NOT NULL,\n  \"flag\" BOOLEAN NOT NULL,\n  \"day\" TIMESTAMP NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" JSONB NOT NULL,\n  \"arr\" JSONB NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
       "name": "SQLite integer → INTEGER",
       "pass": true,
-      "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" REAL NOT NULL,\n  \"flag\" INTEGER NOT NULL,\n  \"day\" TEXT NOT NULL,\n  \"ts\" TEXT NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" TEXT NOT NULL,\n  \"arr\" TEXT NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" REAL NOT NULL,\n  \"flag\" INTEGER NOT NULL,\n  \"day\" TIMESTAMP NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" TEXT NOT NULL,\n  \"arr\" TEXT NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
       "name": "SQLite number → REAL",
       "pass": true,
-      "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" REAL NOT NULL,\n  \"flag\" INTEGER NOT NULL,\n  \"day\" TEXT NOT NULL,\n  \"ts\" TEXT NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" TEXT NOT NULL,\n  \"arr\" TEXT NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" REAL NOT NULL,\n  \"flag\" INTEGER NOT NULL,\n  \"day\" TIMESTAMP NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" TEXT NOT NULL,\n  \"arr\" TEXT NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
       "name": "SQLite boolean → INTEGER",
       "pass": true,
-      "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" REAL NOT NULL,\n  \"flag\" INTEGER NOT NULL,\n  \"day\" TEXT NOT NULL,\n  \"ts\" TEXT NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" TEXT NOT NULL,\n  \"arr\" TEXT NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" REAL NOT NULL,\n  \"flag\" INTEGER NOT NULL,\n  \"day\" TIMESTAMP NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" TEXT NOT NULL,\n  \"arr\" TEXT NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
-      "name": "SQLite date → TEXT",
+      "name": "SQLite date → TIMESTAMP",
       "pass": true,
-      "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" REAL NOT NULL,\n  \"flag\" INTEGER NOT NULL,\n  \"day\" TEXT NOT NULL,\n  \"ts\" TEXT NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" TEXT NOT NULL,\n  \"arr\" TEXT NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" REAL NOT NULL,\n  \"flag\" INTEGER NOT NULL,\n  \"day\" TIMESTAMP NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" TEXT NOT NULL,\n  \"arr\" TEXT NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
-      "name": "SQLite date-time → TEXT",
+      "name": "SQLite date-time → TIMESTAMP",
       "pass": true,
-      "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" REAL NOT NULL,\n  \"flag\" INTEGER NOT NULL,\n  \"day\" TEXT NOT NULL,\n  \"ts\" TEXT NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" TEXT NOT NULL,\n  \"arr\" TEXT NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" REAL NOT NULL,\n  \"flag\" INTEGER NOT NULL,\n  \"day\" TIMESTAMP NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" TEXT NOT NULL,\n  \"arr\" TEXT NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
       "name": "SQLite 对象 → TEXT",
       "pass": true,
-      "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" REAL NOT NULL,\n  \"flag\" INTEGER NOT NULL,\n  \"day\" TEXT NOT NULL,\n  \"ts\" TEXT NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" TEXT NOT NULL,\n  \"arr\" TEXT NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
+      "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"int_val\" INTEGER NOT NULL,\n  \"float_val\" REAL NOT NULL,\n  \"flag\" INTEGER NOT NULL,\n  \"day\" TIMESTAMP NOT NULL,\n  \"ts\" TIMESTAMP NOT NULL,\n  \"title\" VARCHAR(255) NOT NULL,\n  \"obj\" TEXT NOT NULL,\n  \"arr\" TEXT NOT NULL\n);\n\n-- 检测到 1 个嵌套对象类型，已折叠为 JSON 列；如需拆表请手动调整：\n--   RootObj"
     },
     {
       "group": "E-旧方言类型回归",
@@ -676,6 +676,78 @@
       "name": "run(mysql) boolean → TINYINT(1)",
       "pass": true,
       "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `t_emp` (\n  `id` INT NOT NULL,\n  `user_id` INT NOT NULL,\n  `name` VARCHAR(255) NOT NULL,\n  `active` TINYINT(1) NOT NULL\n);"
+    },
+    {
+      "group": "H-时间格式统一TIMESTAMP",
+      "name": "mysql time → TIMESTAMP",
+      "pass": true,
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `tDate` TIMESTAMP NOT NULL,\n  `tTime` TIMESTAMP NOT NULL,\n  `tDateTime` TIMESTAMP NOT NULL\n);"
+    },
+    {
+      "group": "H-时间格式统一TIMESTAMP",
+      "name": "mysql 三种时间格式均为 TIMESTAMP",
+      "pass": true,
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `tDate` TIMESTAMP NOT NULL,\n  `tTime` TIMESTAMP NOT NULL,\n  `tDateTime` TIMESTAMP NOT NULL\n);"
+    },
+    {
+      "group": "H-时间格式统一TIMESTAMP",
+      "name": "mysql 无 DATE/TIME/DATETIME 残留",
+      "pass": true,
+      "detail": "-- MySQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE `my_table` (\n  `tDate` TIMESTAMP NOT NULL,\n  `tTime` TIMESTAMP NOT NULL,\n  `tDateTime` TIMESTAMP NOT NULL\n);"
+    },
+    {
+      "group": "H-时间格式统一TIMESTAMP",
+      "name": "postgresql time → TIMESTAMP",
+      "pass": true,
+      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"tDate\" TIMESTAMP NOT NULL,\n  \"tTime\" TIMESTAMP NOT NULL,\n  \"tDateTime\" TIMESTAMP NOT NULL\n);"
+    },
+    {
+      "group": "H-时间格式统一TIMESTAMP",
+      "name": "postgresql 三种时间格式均为 TIMESTAMP",
+      "pass": true,
+      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"tDate\" TIMESTAMP NOT NULL,\n  \"tTime\" TIMESTAMP NOT NULL,\n  \"tDateTime\" TIMESTAMP NOT NULL\n);"
+    },
+    {
+      "group": "H-时间格式统一TIMESTAMP",
+      "name": "postgresql 无 DATE/TIME/DATETIME 残留",
+      "pass": true,
+      "detail": "-- PostgreSQL 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"tDate\" TIMESTAMP NOT NULL,\n  \"tTime\" TIMESTAMP NOT NULL,\n  \"tDateTime\" TIMESTAMP NOT NULL\n);"
+    },
+    {
+      "group": "H-时间格式统一TIMESTAMP",
+      "name": "sqlite time → TIMESTAMP",
+      "pass": true,
+      "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"tDate\" TIMESTAMP NOT NULL,\n  \"tTime\" TIMESTAMP NOT NULL,\n  \"tDateTime\" TIMESTAMP NOT NULL\n);"
+    },
+    {
+      "group": "H-时间格式统一TIMESTAMP",
+      "name": "sqlite 三种时间格式均为 TIMESTAMP",
+      "pass": true,
+      "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"tDate\" TIMESTAMP NOT NULL,\n  \"tTime\" TIMESTAMP NOT NULL,\n  \"tDateTime\" TIMESTAMP NOT NULL\n);"
+    },
+    {
+      "group": "H-时间格式统一TIMESTAMP",
+      "name": "sqlite 无 DATE/TIME/DATETIME 残留",
+      "pass": true,
+      "detail": "-- SQLite 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"tDate\" TIMESTAMP NOT NULL,\n  \"tTime\" TIMESTAMP NOT NULL,\n  \"tDateTime\" TIMESTAMP NOT NULL\n);"
+    },
+    {
+      "group": "H-时间格式统一TIMESTAMP",
+      "name": "oracle time → TIMESTAMP",
+      "pass": true,
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"tDate\" TIMESTAMP NOT NULL,\n  \"tTime\" TIMESTAMP NOT NULL,\n  \"tDateTime\" TIMESTAMP NOT NULL\n);"
+    },
+    {
+      "group": "H-时间格式统一TIMESTAMP",
+      "name": "oracle 三种时间格式均为 TIMESTAMP",
+      "pass": true,
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"tDate\" TIMESTAMP NOT NULL,\n  \"tTime\" TIMESTAMP NOT NULL,\n  \"tDateTime\" TIMESTAMP NOT NULL\n);"
+    },
+    {
+      "group": "H-时间格式统一TIMESTAMP",
+      "name": "oracle 无 DATE/TIME/DATETIME 残留",
+      "pass": true,
+      "detail": "-- Oracle 建表语句（类型由 JSON 推断，仅供参考）\nCREATE TABLE \"my_table\" (\n  \"tDate\" TIMESTAMP NOT NULL,\n  \"tTime\" TIMESTAMP NOT NULL,\n  \"tDateTime\" TIMESTAMP NOT NULL\n);"
     }
   ]
 }

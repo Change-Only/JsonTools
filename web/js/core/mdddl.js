@@ -323,11 +323,13 @@
       return isMy ? 'TINYINT(1)' : (isOra ? 'NUMBER(1)' : 'BOOLEAN');
     }
 
-    // 日期时间
-    if (t === 'date') return 'DATE';
-    if (t === 'datetime') return isMy ? 'DATETIME' : 'TIMESTAMP';
-    if (inArr(['timestamp', 'timestamptz'], t)) return 'TIMESTAMP';
-    if (t === 'time') return isMy ? 'TIME' : (isOra ? 'TIMESTAMP' : 'TIME');
+    // 日期时间：所有方言、所有别名统一映射为 TIMESTAMP
+    var TIME_TYPES = [
+      'date', 'datetime', 'datetime2', 'smalldatetime', 'datetimeoffset',
+      'timestamp', 'timestamptz', 'timestampwithtimezone', 'timestampwithouttimezone',
+      'time', 'timetz', 'timewithtimezone', 'timewithouttimezone'
+    ];
+    if (inArr(TIME_TYPES, t)) return 'TIMESTAMP';
 
     // JSON / 对象 / 数组
     if (inArr(['json', 'jsonb', 'array', 'object', 'map', 'list'], t)) {

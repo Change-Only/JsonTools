@@ -94,8 +94,8 @@ Python 桌面外壳，内置 **71 个**实用工具，覆盖 JSON 的格式化�
 | JSON → Swift | Codable + CodingKeys |
 | JSON → Dart | class + fromJson/toJson |
 | JSON → PHP | 带类型属性的 class |
-| JSON → 建表 DDL | MySQL / PostgreSQL / SQLite / Oracle，字段命名风格（camel/snake/UPPER_SNAKE_CASE/pascal/原样）生效，含类型推断注释；Oracle 无 BOOLEAN，用 NUMBER(1)，JSON/数组/嵌套对象折叠为 CLOB |
-| Markdown 表格 → 建表 DDL | 输入 Markdown 表格（首行表头说明：英文名称/类型/最大长度/是否非空/参数说明，支持中英文别名与 5 列位置回退），生成 **MySQL / PostgreSQL / Oracle** 三种方言 DDL；字段命名风格（camel/snake/UPPER_SNAKE_CASE/pascal/原样）可选，支持主键、非空与字段注释（MySQL 行尾注释，PG/Oracle COMMENT ON COLUMN） |
+| JSON → 建表 DDL | MySQL / PostgreSQL / SQLite / Oracle，字段命名风格（camel/snake/UPPER_SNAKE_CASE/pascal/原样）生效，含类型推断注释；Oracle 无 BOOLEAN，用 NUMBER(1)，JSON/数组/嵌套对象折叠为 CLOB；所有时间格式（date/datetime/timestamp/time 等）在所有方言下统一输出 TIMESTAMP，不再产出 DATE/DATETIME/TIME |
+| Markdown 表格 → 建表 DDL | 输入 Markdown 表格（首行表头说明：英文名称/类型/最大长度/是否非空/参数说明，支持中英文别名与 5 列位置回退），生成 **MySQL / PostgreSQL / Oracle** 三种方言 DDL；字段命名风格（camel/snake/UPPER_SNAKE_CASE/pascal/原样）可选，支持主键、非空与字段注释（MySQL 行尾注释，PG/Oracle COMMENT ON COLUMN）；所有时间类型（date/datetime/timestamp/time 等，含 `timestamptz` / `timestamp with time zone`、`timetz` / `time with time zone`、`datetimeoffset` 等带时区写法别名）在三种方言下统一输出 TIMESTAMP，不再产出 DATE/DATETIME/TIME |
 | JSON → JSON Schema | Draft 2020-12，含 type/required/format 推断 |
 | JSON 数组 → 父子结构 | 按 ID / 父 ID 重建嵌套树；字段名可配 / 自动探测、重复 ID 双策略、孤儿与自引用提升为根、环检测断环并标记 `__circularRef` |
 
@@ -227,7 +227,7 @@ JSON工具箱/
 | `unit-results.json` / `browser-results.json` | 最近一轮测试的逐条结果 |
 | `shots/` | 各轮界面截图（`round4/` 为最终状态：首屏、树形视图、深色主题、代码生成等） |
 
-> 测试结论摘要：1094 条断言全部通过（Markdown DDL 专项 255 + 全量回归 839），页面 console 错误 0；71 个工具 × 7 种非法输入全量遍历零异常；exe 内嵌资源与源码字节级比对 21/21 一致。
+> 测试结论摘要：802 条断言全部通过（单元/静态 290 + 真实浏览器端到端 67 + DDL 专项 124 + Markdown DDL 专项 221 + 密码/Oracle DDL 浏览器 62 + Markdown DDL 浏览器 38），页面 console 错误 0；71 个工具 × 7 种非法输入全量遍历零异常；exe 内嵌资源与源码字节级比对 21/21 一致。
 
 ---
 

@@ -177,7 +177,7 @@ const STYLE_COLS = {
   pascal: ['"UserName"', '"CreatedAt"', '"HTTPCode"', '"UpdatedAt"'],
   keep: ['"userName"', '"created-at"', '"HTTPCode"', '"updatedAt"']
 };
-const ORA_TYPES = ['NUMBER(10)', 'NUMBER(1)', 'NUMBER', 'VARCHAR2(255)', 'DATE', 'TIMESTAMP', 'CLOB'];
+const ORA_TYPES = ['NUMBER(10)', 'NUMBER(1)', 'NUMBER', 'VARCHAR2(255)', 'TIMESTAMP', 'CLOB'];
 for (const style of Object.keys(STYLE_COLS)) {
   const d = await runDdl([['select', '方言', 'oracle'], ['select', '字段命名风格', style], ['text', '主键字段名', 'id']]);
   rec('Oracle/' + style + ' 可执行无错误', d.open && !d.err && d.status.indexOf('执行成功') >= 0, d.status);
@@ -187,7 +187,7 @@ for (const style of Object.keys(STYLE_COLS)) {
   rec('Oracle/' + style + ' 列名符合风格 ' + STYLE_COLS[style].join(','), missingCols.length === 0, '缺失=' + missingCols.join(','));
   const missingTypes = ORA_TYPES.filter((t) => d.out.indexOf(' ' + t) < 0);
   rec('Oracle/' + style + ' Oracle 类型齐全', missingTypes.length === 0, '缺失=' + missingTypes.join(','));
-  rec('Oracle/' + style + ' 无 MySQL/PG 专有类型', !/TINYINT|DATETIME|JSONB|DOUBLE PRECISION/.test(d.out));
+  rec('Oracle/' + style + ' 无 DATE/TIME/DATETIME 等时间类型', !/\b(DATE|TIME|DATETIME)\b|TINYINT|JSONB|DOUBLE PRECISION/.test(d.out), d.out);
   rec('Oracle/' + style + ' PRIMARY KEY 仅一次', (d.out.match(/PRIMARY KEY/g) || []).length === 1, d.out);
   if (style === 'snake') await page.screenshot({ path: path.join(SHOTS, '08-oracle-ddl.png') });
   if (style === 'upper_snake') await page.screenshot({ path: path.join(SHOTS, '09-upper-snake-ddl.png') });
@@ -197,7 +197,7 @@ const dm = await runDdl([['select', '方言', 'mysql'], ['select', '字段命名
 rec('MySQL 回归：头注释正确', dm.out.indexOf('-- MySQL 建表语句') === 0, dm.out.split('\n')[0]);
 rec('MySQL 回归：反引号标识符', /`user_name`/.test(dm.out), dm.out.slice(0, 200));
 rec('MySQL 回归：boolean → TINYINT(1)', /`active` TINYINT\(1\)/.test(dm.out), dm.out);
-rec('MySQL 回归：date-time → DATETIME', /`updated_at` DATETIME/.test(dm.out), dm.out);
+rec('MySQL 回归：date-time → TIMESTAMP', /`updated_at` TIMESTAMP/.test(dm.out), dm.out);
 rec('MySQL 回归：数组 → JSON', /`tags` JSON/.test(dm.out), dm.out);
 rec('MySQL 回归：无 Oracle 类型', !/VARCHAR2|NUMBER\(/.test(dm.out), dm.out);
 

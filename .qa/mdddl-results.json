@@ -1,7 +1,7 @@
 {
   "suite": "mdddl-check",
-  "total": 217,
-  "passed": 217,
+  "total": 221,
+  "passed": 221,
   "failed": 0,
   "failures": [],
   "results": [
@@ -697,21 +697,21 @@
     },
     {
       "group": "mapType-日期时间",
-      "name": "date→DATE(mysql)",
+      "name": "date→TIMESTAMP(mysql)",
       "pass": true,
-      "detail": "期望 \"DATE\"，实际 \"DATE\""
+      "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
     },
     {
       "group": "mapType-日期时间",
-      "name": "date→DATE(oracle)",
+      "name": "date→TIMESTAMP(oracle)",
       "pass": true,
-      "detail": "期望 \"DATE\"，实际 \"DATE\""
+      "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
     },
     {
       "group": "mapType-日期时间",
-      "name": "datetime→DATETIME(mysql)",
+      "name": "datetime→TIMESTAMP(mysql)",
       "pass": true,
-      "detail": "期望 \"DATETIME\"，实际 \"DATETIME\""
+      "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
     },
     {
       "group": "mapType-日期时间",
@@ -727,31 +727,55 @@
     },
     {
       "group": "mapType-日期时间",
-      "name": "timestamp→TIMESTAMP",
+      "name": "timestamp→TIMESTAMP(mysql)",
       "pass": true,
       "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
     },
     {
       "group": "mapType-日期时间",
-      "name": "timestamptz→TIMESTAMP",
+      "name": "timestamptz→TIMESTAMP(pg)",
       "pass": true,
       "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
     },
     {
       "group": "mapType-日期时间",
-      "name": "time→TIME(mysql)",
+      "name": "time→TIMESTAMP(mysql)",
       "pass": true,
-      "detail": "期望 \"TIME\"，实际 \"TIME\""
+      "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
     },
     {
       "group": "mapType-日期时间",
-      "name": "time→TIME(pg)",
+      "name": "time→TIMESTAMP(pg)",
       "pass": true,
-      "detail": "期望 \"TIME\"，实际 \"TIME\""
+      "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
     },
     {
       "group": "mapType-日期时间",
       "name": "time→TIMESTAMP(oracle)",
+      "pass": true,
+      "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
+    },
+    {
+      "group": "mapType-日期时间",
+      "name": "datetime2→TIMESTAMP(mysql)",
+      "pass": true,
+      "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
+    },
+    {
+      "group": "mapType-日期时间",
+      "name": "smalldatetime→TIMESTAMP(mysql)",
+      "pass": true,
+      "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
+    },
+    {
+      "group": "mapType-日期时间",
+      "name": "timestamp with time zone→TIMESTAMP(pg)",
+      "pass": true,
+      "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
+    },
+    {
+      "group": "mapType-日期时间",
+      "name": "time with time zone→TIMESTAMP(oracle)",
       "pass": true,
       "detail": "期望 \"TIMESTAMP\"，实际 \"TIMESTAMP\""
     },

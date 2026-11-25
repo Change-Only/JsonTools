@@ -741,15 +741,13 @@
         return 'INTEGER';
       }
       if (t.name === 'string') {
+        // 所有方言的时间格式统一输出 TIMESTAMP（SQL 类型名大小写不敏感）
+        if (f.format === 'date-time' || f.format === 'date' || f.format === 'time') return 'TIMESTAMP';
         if (isOracle) {
-          if (f.format === 'date-time') return 'TIMESTAMP';
-          if (f.format === 'date') return 'DATE';
           if (f.format === 'longtext') return 'CLOB';
           return 'VARCHAR2(255)';
         }
-        if (f.format === 'date-time') return isMySQL ? 'DATETIME' : (isPG ? 'TIMESTAMP' : 'TEXT');
-        if (f.format === 'date') return isMySQL ? 'DATE' : (isPG ? 'DATE' : 'TEXT');
-        return isMySQL ? 'VARCHAR(255)' : 'VARCHAR(255)';
+        return 'VARCHAR(255)';
       }
       // null / any 等无法映射为 Oracle 标量类型时，用 CLOB 承载长文本
       return isOracle ? 'CLOB' : 'TEXT';

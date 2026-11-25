@@ -2,8 +2,8 @@
   "meta": {
     "task": "Markdown 表格 → 建表 DDL · 浏览器端到端验证",
     "qa": "严过关 (Yan) / software-qa-engineer",
-    "startedAt": "2026-11-25T03:01:27.042Z",
-    "baseURL": "http://127.0.0.1:8898",
+    "startedAt": "2026-11-25T07:02:58.070Z",
+    "baseURL": "http://127.0.0.1:8897",
     "browser": "Microsoft Edge (channel: msedge, headless)",
     "nodeVersion": "v22.22.2",
     "playwrightPath": "C:\\Users\\YZX\\.workbuddy\\binaries\\node\\workspace\\node_modules\\playwright-core\\index.mjs"
@@ -245,7 +245,7 @@
       "name": "docs/screenshots/11-markdown-ddl.png 已生成且 >5KB",
       "passed": true,
       "expected": ">5000 bytes",
-      "actual": "110681"
+      "actual": "110613"
     },
     {
       "id": "B14a",
@@ -280,8 +280,8 @@
     {
       "file": "C:\\Users\\YZX\\WorkBuddy\\JSON工具箱\\docs\\screenshots\\11-markdown-ddl.png",
       "scene": "真实工具界面 · 参数 + Oracle 输出",
-      "bytes": 110681,
-      "returnedBytes": 110681
+      "bytes": 110613,
+      "returnedBytes": 110613
     }
   ],
   "console": {
@@ -298,5 +298,5 @@
     "passed": 38,
     "failed": 0
   },
-  "finishedAt": "2026-11-25T03:01:36.355Z"
+  "finishedAt": "2026-11-25T07:03:07.005Z"
 }
