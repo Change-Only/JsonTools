@@ -1,0 +1,260 @@
+{
+  "meta": {
+    "task": "JSON 数组 → 父子结构 集成版 · 浏览器端到端验证",
+    "qa": "严过关 (Yan) / software-qa-engineer",
+    "startedAt": "2026-11-25T02:15:12.747Z",
+    "baseURL": "http://127.0.0.1:8898",
+    "browser": "Microsoft Edge (channel: msedge, headless)",
+    "nodeVersion": "v22.22.2",
+    "playwrightPath": "C:\\Users\\YZX\\.workbuddy\\binaries\\node\\workspace\\node_modules\\playwright-core\\index.mjs"
+  },
+  "assertions": [
+    {
+      "id": "B01a",
+      "name": "左栏工具数 = 70",
+      "passed": true,
+      "expected": "70",
+      "actual": "70"
+    },
+    {
+      "id": "B01b",
+      "name": "新工具 convert-parent-child 在左栏可见",
+      "passed": true,
+      "expected": "1 个节点且文案含\"父子结构\"",
+      "actual": "1"
+    },
+    {
+      "id": "B02a",
+      "name": "工具标题与描述正确",
+      "passed": true,
+      "expected": "标题含工具名，描述含 ID",
+      "actual": "{\"name\":\"JSON 数组 → 父子结构\",\"desc\":\"按 ID / 父 ID 关系把对象数组重建为嵌套树，自动处理重复 ID、孤儿、自引用与循环引用\"}"
+    },
+    {
+      "id": "B02b",
+      "name": "7 个参数标签/类型/默认值正确",
+      "passed": true,
+      "expected": "7 参数，默认 id/parentId/children/first/true/false/true",
+      "actual": "[{\"label\":\"ID 字段名\",\"type\":\"text\",\"value\":\"id\"},{\"label\":\"父字段名\",\"type\":\"text\",\"value\":\"parentId\"},{\"label\":\"子节点字段名\",\"type\":\"text\",\"value\":\"children\"},{\"label\":\"重复 ID 处理\",\"type\":\"select\",\"value\":\"first\"},{\"label\":\"自动探测常见字段名\",\"type\":\"checkbox\",\"value\":true},{\"label\":\"移除原父字段\",\"type\":\"checkbox\",\"value\":false},{\"label\":\"保留其它字段\",\"type\":\"checkbox\",\"value\":true}]"
+    },
+    {
+      "id": "B03a",
+      "name": "示例（用户列表 3 项）执行后输出合法 JSON 数组",
+      "passed": true,
+      "expected": "3 元素数组且保留 id/name",
+      "actual": "{\"ok\":true,\"head\":\"[\\n  {\\n    \\\"id\\\": 1,\\n    \\\"name\\\": \\\"张三\\\",\\n    \\\"email\\\": \\\"zhangsan@example.com\\\",\\n    \\\"age\\\": 28,\\n    \\\"active\\\": true,\\n    \\\"tags\\\": [\\n      \\\"admin\\\",\\n      \\\"vip\\\"\\n    ],\\n   \"}"
+    },
+    {
+      "id": "B03b",
+      "name": "摘要 notices 首条格式正确且无处理项",
+      "passed": true,
+      "expected": "构建完成 · 输入 3 项 / 有效 3 项 / 根 3 个 / 最大深度 1，自动处理 0 项。",
+      "actual": "[\"构建完成 · 输入 3 项 / 有效 3 项 / 根 3 个 / 最大深度 1，自动处理 0 项。\"]"
+    },
+    {
+      "id": "B04a",
+      "name": "JSON 合法且正好 3 根（含被提升的孤儿）",
+      "passed": true,
+      "expected": "roots=3，id 1/9/root-ops",
+      "actual": "{\"ok\":true,\"ids\":[1,\"root-ops\",9]}"
+    },
+    {
+      "id": "B04b",
+      "name": "链 1→2→4→6 四层且字段保留",
+      "passed": true,
+      "expected": "四层链正确，name/code/size 保留，孤儿仍带原 parentId=999",
+      "actual": "{\"chain\":[2,3],\"orphan\":{\"id\":9,\"parentId\":999,\"name\":\"孤儿节点\",\"children\":[]}}"
+    },
+    {
+      "id": "B04c",
+      "name": "摘要数值与 [孤儿] 提示正确",
+      "passed": true,
+      "expected": "摘要 7/7/3/4/1 + 1 条 [孤儿] 提示",
+      "actual": "[\"构建完成 · 输入 7 项 / 有效 7 项 / 根 3 个 / 最大深度 4，自动处理 1 项。\",\"[孤儿] 节点「9」的父 ID「999」不存在，已提升为根。\"]"
+    },
+    {
+      "id": "B05a",
+      "name": "树形视图出现且层级节点可见",
+      "passed": true,
+      "expected": "≥10 行且含关键节点",
+      "actual": "{\"count\":41,\"sample\":[\"undefined:[3 项]\",\"0:{5 项}\",\"id:1\",\"parentId:null\",\"name:\\\"总部\\\"\",\"code:\\\"HQ\\\"\",\"children:[2 项]\",\"0:{5 项}\"]}"
+    },
+    {
+      "id": "B05b",
+      "name": "docs/screenshots/10-parent-child-tree.png 已生成且 >5KB",
+      "passed": true,
+      "expected": ">5000 bytes",
+      "actual": "147435"
+    },
+    {
+      "id": "B06",
+      "name": "复制按钮可用且剪贴板等于输出文本",
+      "passed": true,
+      "expected": "剪贴板 CRLF 归一化后与输出逐字一致",
+      "actual": "{\"clicked\":true,\"clipLen\":884,\"outLen\":884,\"head\":\"[\\n  {\\n    \\\"id\\\": 1,\\n    \\\"parentId\\\": null,\\n    \\\"name\\\": \\\"总部\\\",\\n    \\\"code\\\": \\\"HQ\\\",\\n    \\\"children\\\": [\\n     \"}"
+    },
+    {
+      "id": "B07",
+      "name": "下载文件名 .json 且内容等于输出、可 JSON.parse",
+      "passed": true,
+      "expected": "后缀 .json 且内容合法且与输出深等价",
+      "actual": "{\"name\":\"output-1795572915650.json\",\"len\":884,\"ok\":true}"
+    },
+    {
+      "id": "B08",
+      "name": "两种策略 UI 输出不同且提示含保留首个/最后",
+      "passed": true,
+      "expected": "v: first→last；提示分别含保留首个/保留最后",
+      "actual": "{\"f\":\"first\",\"l\":\"last\",\"fn\":[\"构建完成 · 输入 3 项 / 有效 2 项 / 根 1 个 / 最大深度 2，自动处理 1 项。\",\"[重复] ID「1」在第 1、2 项重复，已保留首个并跳过后者。\"],\"ln\":[\"构建完成 · 输入 3 项 / 有效 2 项 / 根 1 个 / 最大深度 2，自动处理 1 项。\",\"[重复] ID「1」在第 1、2 项重复，已保留最后一项（后者覆盖）。\"]}"
+    },
+    {
+      "id": "B09a",
+      "name": "勾选移除父字段后输出无 parentId 且保留其它字段",
+      "passed": true,
+      "expected": "全部根无 parentId，保留 name/code",
+      "actual": "{\"keys\":[\"id\",\"name\",\"code\",\"children\"]}"
+    },
+    {
+      "id": "B09b",
+      "name": "关闭保留其它字段后仅 id 与 children（父字段也不保留）",
+      "passed": true,
+      "expected": "keys=[children,id]，深层其它字段亦不保留",
+      "actual": "{\"keys\":[\"children\",\"id\"],\"root\":{\"id\":1,\"children\":[{\"id\":2,\"children\":[{\"id\":4,\"children\":[{\"id\":6,\"children\":[]}]}]},{\"id\":3,\"children\":[]}]}}"
+    },
+    {
+      "id": "B10",
+      "name": "自定义字段名输出为 uid/items 结构",
+      "passed": true,
+      "expected": "root.uid=r, items=[c], 无 children",
+      "actual": "{\"sets\":[{\"found\":true,\"tag\":\"INPUT\",\"type\":\"text\",\"value\":\"uid\"},{\"found\":true,\"tag\":\"INPUT\",\"type\":\"text\",\"value\":\"par\"},{\"found\":true,\"tag\":\"INPUT\",\"type\":\"text\",\"value\":\"items\"}],\"data\":{\"uid\":\"r\",\"par\":null,\"label\":\"根\",\"items\":[{\"uid\":\"c\",\"par\":\"r\",\"label\":\"子\",\"items\":[]}]}}"
+    },
+    {
+      "id": "B11",
+      "name": "错误条可见且为中文解析提示",
+      "passed": true,
+      "expected": "错误条可见且含中文提示",
+      "actual": "{\"visible\":true,\"text\":\"第 1 行Expected double-quoted property name in JSON at position 10 (line 1 column 11)\",\"status\":\"Expected double-quoted property name in JSON at position 10 (line 1 column 11)\"}"
+    },
+    {
+      "id": "B12",
+      "name": "非数组错误条含\"输入应为 JSON 数组\"",
+      "passed": true,
+      "expected": "错误条含\"输入应为 JSON 数组\"",
+      "actual": "{\"visible\":true,\"text\":\"错误输入应为 JSON 数组\",\"status\":\"输入应为 JSON 数组\"}"
+    },
+    {
+      "id": "B13",
+      "name": "空数组错误条含\"输入数组为空\"",
+      "passed": true,
+      "expected": "错误条含\"输入数组为空\"",
+      "actual": "{\"visible\":true,\"text\":\"错误输入数组为空：至少需要 1 个节点。\",\"status\":\"输入数组为空：至少需要 1 个节点。\"}"
+    },
+    {
+      "id": "B14",
+      "name": "循环有 [循环] 提示且输出含 __circularRef、JSON 合法",
+      "passed": true,
+      "expected": "合法 JSON + __circularRef + [循环] 提示含环路径",
+      "actual": "{\"ok\":true,\"value\":{\"id\":\"C\",\"parentId\":\"A\",\"__circularRef\":true,\"children\":[{\"id\":\"B\",\"parentId\":\"C\",\"children\":[{\"id\":\"A\",\"parentId\":\"B\",\"children\":[]}]}]},\"notices\":[\"构建完成 · 输入 7 项 / 有效 7 项 / 根 3 个 / 最大深度 4，自动处理 1 项。\",\"[孤儿] 节点「9」的父 ID「999」不存在，已提升为根。\",\"构建完成 · 输入 7 项 / 有效 7 项 / 根 3 个 / 最大深度 4，自动处理 1 项。\",\"[孤儿] 节点「9」的父 ID「999」不存在，已提升为根。\",\"构建完成 · 输入 2 项 / 有效 2 项 / 根 1 个 / 最大深度 2，自动处理 0 项。\",\"构建完成 · 输入 3 项 / 有效 3 项 / 根 1 个 / 最大深度 3，自动处理 1 项。\",\"[循环] 检测到循环引用：A → B → C → A；已断开 C → A，将 C 提升为根并标记 __circularRef。\"]}"
+    },
+    {
+      "id": "B15",
+      "name": "自引用有 [自引用] 提示且该节点为根",
+      "passed": true,
+      "expected": "合法 JSON 且节点为根 + [自引用] 提示",
+      "actual": "{\"ok\":true,\"value\":{\"id\":7,\"parentId\":7,\"name\":\"自环\",\"children\":[]},\"notices\":[\"构建完成 · 输入 1 项 / 有效 1 项 / 根 1 个 / 最大深度 1，自动处理 1 项。\",\"[自引用] 节点「7」的父字段指向自身，已提升为根。\"]}"
+    },
+    {
+      "id": "B16",
+      "name": "空字段名错误条含\"字段名不能为空\"",
+      "passed": true,
+      "expected": "错误条含\"字段名不能为空\"",
+      "actual": "{\"s\":{\"found\":true,\"tag\":\"INPUT\",\"type\":\"text\",\"value\":\"   \"},\"e\":{\"visible\":true,\"text\":\"错误字段名不能为空，请检查 ID 字段、父字段与子节点字段名。\",\"status\":\"字段名不能为空，请检查 ID 字段、父字段与子节点字段名。\"}}"
+    },
+    {
+      "id": "B17",
+      "name": "同名字段错误条含\"不能相同\"",
+      "passed": true,
+      "expected": "错误条含\"不能相同\"",
+      "actual": "{\"s\":{\"found\":true,\"tag\":\"INPUT\",\"type\":\"text\",\"value\":\"id\"},\"e\":{\"visible\":true,\"text\":\"错误ID 字段、父字段与子节点字段名不能相同。\",\"status\":\"ID 字段、父字段与子节点字段名不能相同。\"}}"
+    },
+    {
+      "id": "B18",
+      "name": "3 条非法行被跳过且摘要含输入 4 / 有效 1 / 自动处理 3",
+      "passed": true,
+      "expected": "[跳过] 提示 + 摘要 4/1/1/3",
+      "actual": "{\"ok\":true,\"value\":{\"id\":1,\"parentId\":null,\"name\":\"ok\",\"children\":[]},\"notices\":[\"构建完成 · 输入 4 项 / 有效 1 项 / 根 1 个 / 最大深度 1，自动处理 3 项。\",\"[跳过] 第 1 项不是对象（null），已跳过。\",\"[跳过] 第 2 项不是对象（数字），已跳过。\",\"[跳过] 第 3 项不是对象（字符串），已跳过。\"]}"
+    },
+    {
+      "id": "B19",
+      "name": "默认 autoDetect=true 下识别 parent_id 并给 [探测] 提示",
+      "passed": true,
+      "expected": "识别 parent_id 且子挂接成功，含 [探测] 提示",
+      "actual": "{\"ok\":true,\"value\":{\"id\":1,\"parent_id\":null,\"name\":\"根\",\"children\":[{\"id\":2,\"parent_id\":1,\"name\":\"子\",\"children\":[]}]},\"notices\":[\"构建完成 · 输入 2 项 / 有效 2 项 / 根 1 个 / 最大深度 2，自动处理 0 项。\",\"[探测] 未找到「parentId」，已自动探测父字段为「parent_id」。\"]}"
+    },
+    {
+      "id": "B20",
+      "name": "autoDetect=false 时无探测提示且输出为 2 个根",
+      "passed": true,
+      "expected": "2 根且无 [探测] 提示",
+      "actual": "{\"ok\":true,\"value\":[{\"id\":1,\"parent_id\":null,\"name\":\"根\",\"children\":[]},{\"id\":2,\"parent_id\":1,\"name\":\"子\",\"children\":[]}],\"notices\":[\"构建完成 · 输入 2 项 / 有效 2 项 / 根 2 个 / 最大深度 1，自动处理 0 项。\"]}"
+    },
+    {
+      "id": "B21",
+      "name": "刷新后重新进入工具，草稿已恢复",
+      "passed": true,
+      "expected": "草稿含 parentId 且工具为父子结构",
+      "actual": "{\"tool\":\"JSON 数组 → 父子结构\",\"len\":524}"
+    },
+    {
+      "id": "B22",
+      "name": "70 工具遍历无异常，返回本工具仍有输出",
+      "passed": true,
+      "expected": "0 异常且输出非空",
+      "actual": "{\"bad\":[],\"outLen\":884}"
+    },
+    {
+      "id": "B23a",
+      "name": "console error = 0",
+      "passed": true,
+      "expected": "0",
+      "actual": "[]"
+    },
+    {
+      "id": "B23b",
+      "name": "pageerror = 0",
+      "passed": true,
+      "expected": "0",
+      "actual": "[]"
+    },
+    {
+      "id": "B23c",
+      "name": "失败请求与 4xx/5xx 响应 = 0",
+      "passed": true,
+      "expected": "0 / 0",
+      "actual": "{\"failed\":[],\"bad\":[]}"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "C:\\Users\\YZX\\WorkBuddy\\JSON工具箱\\docs\\screenshots\\10-parent-child-tree.png",
+      "scene": "集成后真实工具界面 · 树形视图",
+      "bytes": 147435,
+      "returnedBytes": 147435
+    }
+  ],
+  "console": {
+    "errors": [],
+    "pageErrors": [],
+    "failedRequests": [],
+    "badResponses": []
+  },
+  "defects": [],
+  "routing": "NoOne",
+  "verdict": "PASS",
+  "summary": {
+    "total": 32,
+    "passed": 32,
+    "failed": 0
+  },
+  "finishedAt": "2026-11-25T02:15:24.573Z"
+}

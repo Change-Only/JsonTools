@@ -1,7 +1,7 @@
 # JSON 工具箱
 
 一个**完全离线**的 Windows 桌面版 JSON 处理工具。纯静态前端（原生 JavaScript，无框架、无 CDN）+
-Python 桌面外壳，内置 **69 个**实用工具，覆盖 JSON 的格式化、格式转换、查询提取、校验分析、编码安全与日常处理。
+Python 桌面外壳，内置 **70 个**实用工具，覆盖 JSON 的格式化、格式转换、查询提取、校验分析、编码安全与日常处理。
 
 > 无需联网即可使用；所有第三方库（js-yaml / yaml / smol-toml）已用 esbuild 打包进 `web/vendor/libs.js`。
 
@@ -22,6 +22,7 @@ Python 桌面外壳，内置 **69 个**实用工具，覆盖 JSON 的格式化�
 - 输出框支持原地编辑（点「编辑」→ 文本域可改 → 点「查看」应用），见 [docs/screenshots/06-output-editing.png](docs/screenshots/06-output-editing.png)。
 - 树形视图（JSONPath 查询等工具默认使用）支持节点「复制路径 / 复制值」，见 [docs/screenshots/05-tree-view.png](docs/screenshots/05-tree-view.png)。
 - 建表 DDL 支持 camelCase / snake_case / UPPER_SNAKE_CASE / PascalCase / 原样五种字段命名风格，见 [docs/screenshots/09-upper-snake-ddl.png](docs/screenshots/09-upper-snake-ddl.png)。
+- 「JSON 数组 → 父子结构」按 ID / 父 ID 重建嵌套树，支持 JSON 文本与树形双视图，见 [docs/screenshots/10-parent-child-tree.png](docs/screenshots/10-parent-child-tree.png)。
 
 ---
 
@@ -53,7 +54,7 @@ Python 桌面外壳，内置 **69 个**实用工具，覆盖 JSON 的格式化�
 
 ---
 
-## 二、功能总览（69 个工具）
+## 二、功能总览（70 个工具）
 
 ### 1. 格式化与美化（`format`）
 | 工具 | 说明 |
@@ -95,6 +96,7 @@ Python 桌面外壳，内置 **69 个**实用工具，覆盖 JSON 的格式化�
 | JSON → PHP | 带类型属性的 class |
 | JSON → 建表 DDL | MySQL / PostgreSQL / SQLite / Oracle，字段命名风格（camel/snake/UPPER_SNAKE_CASE/pascal/原样）生效，含类型推断注释；Oracle 无 BOOLEAN，用 NUMBER(1)，JSON/数组/嵌套对象折叠为 CLOB |
 | JSON → JSON Schema | Draft 2020-12，含 type/required/format 推断 |
+| JSON 数组 → 父子结构 | 按 ID / 父 ID 重建嵌套树；字段名可配 / 自动探测、重复 ID 双策略、孤儿与自引用提升为根、环检测断环并标记 `__circularRef` |
 
 ### 3. 查询与提取（`query`）
 | 工具 | 说明 |
@@ -194,14 +196,15 @@ JSON工具箱/
         │   ├── codegen.js    类型推断 + 10 种语言 + DDL（4 种方言）+ JSON Schema + Mock
         │   ├── codec.js      Base64/URL/HTML/JWT/时间戳/哈希/UUID/正则/字面量
         │   ├── analyze.js    Schema 校验/安全/结构/异常值
-        │   └── password.js   按正则采样生成密码/Token（内置模板 + 自定义正则 + 自检重试）
+        │   ├── password.js   按正则采样生成密码/Token（内置模板 + 自定义正则 + 自检重试）
+        │   └── treebuild.js  JSON 数组 → 父子结构（字符串键索引/重复策略/环检测/迭代序列化）
         ├── ui/           界面层
         │   ├── dom.js        轻量 DOM 工具
         │   ├── toast.js      轻提示
         │   ├── editor.js     行号编辑器 + 高亮层 + 树形视图 + 可拖拽分栏
         │   ├── modal.js      弹窗 / 确认框
         │   └── storage.js    localStorage 持久化
-        ├── tools-registry.js 工具注册表（声明式，69 个工具）
+        ├── tools-registry.js 工具注册表（声明式，70 个工具）
         └── app.js            装配层（布局/路由/事件/快捷键/状态栏）
 ```
 
@@ -222,7 +225,7 @@ JSON工具箱/
 | `unit-results.json` / `browser-results.json` | 最近一轮测试的逐条结果 |
 | `shots/` | 各轮界面截图（`round4/` 为最终状态：首屏、树形视图、深色主题、代码生成等） |
 
-> 测试结论摘要：290 条单元断言 + 67 条浏览器断言全部通过，页面 console 错误 0；69 个工具 × 7 种非法输入全量遍历零异常；exe 内嵌资源与源码字节级比对 18/18 一致。
+> 测试结论摘要：839 条断言全部通过（新增工具专项 100 + 全量回归 739），页面 console 错误 0；70 个工具 × 7 种非法输入全量遍历零异常；exe 内嵌资源与源码字节级比对 20/20 一致。
 
 ---
 

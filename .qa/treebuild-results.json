@@ -1,0 +1,1130 @@
+{
+  "meta": {
+    "task": "JSON 数组 → 父子结构 集成版 Node 层专项验证",
+    "qa": "严过关 (Yan) / software-qa-engineer",
+    "startedAt": "2026-11-25T02:12:18.102Z",
+    "nodeVersion": "v22.22.2",
+    "spec": "team-lead 任务书：树构建/边界/注册表/工具 run",
+    "mode": "独立证伪式：直接以设计行为为准断言，源码不符即判失败"
+  },
+  "layers": {
+    "core": [
+      {
+        "layer": "core",
+        "id": "C01a",
+        "name": "树结构与子节点顺序正确",
+        "passed": true,
+        "expected": "根=1；1→[2,3]；2→[4]；3 无子",
+        "actual": "{\"roots\":1,\"tree\":{\"id\":1,\"parentId\":null,\"name\":\"总部\",\"code\":\"HQ\",\"children\":[{\"id\":2,\"parentId\":1,\"name\":\"技术中心\",\"owner\":\"张三\",\"children\":[{\"id\":4,\"parentId\":2,\"name\":\"前端组\",\"size\":8,\"children\":[]}]},{\"id\":3,\"parentId\":1,\"name\":\"市场中心\",\"owner\":\"李四\",\"children\":[]}]}}"
+      },
+      {
+        "layer": "core",
+        "id": "C01b",
+        "name": "其它字段保留且 stats/issues 正确",
+        "passed": true,
+        "expected": "maxDepth=3,roots=1,total=4,valid=4,issues=0,name/code/owner/size 保留",
+        "actual": "{\"stats\":{\"total\":4,\"valid\":4,\"roots\":1,\"maxDepth\":3,\"orphans\":0,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0},\"issues\":[],\"root\":{\"id\":1,\"parentId\":null,\"name\":\"总部\",\"code\":\"HQ\",\"children\":[{\"id\":2,\"parentId\":1,\"name\":\"技术中心\",\"owner\":\"张三\",\"children\":[{\"id\":4,\"parentId\":2,\"name\":\"前端组\",\"size\":8,\"children\":[]}]},{\"id\":3,\"parentId\":1,\"name\":\"市场中心\",\"owner\":\"李四\",\"children\":[]}]}}"
+      },
+      {
+        "layer": "core",
+        "id": "C02a",
+        "name": "单根 meta.outputValue 是对象而非单元素数组",
+        "passed": true,
+        "expected": "outputValue 为对象，outputText 以 { 开头",
+        "actual": "{\"isArray\":false,\"head\":\"{\\n  \\\"id\\\": 1,\\n  \\\"parentId\\\": null,\\n  \\\"name\\\": \\\"总部\\\",\\n  \\\"code\\\": \\\"\"}"
+      },
+      {
+        "layer": "core",
+        "id": "C02b",
+        "name": "多根 meta.outputValue 为数组且文本以 [ 开头",
+        "passed": true,
+        "expected": "outputValue 为 2 元素数组，outputText 以 [ 开头",
+        "actual": "{\"isArray\":true,\"len\":2}"
+      },
+      {
+        "layer": "core",
+        "id": "C02c",
+        "name": "meta 含 outputValue/outputText/byKey/byUid/order/fields/roots",
+        "passed": true,
+        "expected": "7 个 meta 键存在，Map/数组/fields 类型正确",
+        "actual": "[\"byKey\",\"byUid\",\"order\",\"roots\",\"fields\",\"outputValue\",\"outputText\"]"
+      },
+      {
+        "layer": "core",
+        "id": "C03a",
+        "name": "first：前两项合并为键 \"1\"，id:2 挂到根下",
+        "passed": true,
+        "expected": "root.id=1, children=[2], duplicates=1, valid=2, byKey 含 \"1\"",
+        "actual": "{\"root\":{\"id\":1,\"parentId\":null,\"name\":\"根\",\"children\":[{\"id\":2,\"parentId\":\"1\",\"name\":\"按字符串父引用挂接\",\"children\":[]}]},\"stats\":{\"total\":3,\"valid\":2,\"roots\":1,\"maxDepth\":2,\"orphans\":0,\"cycles\":0,\"duplicates\":1,\"selfRefs\":0,\"skipped\":1},\"keys\":[\"1\",\"2\"]}"
+      },
+      {
+        "layer": "core",
+        "id": "C03b",
+        "name": "last：覆盖后 root.id 为 \"1\"，id:2 仍挂到键 \"1\"",
+        "passed": true,
+        "expected": "root.id=\"1\", children=[2], duplicates=1, skipped=0",
+        "actual": "{\"root\":{\"id\":\"1\",\"parentId\":1,\"name\":\"重复字符串\",\"children\":[{\"id\":2,\"parentId\":\"1\",\"name\":\"按字符串父引用挂接\",\"children\":[]}]},\"stats\":{\"total\":3,\"valid\":2,\"roots\":1,\"maxDepth\":2,\"orphans\":0,\"cycles\":0,\"duplicates\":1,\"selfRefs\":1,\"skipped\":0}}"
+      },
+      {
+        "layer": "core",
+        "id": "C04-parent_id",
+        "name": "自动探测父字段 parent_id",
+        "passed": true,
+        "expected": "fields.parentField=parent_id，子挂接成功，含探测提示",
+        "actual": "{\"fields\":{\"idField\":\"id\",\"parentField\":\"parent_id\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「parentId」，已自动探测父字段为「parent_id」。\"}]}"
+      },
+      {
+        "layer": "core",
+        "id": "C04-pid",
+        "name": "自动探测父字段 pid",
+        "passed": true,
+        "expected": "fields.parentField=pid，子挂接成功，含探测提示",
+        "actual": "{\"fields\":{\"idField\":\"id\",\"parentField\":\"pid\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「parentId」，已自动探测父字段为「pid」。\"}]}"
+      },
+      {
+        "layer": "core",
+        "id": "C04-parent",
+        "name": "自动探测父字段 parent",
+        "passed": true,
+        "expected": "fields.parentField=parent，子挂接成功，含探测提示",
+        "actual": "{\"fields\":{\"idField\":\"id\",\"parentField\":\"parent\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「parentId」，已自动探测父字段为「parent」。\"}]}"
+      },
+      {
+        "layer": "core",
+        "id": "C04-pId",
+        "name": "自动探测父字段 pId",
+        "passed": true,
+        "expected": "fields.parentField=pId，子挂接成功，含探测提示",
+        "actual": "{\"fields\":{\"idField\":\"id\",\"parentField\":\"pId\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「parentId」，已自动探测父字段为「pId」。\"}]}"
+      },
+      {
+        "layer": "core",
+        "id": "C04-PARENT_ID",
+        "name": "自动探测父字段 PARENT_ID",
+        "passed": true,
+        "expected": "fields.parentField=PARENT_ID，子挂接成功，含探测提示",
+        "actual": "{\"fields\":{\"idField\":\"id\",\"parentField\":\"PARENT_ID\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「parentId」，已自动探测父字段为「PARENT_ID」。\"}]}"
+      },
+      {
+        "layer": "core",
+        "id": "C05-_id",
+        "name": "自动探测 ID 字段 _id",
+        "passed": true,
+        "expected": "fields.idField=_id，子挂接成功，含探测提示",
+        "actual": "{\"fields\":{\"idField\":\"_id\",\"parentField\":\"parentId\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「id」，已自动探测 ID 字段为「_id」。\"}]}"
+      },
+      {
+        "layer": "core",
+        "id": "C05-key",
+        "name": "自动探测 ID 字段 key",
+        "passed": true,
+        "expected": "fields.idField=key，子挂接成功，含探测提示",
+        "actual": "{\"fields\":{\"idField\":\"key\",\"parentField\":\"parentId\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「id」，已自动探测 ID 字段为「key」。\"}]}"
+      },
+      {
+        "layer": "core",
+        "id": "C05-uuid",
+        "name": "自动探测 ID 字段 uuid",
+        "passed": true,
+        "expected": "fields.idField=uuid，子挂接成功，含探测提示",
+        "actual": "{\"fields\":{\"idField\":\"uuid\",\"parentField\":\"parentId\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「id」，已自动探测 ID 字段为「uuid」。\"}]}"
+      },
+      {
+        "layer": "core",
+        "id": "C05-ID",
+        "name": "自动探测 ID 字段 ID",
+        "passed": true,
+        "expected": "fields.idField=ID，子挂接成功，含探测提示",
+        "actual": "{\"fields\":{\"idField\":\"ID\",\"parentField\":\"parentId\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「id」，已自动探测 ID 字段为「ID」。\"}]}"
+      },
+      {
+        "layer": "core",
+        "id": "C06",
+        "name": "autoDetect=false：两者均为根，无探测提示",
+        "passed": true,
+        "expected": "roots=2, maxDepth=1, orphans=0, issues=0",
+        "actual": "{\"fields\":{\"idField\":\"id\",\"parentField\":\"parentId\",\"childrenField\":\"children\"},\"roots\":2,\"stats\":{\"total\":2,\"valid\":2,\"roots\":2,\"maxDepth\":1,\"orphans\":0,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0}}"
+      },
+      {
+        "layer": "core",
+        "id": "C07",
+        "name": "输出使用 items 而非 children",
+        "passed": true,
+        "expected": "root.items=[2,3]，无 children，深层也用 items",
+        "actual": "{\"keys\":[\"id\",\"parentId\",\"name\",\"code\",\"items\"],\"items\":[2,3]}"
+      },
+      {
+        "layer": "core",
+        "id": "C08a",
+        "name": "removeParent=true：输出不含 parentId 但保留其它字段",
+        "passed": true,
+        "expected": "无 parentId，保留 name/owner",
+        "actual": "[\"id\",\"name\",\"code\",\"children\"]"
+      },
+      {
+        "layer": "core",
+        "id": "C08b",
+        "name": "keepOther=false：只保留 id 与 children",
+        "passed": true,
+        "expected": "keys=[id,children]，深层其它字段亦不保留",
+        "actual": "{\"keys\":[\"id\",\"children\"],\"deep\":[\"id\",\"children\"]}"
+      },
+      {
+        "layer": "core",
+        "id": "C09a",
+        "name": "7 种根标记全部提升为根且无问题提示",
+        "passed": true,
+        "expected": "roots=7, maxDepth=1, orphans=0, issues=0",
+        "actual": "{\"roots\":7,\"stats\":{\"total\":7,\"valid\":7,\"roots\":7,\"maxDepth\":1,\"orphans\":0,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0},\"issues\":[]}"
+      },
+      {
+        "layer": "core",
+        "id": "C09b",
+        "name": "isRootMarker 直接调用（忽略大小写/trim，false 与 1 非根）",
+        "passed": true,
+        "expected": "[T,T,T,T,T,T,T,T,T,F,F,F]",
+        "actual": "[true,true,true,true,true,true,true,true,true,false,false,false]"
+      },
+      {
+        "layer": "core",
+        "id": "C10a",
+        "name": "孤儿：roots=2, orphans=1, 提示含 999",
+        "passed": true,
+        "expected": "roots=2, orphans=1, tag=孤儿 且含 999，内部节点标 orphan",
+        "actual": "{\"roots\":2,\"stats\":{\"total\":2,\"valid\":2,\"roots\":2,\"maxDepth\":1,\"orphans\":1,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0},\"issues\":[{\"level\":\"warn\",\"tag\":\"孤儿\",\"text\":\"节点「2」的父 ID「999」不存在，已提升为根。\"}]}"
+      },
+      {
+        "layer": "core",
+        "id": "C10b",
+        "name": "自引用：roots=1, selfRefs=1, 提示含自身",
+        "passed": true,
+        "expected": "roots=1, selfRefs=1, tag=自引用 且含自身",
+        "actual": "{\"roots\":1,\"stats\":{\"total\":1,\"valid\":1,\"roots\":1,\"maxDepth\":1,\"orphans\":0,\"cycles\":0,\"duplicates\":0,\"selfRefs\":1,\"skipped\":0},\"issues\":[{\"level\":\"warn\",\"tag\":\"自引用\",\"text\":\"节点「1」的父字段指向自身，已提升为根。\"}]}"
+      },
+      {
+        "layer": "core",
+        "id": "C10c",
+        "name": "父字段为对象：按孤儿处理并提升为根",
+        "passed": true,
+        "expected": "roots=1, orphans=1, 提示含\"无效类型\"",
+        "actual": "{\"stats\":{\"total\":1,\"valid\":1,\"roots\":1,\"maxDepth\":1,\"orphans\":1,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0},\"issues\":[{\"level\":\"warn\",\"tag\":\"孤儿\",\"text\":\"节点「1」的父字段是无效类型（对象 / 数组），已提升为根。\"}]}"
+      },
+      {
+        "layer": "core",
+        "id": "C11",
+        "name": "环被断开，断环节点成为根并标记 __circularRef，issue 含环路径",
+        "passed": true,
+        "expected": "root=C 带 __circularRef，链 C→B→A，cycles=1，issue 含 \"C → A\"，<1s",
+        "actual": "{\"root\":{\"id\":\"C\",\"parentId\":\"A\",\"name\":\"C\",\"__circularRef\":true,\"children\":[{\"id\":\"B\",\"parentId\":\"C\",\"name\":\"B\",\"children\":[{\"id\":\"A\",\"parentId\":\"B\",\"name\":\"A\",\"children\":[]}]}]},\"stats\":{\"total\":3,\"valid\":3,\"roots\":1,\"maxDepth\":3,\"orphans\":0,\"cycles\":1,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0},\"issue\":\"检测到循环引用：A → B → C → A；已断开 C → A，将 C 提升为根并标记 __circularRef。\",\"ms\":0}"
+      },
+      {
+        "layer": "core",
+        "id": "C12a",
+        "name": "first：保留首个，后者跳过并计数",
+        "passed": true,
+        "expected": "root.v=first, duplicates=1, skipped=1, 提示含第 1、2 项/保留首个",
+        "actual": "{\"root\":{\"id\":1,\"parentId\":null,\"v\":\"first\",\"children\":[{\"id\":2,\"parentId\":1,\"v\":\"child\",\"children\":[]}]},\"stats\":{\"total\":3,\"valid\":2,\"roots\":1,\"maxDepth\":2,\"orphans\":0,\"cycles\":0,\"duplicates\":1,\"selfRefs\":0,\"skipped\":1},\"issue\":\"ID「1」在第 1、2 项重复，已保留首个并跳过后者。\"}"
+      },
+      {
+        "layer": "core",
+        "id": "C12b",
+        "name": "last：后者覆盖，不额外计数 skipped",
+        "passed": true,
+        "expected": "root.v=last, duplicates=1, skipped=0, 提示含保留最后",
+        "actual": "{\"root\":{\"id\":1,\"parentId\":null,\"v\":\"last\",\"children\":[{\"id\":2,\"parentId\":1,\"v\":\"child\",\"children\":[]}]},\"stats\":{\"total\":3,\"valid\":2,\"roots\":1,\"maxDepth\":2,\"orphans\":0,\"cycles\":0,\"duplicates\":1,\"selfRefs\":0,\"skipped\":0},\"issue\":\"ID「1」在第 1、2 项重复，已保留最后一项（后者覆盖）。\"}"
+      },
+      {
+        "layer": "core",
+        "id": "C12c",
+        "name": "两种策略输出文本确实不同",
+        "passed": true,
+        "expected": "first 文本含 first 且不含 last 的根值；last 反之",
+        "actual": "{\"f\":\"{\\n  \\\"id\\\": 1,\\n  \\\"parentId\\\": null,\\n  \\\"v\\\": \\\"first\\\",\\n  \\\"children\\\": [\\n    {\\n      \\\"id\\\": 2,\\n      \\\"parentId\\\": 1,\\n      \\\"v\\\": \\\"child\\\",\\n   \",\"l\":\"{\\n  \\\"id\\\": 1,\\n  \\\"parentId\\\": null,\\n  \\\"v\\\": \\\"last\\\",\\n  \\\"children\\\": [\\n    {\\n      \\\"id\\\": 2,\\n      \\\"parentId\\\": 1,\\n      \\\"v\\\": \\\"child\\\",\\n    \"}"
+      },
+      {
+        "layer": "core",
+        "id": "C13",
+        "name": "5 条非法行跳过；total=6/valid=1/skipped=5；提示含项号",
+        "passed": true,
+        "expected": "total=6, valid=1, skipped=5, 5 条 warn 级跳过提示",
+        "actual": "{\"stats\":{\"total\":6,\"valid\":1,\"roots\":1,\"maxDepth\":1,\"orphans\":0,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":5},\"skips\":[\"第 1 项不是对象（null），已跳过。\",\"第 2 项不是对象（数字），已跳过。\",\"第 3 项不是对象（字符串），已跳过。\",\"第 4 项不是对象（数组），已跳过。\",\"第 5 项缺少有效「id」，已跳过。\"]}"
+      },
+      {
+        "layer": "core",
+        "id": "C14a",
+        "name": "空数组抛中文错误",
+        "passed": true,
+        "expected": "抛错且含\"输入数组为空\"",
+        "actual": "{\"threw\":true,\"message\":\"输入数组为空：至少需要 1 个节点。\"}"
+      },
+      {
+        "layer": "core",
+        "id": "C14b",
+        "name": "非数组抛中文错误",
+        "passed": true,
+        "expected": "抛错且含\"输入应为 JSON 数组\"",
+        "actual": "{\"threw\":true,\"message\":\"输入应为 JSON 数组。\"}"
+      },
+      {
+        "layer": "core",
+        "id": "C14c",
+        "name": "字段名空白抛中文错误",
+        "passed": true,
+        "expected": "抛错且含\"字段名不能为空\"",
+        "actual": "{\"threw\":true,\"message\":\"字段名不能为空，请检查 ID 字段、父字段与子节点字段名。\"}"
+      },
+      {
+        "layer": "core",
+        "id": "C14d",
+        "name": "字段名同名抛中文错误",
+        "passed": true,
+        "expected": "抛错且含\"不能相同\"",
+        "actual": "{\"threw\":true,\"message\":\"ID 字段、父字段与子节点字段名不能相同。\"}"
+      },
+      {
+        "layer": "core",
+        "id": "C14e",
+        "name": "children 与 id 同名抛中文错误",
+        "passed": true,
+        "expected": "抛错且含\"不能相同\"",
+        "actual": "{\"threw\":true,\"message\":\"ID 字段、父字段与子节点字段名不能相同。\"}"
+      },
+      {
+        "layer": "core",
+        "id": "C14f",
+        "name": "validateOptions 直接调用给出相同校验",
+        "passed": true,
+        "expected": "空→不能为空 / 同名→不能相同 / 正常→空串",
+        "actual": "{\"a\":\"字段名不能为空，请检查 ID 字段、父字段与子节点字段名。\",\"b\":\"ID 字段、父字段与子节点字段名不能相同。\"}"
+      },
+      {
+        "layer": "core",
+        "id": "C15a",
+        "name": "5000 层构建成功且 maxDepth=5000",
+        "passed": true,
+        "expected": "roots=1, maxDepth=5000, total=5000, <3s",
+        "actual": "{\"roots\":1,\"stats\":{\"total\":5000,\"valid\":5000,\"roots\":1,\"maxDepth\":5000,\"orphans\":0,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0},\"ms\":18}"
+      },
+      {
+        "layer": "core",
+        "id": "C15b",
+        "name": ">1000 层自动切换紧凑输出并有输出提示",
+        "passed": true,
+        "expected": "无换行 / 5000 个 id / 5000 个 children / 以根开头 / 含输出提示",
+        "actual": "{\"hasNewline\":false,\"idCount\":5000,\"childCount\":5000,\"head\":\"{\\\"id\\\":1,\\\"parentId\\\":0,\\\"name\\\":\\\"n1\\\",\\\"children\\\":[{\\\"id\\\":2,\\\"parentId\\\":1,\\\"name\\\":\\\"n2\\\",\\\"children\\\":[\",\"issues\":[{\"level\":\"info\",\"tag\":\"输出\",\"text\":\"树深度 5000 超过 1000 层，JSON 已改用紧凑格式，避免超大缩进影响性能。\"}]}"
+      },
+      {
+        "layer": "core",
+        "id": "C16",
+        "name": "200 层缩进输出逐字一致（含换行）",
+        "passed": true,
+        "expected": "逐字一致 / 带缩进 / depth=200",
+        "actual": "{\"same\":true,\"err\":\"\",\"lenA\":570874,\"lenB\":570874,\"depth\":200}"
+      },
+      {
+        "layer": "core",
+        "id": "C16b",
+        "name": "stringifyJson 紧凑模式与原生一致",
+        "passed": true,
+        "expected": "逐字一致",
+        "actual": "{\"a\":\"{\\\"a\\\":[1,null,\\\"x\\\"],\\\"b\\\":{\\\"c\\\":true}}\"}"
+      },
+      {
+        "layer": "core",
+        "id": "C17",
+        "name": "宽树 5000 节点：roots=1, children=4999, <1s",
+        "passed": true,
+        "expected": "ms<1000 / children=4999 / maxDepth=2 / total=5000",
+        "actual": "{\"ms\":12,\"roots\":1,\"children\":4999,\"stats\":{\"total\":5000,\"valid\":5000,\"roots\":1,\"maxDepth\":2,\"orphans\":0,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0}}"
+      },
+      {
+        "layer": "core",
+        "id": "C18a",
+        "name": "resolveFields 开/关探测行为正确",
+        "passed": true,
+        "expected": "on→(_id,parent_id,2 提示)，off→(id,parentId,0 提示)",
+        "actual": "{\"on\":{\"idField\":\"_id\",\"parentField\":\"parent_id\",\"childrenField\":\"children\"},\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「id」，已自动探测 ID 字段为「_id」。\"},{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「parentId」，已自动探测父字段为「parent_id」。\"}],\"off\":{\"idField\":\"id\",\"parentField\":\"parentId\",\"childrenField\":\"children\"},\"issues2\":[]}"
+      },
+      {
+        "layer": "core",
+        "id": "C18b",
+        "name": "shallowOutput 保留字段并标记循环",
+        "passed": true,
+        "expected": "保留 id/parentId/name，剔除 children，置 __circularRef",
+        "actual": "{\"id\":7,\"parentId\":null,\"name\":\"x\",\"__circularRef\":true}"
+      },
+      {
+        "layer": "core",
+        "id": "C18c",
+        "name": "导出 API 与候选常量齐全",
+        "passed": true,
+        "expected": "11 个导出存在，候选常量含 _id/parent_id",
+        "actual": "[\"buildTree\",\"resolveFields\",\"isRootMarker\",\"stringifyJson\",\"shallowOutput\",\"makeIssue\",\"collectKeys\",\"validateOptions\",\"typeName\",\"ID_CANDIDATES\",\"PARENT_CANDIDATES\"]"
+      },
+      {
+        "layer": "core",
+        "id": "C19a",
+        "name": "跳过/孤儿/自引用/循环 四类 tag 出现且级别 warn",
+        "passed": true,
+        "expected": "四类 tag 均出现且 level=warn",
+        "actual": "[\"跳过\",\"孤儿\",\"自引用\",\"循环\"]"
+      },
+      {
+        "layer": "core",
+        "id": "C19b",
+        "name": "makeIssue 结构正确",
+        "passed": true,
+        "expected": "{level,tag,text}",
+        "actual": "{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"x\"}"
+      }
+    ],
+    "registry": [
+      {
+        "layer": "registry",
+        "id": "R01a",
+        "name": "treebuild.js 位于 core 段（password.js 之后、UI 层之前）",
+        "passed": true,
+        "expected": "password.js < treebuild.js < <!-- UI 层 --> < dom.js",
+        "actual": "{\"pwdPos\":961,\"tbPos\":1007,\"uiMark\":1042,\"domPos\":1071}"
+      },
+      {
+        "layer": "registry",
+        "id": "R01b",
+        "name": "README 工具数 70 且含新工具条目与截图引用",
+        "passed": true,
+        "expected": "工具数 70、新工具条目、10 号截图引用齐全且无残留 69",
+        "actual": "{\"has70\":true,\"hasEntry\":true}"
+      },
+      {
+        "layer": "registry",
+        "id": "R02a",
+        "name": "注册表工具总数 = 70",
+        "passed": true,
+        "expected": "70",
+        "actual": "70"
+      },
+      {
+        "layer": "registry",
+        "id": "R02b",
+        "name": "convert-parent-child 可查且元数据正确",
+        "passed": true,
+        "expected": "id/cat/name/outLang/view 全部正确",
+        "actual": "{\"id\":\"convert-parent-child\",\"cat\":\"convert\",\"name\":\"JSON 数组 → 父子结构\",\"outLang\":\"json\",\"view\":\"text\"}"
+      },
+      {
+        "layer": "registry",
+        "id": "R02c",
+        "name": "工具 id 全局唯一",
+        "passed": true,
+        "expected": "70 个 id 唯一",
+        "actual": "70"
+      },
+      {
+        "layer": "registry",
+        "id": "R03a",
+        "name": "参数数量 = 7 且 id 顺序正确",
+        "passed": true,
+        "expected": "id 顺序 idField,parentField,childrenField,duplicateStrategy,autoDetect,removeParentField,keepOtherFields",
+        "actual": "[\"idField\",\"parentField\",\"childrenField\",\"duplicateStrategy\",\"autoDetect\",\"removeParentField\",\"keepOtherFields\"]"
+      },
+      {
+        "layer": "registry",
+        "id": "R03b",
+        "name": "参数类型与默认值正确",
+        "passed": true,
+        "expected": "类型/默认值逐项对齐",
+        "actual": "{\"idField\":\"id\",\"parentField\":\"parentId\",\"childrenField\":\"children\",\"duplicateStrategy\":\"first\",\"autoDetect\":true,\"removeParentField\":false,\"keepOtherFields\":true}"
+      },
+      {
+        "layer": "registry",
+        "id": "R03c",
+        "name": "duplicateStrategy 选项为 first/last",
+        "passed": true,
+        "expected": "[first,last]",
+        "actual": "[\"first\",\"last\"]"
+      },
+      {
+        "layer": "registry",
+        "id": "R04a",
+        "name": "输出为合法 JSON 且与 data 深等价",
+        "passed": true,
+        "expected": "JSON.parse 成功且 output 与 data 深等价",
+        "actual": "{\"err\":\"\",\"head\":\"{\\n  \\\"id\\\": 1,\\n  \\\"parentId\\\": null,\\n  \\\"name\\\": \\\"总部\\\",\\n  \\\"code\\\": \\\"HQ\\\",\\n  \\\"children\\\": [\\n    {\\n      \\\"id\\\": 2,\\n      \\\"parentId\\\": \"}"
+      },
+      {
+        "layer": "registry",
+        "id": "R04b",
+        "name": "摘要格式正确（输入 4 / 有效 4 / 根 1 / 深度 3 / 自动处理 0）",
+        "passed": true,
+        "expected": "构建完成 · 输入 4 项 / 有效 4 项 / 根 1 个 / 最大深度 3，自动处理 0 项。",
+        "actual": "构建完成 · 输入 4 项 / 有效 4 项 / 根 1 个 / 最大深度 3，自动处理 0 项。"
+      },
+      {
+        "layer": "registry",
+        "id": "R04c",
+        "name": "view=text / outLang=json / notices 为字符串数组",
+        "passed": true,
+        "expected": "view=text, outLang=json, notices 全字符串",
+        "actual": "{\"view\":\"text\",\"outLang\":\"json\",\"notices\":[\"构建完成 · 输入 4 项 / 有效 4 项 / 根 1 个 / 最大深度 3，自动处理 0 项。\"]}"
+      },
+      {
+        "layer": "registry",
+        "id": "R05",
+        "name": "notices 含 [孤儿]/[自引用]/[跳过]，摘要 K=3",
+        "passed": true,
+        "expected": "三类 tag 提示齐全且 K=3",
+        "actual": "[\"构建完成 · 输入 4 项 / 有效 3 项 / 根 3 个 / 最大深度 1，自动处理 3 项。\",\"[跳过] 第 4 项不是对象（null），已跳过。\",\"[孤儿] 节点「2」的父 ID「999」不存在，已提升为根。\",\"[自引用] 节点「3」的父字段指向自身，已提升为根。\"]"
+      },
+      {
+        "layer": "registry",
+        "id": "R06a",
+        "name": "duplicateStrategy=first/last 输出不同",
+        "passed": true,
+        "expected": "v 分别为 first / last",
+        "actual": "{\"f\":\"first\",\"l\":\"last\"}"
+      },
+      {
+        "layer": "registry",
+        "id": "R06b",
+        "name": "removeParentField=true 移除 parentId",
+        "passed": true,
+        "expected": "输出无 parentId 但保留 name",
+        "actual": "[\"id\",\"name\",\"code\",\"children\"]"
+      },
+      {
+        "layer": "registry",
+        "id": "R06c",
+        "name": "keepOtherFields=false 仅 id/children",
+        "passed": true,
+        "expected": "keys=[children,id]",
+        "actual": "[\"id\",\"children\"]"
+      },
+      {
+        "layer": "registry",
+        "id": "R06d",
+        "name": "自定义 id/parent/children 字段名可执行",
+        "passed": true,
+        "expected": "root.uid=r，items=[c]，无 children",
+        "actual": "{\"data\":{\"uid\":\"r\",\"par\":null,\"itemsOld\":1,\"label\":\"根\",\"items\":[{\"uid\":\"c\",\"par\":\"r\",\"label\":\"子\",\"items\":[]}]}}"
+      },
+      {
+        "layer": "registry",
+        "id": "R07a",
+        "name": "非法 JSON 返回中文错误",
+        "passed": true,
+        "expected": "含 JSON 的中文错误",
+        "actual": "JSON 解析失败"
+      },
+      {
+        "layer": "registry",
+        "id": "R07b",
+        "name": "非数组返回中文错误",
+        "passed": true,
+        "expected": "含\"输入应为 JSON 数组\"",
+        "actual": "输入应为 JSON 数组"
+      },
+      {
+        "layer": "registry",
+        "id": "R07c",
+        "name": "空数组返回中文错误",
+        "passed": true,
+        "expected": "含\"输入数组为空\"",
+        "actual": "输入数组为空：至少需要 1 个节点。"
+      },
+      {
+        "layer": "registry",
+        "id": "R07d",
+        "name": "空输入串返回中文错误",
+        "passed": true,
+        "expected": "含\"输入为空\"",
+        "actual": "输入为空：请粘贴 JSON 数组。"
+      },
+      {
+        "layer": "registry",
+        "id": "R08",
+        "name": "字段名空或同名均由 run() 返回中文错误",
+        "passed": true,
+        "expected": "空→字段名不能为空；同名→不能相同",
+        "actual": "{\"empty\":\"字段名不能为空，请检查 ID 字段、父字段与子节点字段名。\",\"same\":\"ID 字段、父字段与子节点字段名不能相同。\",\"sameChild\":\"ID 字段、父字段与子节点字段名不能相同。\"}"
+      },
+      {
+        "layer": "registry",
+        "id": "R09",
+        "name": "70 工具逐一调用 run() 无异常、均有返回",
+        "passed": true,
+        "expected": "0 个异常",
+        "actual": "[]"
+      }
+    ]
+  },
+  "assertions": [
+    {
+      "layer": "core",
+      "id": "C01a",
+      "name": "树结构与子节点顺序正确",
+      "passed": true,
+      "expected": "根=1；1→[2,3]；2→[4]；3 无子",
+      "actual": "{\"roots\":1,\"tree\":{\"id\":1,\"parentId\":null,\"name\":\"总部\",\"code\":\"HQ\",\"children\":[{\"id\":2,\"parentId\":1,\"name\":\"技术中心\",\"owner\":\"张三\",\"children\":[{\"id\":4,\"parentId\":2,\"name\":\"前端组\",\"size\":8,\"children\":[]}]},{\"id\":3,\"parentId\":1,\"name\":\"市场中心\",\"owner\":\"李四\",\"children\":[]}]}}"
+    },
+    {
+      "layer": "core",
+      "id": "C01b",
+      "name": "其它字段保留且 stats/issues 正确",
+      "passed": true,
+      "expected": "maxDepth=3,roots=1,total=4,valid=4,issues=0,name/code/owner/size 保留",
+      "actual": "{\"stats\":{\"total\":4,\"valid\":4,\"roots\":1,\"maxDepth\":3,\"orphans\":0,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0},\"issues\":[],\"root\":{\"id\":1,\"parentId\":null,\"name\":\"总部\",\"code\":\"HQ\",\"children\":[{\"id\":2,\"parentId\":1,\"name\":\"技术中心\",\"owner\":\"张三\",\"children\":[{\"id\":4,\"parentId\":2,\"name\":\"前端组\",\"size\":8,\"children\":[]}]},{\"id\":3,\"parentId\":1,\"name\":\"市场中心\",\"owner\":\"李四\",\"children\":[]}]}}"
+    },
+    {
+      "layer": "core",
+      "id": "C02a",
+      "name": "单根 meta.outputValue 是对象而非单元素数组",
+      "passed": true,
+      "expected": "outputValue 为对象，outputText 以 { 开头",
+      "actual": "{\"isArray\":false,\"head\":\"{\\n  \\\"id\\\": 1,\\n  \\\"parentId\\\": null,\\n  \\\"name\\\": \\\"总部\\\",\\n  \\\"code\\\": \\\"\"}"
+    },
+    {
+      "layer": "core",
+      "id": "C02b",
+      "name": "多根 meta.outputValue 为数组且文本以 [ 开头",
+      "passed": true,
+      "expected": "outputValue 为 2 元素数组，outputText 以 [ 开头",
+      "actual": "{\"isArray\":true,\"len\":2}"
+    },
+    {
+      "layer": "core",
+      "id": "C02c",
+      "name": "meta 含 outputValue/outputText/byKey/byUid/order/fields/roots",
+      "passed": true,
+      "expected": "7 个 meta 键存在，Map/数组/fields 类型正确",
+      "actual": "[\"byKey\",\"byUid\",\"order\",\"roots\",\"fields\",\"outputValue\",\"outputText\"]"
+    },
+    {
+      "layer": "core",
+      "id": "C03a",
+      "name": "first：前两项合并为键 \"1\"，id:2 挂到根下",
+      "passed": true,
+      "expected": "root.id=1, children=[2], duplicates=1, valid=2, byKey 含 \"1\"",
+      "actual": "{\"root\":{\"id\":1,\"parentId\":null,\"name\":\"根\",\"children\":[{\"id\":2,\"parentId\":\"1\",\"name\":\"按字符串父引用挂接\",\"children\":[]}]},\"stats\":{\"total\":3,\"valid\":2,\"roots\":1,\"maxDepth\":2,\"orphans\":0,\"cycles\":0,\"duplicates\":1,\"selfRefs\":0,\"skipped\":1},\"keys\":[\"1\",\"2\"]}"
+    },
+    {
+      "layer": "core",
+      "id": "C03b",
+      "name": "last：覆盖后 root.id 为 \"1\"，id:2 仍挂到键 \"1\"",
+      "passed": true,
+      "expected": "root.id=\"1\", children=[2], duplicates=1, skipped=0",
+      "actual": "{\"root\":{\"id\":\"1\",\"parentId\":1,\"name\":\"重复字符串\",\"children\":[{\"id\":2,\"parentId\":\"1\",\"name\":\"按字符串父引用挂接\",\"children\":[]}]},\"stats\":{\"total\":3,\"valid\":2,\"roots\":1,\"maxDepth\":2,\"orphans\":0,\"cycles\":0,\"duplicates\":1,\"selfRefs\":1,\"skipped\":0}}"
+    },
+    {
+      "layer": "core",
+      "id": "C04-parent_id",
+      "name": "自动探测父字段 parent_id",
+      "passed": true,
+      "expected": "fields.parentField=parent_id，子挂接成功，含探测提示",
+      "actual": "{\"fields\":{\"idField\":\"id\",\"parentField\":\"parent_id\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「parentId」，已自动探测父字段为「parent_id」。\"}]}"
+    },
+    {
+      "layer": "core",
+      "id": "C04-pid",
+      "name": "自动探测父字段 pid",
+      "passed": true,
+      "expected": "fields.parentField=pid，子挂接成功，含探测提示",
+      "actual": "{\"fields\":{\"idField\":\"id\",\"parentField\":\"pid\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「parentId」，已自动探测父字段为「pid」。\"}]}"
+    },
+    {
+      "layer": "core",
+      "id": "C04-parent",
+      "name": "自动探测父字段 parent",
+      "passed": true,
+      "expected": "fields.parentField=parent，子挂接成功，含探测提示",
+      "actual": "{\"fields\":{\"idField\":\"id\",\"parentField\":\"parent\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「parentId」，已自动探测父字段为「parent」。\"}]}"
+    },
+    {
+      "layer": "core",
+      "id": "C04-pId",
+      "name": "自动探测父字段 pId",
+      "passed": true,
+      "expected": "fields.parentField=pId，子挂接成功，含探测提示",
+      "actual": "{\"fields\":{\"idField\":\"id\",\"parentField\":\"pId\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「parentId」，已自动探测父字段为「pId」。\"}]}"
+    },
+    {
+      "layer": "core",
+      "id": "C04-PARENT_ID",
+      "name": "自动探测父字段 PARENT_ID",
+      "passed": true,
+      "expected": "fields.parentField=PARENT_ID，子挂接成功，含探测提示",
+      "actual": "{\"fields\":{\"idField\":\"id\",\"parentField\":\"PARENT_ID\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「parentId」，已自动探测父字段为「PARENT_ID」。\"}]}"
+    },
+    {
+      "layer": "core",
+      "id": "C05-_id",
+      "name": "自动探测 ID 字段 _id",
+      "passed": true,
+      "expected": "fields.idField=_id，子挂接成功，含探测提示",
+      "actual": "{\"fields\":{\"idField\":\"_id\",\"parentField\":\"parentId\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「id」，已自动探测 ID 字段为「_id」。\"}]}"
+    },
+    {
+      "layer": "core",
+      "id": "C05-key",
+      "name": "自动探测 ID 字段 key",
+      "passed": true,
+      "expected": "fields.idField=key，子挂接成功，含探测提示",
+      "actual": "{\"fields\":{\"idField\":\"key\",\"parentField\":\"parentId\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「id」，已自动探测 ID 字段为「key」。\"}]}"
+    },
+    {
+      "layer": "core",
+      "id": "C05-uuid",
+      "name": "自动探测 ID 字段 uuid",
+      "passed": true,
+      "expected": "fields.idField=uuid，子挂接成功，含探测提示",
+      "actual": "{\"fields\":{\"idField\":\"uuid\",\"parentField\":\"parentId\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「id」，已自动探测 ID 字段为「uuid」。\"}]}"
+    },
+    {
+      "layer": "core",
+      "id": "C05-ID",
+      "name": "自动探测 ID 字段 ID",
+      "passed": true,
+      "expected": "fields.idField=ID，子挂接成功，含探测提示",
+      "actual": "{\"fields\":{\"idField\":\"ID\",\"parentField\":\"parentId\",\"childrenField\":\"children\"},\"roots\":1,\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「id」，已自动探测 ID 字段为「ID」。\"}]}"
+    },
+    {
+      "layer": "core",
+      "id": "C06",
+      "name": "autoDetect=false：两者均为根，无探测提示",
+      "passed": true,
+      "expected": "roots=2, maxDepth=1, orphans=0, issues=0",
+      "actual": "{\"fields\":{\"idField\":\"id\",\"parentField\":\"parentId\",\"childrenField\":\"children\"},\"roots\":2,\"stats\":{\"total\":2,\"valid\":2,\"roots\":2,\"maxDepth\":1,\"orphans\":0,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0}}"
+    },
+    {
+      "layer": "core",
+      "id": "C07",
+      "name": "输出使用 items 而非 children",
+      "passed": true,
+      "expected": "root.items=[2,3]，无 children，深层也用 items",
+      "actual": "{\"keys\":[\"id\",\"parentId\",\"name\",\"code\",\"items\"],\"items\":[2,3]}"
+    },
+    {
+      "layer": "core",
+      "id": "C08a",
+      "name": "removeParent=true：输出不含 parentId 但保留其它字段",
+      "passed": true,
+      "expected": "无 parentId，保留 name/owner",
+      "actual": "[\"id\",\"name\",\"code\",\"children\"]"
+    },
+    {
+      "layer": "core",
+      "id": "C08b",
+      "name": "keepOther=false：只保留 id 与 children",
+      "passed": true,
+      "expected": "keys=[id,children]，深层其它字段亦不保留",
+      "actual": "{\"keys\":[\"id\",\"children\"],\"deep\":[\"id\",\"children\"]}"
+    },
+    {
+      "layer": "core",
+      "id": "C09a",
+      "name": "7 种根标记全部提升为根且无问题提示",
+      "passed": true,
+      "expected": "roots=7, maxDepth=1, orphans=0, issues=0",
+      "actual": "{\"roots\":7,\"stats\":{\"total\":7,\"valid\":7,\"roots\":7,\"maxDepth\":1,\"orphans\":0,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0},\"issues\":[]}"
+    },
+    {
+      "layer": "core",
+      "id": "C09b",
+      "name": "isRootMarker 直接调用（忽略大小写/trim，false 与 1 非根）",
+      "passed": true,
+      "expected": "[T,T,T,T,T,T,T,T,T,F,F,F]",
+      "actual": "[true,true,true,true,true,true,true,true,true,false,false,false]"
+    },
+    {
+      "layer": "core",
+      "id": "C10a",
+      "name": "孤儿：roots=2, orphans=1, 提示含 999",
+      "passed": true,
+      "expected": "roots=2, orphans=1, tag=孤儿 且含 999，内部节点标 orphan",
+      "actual": "{\"roots\":2,\"stats\":{\"total\":2,\"valid\":2,\"roots\":2,\"maxDepth\":1,\"orphans\":1,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0},\"issues\":[{\"level\":\"warn\",\"tag\":\"孤儿\",\"text\":\"节点「2」的父 ID「999」不存在，已提升为根。\"}]}"
+    },
+    {
+      "layer": "core",
+      "id": "C10b",
+      "name": "自引用：roots=1, selfRefs=1, 提示含自身",
+      "passed": true,
+      "expected": "roots=1, selfRefs=1, tag=自引用 且含自身",
+      "actual": "{\"roots\":1,\"stats\":{\"total\":1,\"valid\":1,\"roots\":1,\"maxDepth\":1,\"orphans\":0,\"cycles\":0,\"duplicates\":0,\"selfRefs\":1,\"skipped\":0},\"issues\":[{\"level\":\"warn\",\"tag\":\"自引用\",\"text\":\"节点「1」的父字段指向自身，已提升为根。\"}]}"
+    },
+    {
+      "layer": "core",
+      "id": "C10c",
+      "name": "父字段为对象：按孤儿处理并提升为根",
+      "passed": true,
+      "expected": "roots=1, orphans=1, 提示含\"无效类型\"",
+      "actual": "{\"stats\":{\"total\":1,\"valid\":1,\"roots\":1,\"maxDepth\":1,\"orphans\":1,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0},\"issues\":[{\"level\":\"warn\",\"tag\":\"孤儿\",\"text\":\"节点「1」的父字段是无效类型（对象 / 数组），已提升为根。\"}]}"
+    },
+    {
+      "layer": "core",
+      "id": "C11",
+      "name": "环被断开，断环节点成为根并标记 __circularRef，issue 含环路径",
+      "passed": true,
+      "expected": "root=C 带 __circularRef，链 C→B→A，cycles=1，issue 含 \"C → A\"，<1s",
+      "actual": "{\"root\":{\"id\":\"C\",\"parentId\":\"A\",\"name\":\"C\",\"__circularRef\":true,\"children\":[{\"id\":\"B\",\"parentId\":\"C\",\"name\":\"B\",\"children\":[{\"id\":\"A\",\"parentId\":\"B\",\"name\":\"A\",\"children\":[]}]}]},\"stats\":{\"total\":3,\"valid\":3,\"roots\":1,\"maxDepth\":3,\"orphans\":0,\"cycles\":1,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0},\"issue\":\"检测到循环引用：A → B → C → A；已断开 C → A，将 C 提升为根并标记 __circularRef。\",\"ms\":0}"
+    },
+    {
+      "layer": "core",
+      "id": "C12a",
+      "name": "first：保留首个，后者跳过并计数",
+      "passed": true,
+      "expected": "root.v=first, duplicates=1, skipped=1, 提示含第 1、2 项/保留首个",
+      "actual": "{\"root\":{\"id\":1,\"parentId\":null,\"v\":\"first\",\"children\":[{\"id\":2,\"parentId\":1,\"v\":\"child\",\"children\":[]}]},\"stats\":{\"total\":3,\"valid\":2,\"roots\":1,\"maxDepth\":2,\"orphans\":0,\"cycles\":0,\"duplicates\":1,\"selfRefs\":0,\"skipped\":1},\"issue\":\"ID「1」在第 1、2 项重复，已保留首个并跳过后者。\"}"
+    },
+    {
+      "layer": "core",
+      "id": "C12b",
+      "name": "last：后者覆盖，不额外计数 skipped",
+      "passed": true,
+      "expected": "root.v=last, duplicates=1, skipped=0, 提示含保留最后",
+      "actual": "{\"root\":{\"id\":1,\"parentId\":null,\"v\":\"last\",\"children\":[{\"id\":2,\"parentId\":1,\"v\":\"child\",\"children\":[]}]},\"stats\":{\"total\":3,\"valid\":2,\"roots\":1,\"maxDepth\":2,\"orphans\":0,\"cycles\":0,\"duplicates\":1,\"selfRefs\":0,\"skipped\":0},\"issue\":\"ID「1」在第 1、2 项重复，已保留最后一项（后者覆盖）。\"}"
+    },
+    {
+      "layer": "core",
+      "id": "C12c",
+      "name": "两种策略输出文本确实不同",
+      "passed": true,
+      "expected": "first 文本含 first 且不含 last 的根值；last 反之",
+      "actual": "{\"f\":\"{\\n  \\\"id\\\": 1,\\n  \\\"parentId\\\": null,\\n  \\\"v\\\": \\\"first\\\",\\n  \\\"children\\\": [\\n    {\\n      \\\"id\\\": 2,\\n      \\\"parentId\\\": 1,\\n      \\\"v\\\": \\\"child\\\",\\n   \",\"l\":\"{\\n  \\\"id\\\": 1,\\n  \\\"parentId\\\": null,\\n  \\\"v\\\": \\\"last\\\",\\n  \\\"children\\\": [\\n    {\\n      \\\"id\\\": 2,\\n      \\\"parentId\\\": 1,\\n      \\\"v\\\": \\\"child\\\",\\n    \"}"
+    },
+    {
+      "layer": "core",
+      "id": "C13",
+      "name": "5 条非法行跳过；total=6/valid=1/skipped=5；提示含项号",
+      "passed": true,
+      "expected": "total=6, valid=1, skipped=5, 5 条 warn 级跳过提示",
+      "actual": "{\"stats\":{\"total\":6,\"valid\":1,\"roots\":1,\"maxDepth\":1,\"orphans\":0,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":5},\"skips\":[\"第 1 项不是对象（null），已跳过。\",\"第 2 项不是对象（数字），已跳过。\",\"第 3 项不是对象（字符串），已跳过。\",\"第 4 项不是对象（数组），已跳过。\",\"第 5 项缺少有效「id」，已跳过。\"]}"
+    },
+    {
+      "layer": "core",
+      "id": "C14a",
+      "name": "空数组抛中文错误",
+      "passed": true,
+      "expected": "抛错且含\"输入数组为空\"",
+      "actual": "{\"threw\":true,\"message\":\"输入数组为空：至少需要 1 个节点。\"}"
+    },
+    {
+      "layer": "core",
+      "id": "C14b",
+      "name": "非数组抛中文错误",
+      "passed": true,
+      "expected": "抛错且含\"输入应为 JSON 数组\"",
+      "actual": "{\"threw\":true,\"message\":\"输入应为 JSON 数组。\"}"
+    },
+    {
+      "layer": "core",
+      "id": "C14c",
+      "name": "字段名空白抛中文错误",
+      "passed": true,
+      "expected": "抛错且含\"字段名不能为空\"",
+      "actual": "{\"threw\":true,\"message\":\"字段名不能为空，请检查 ID 字段、父字段与子节点字段名。\"}"
+    },
+    {
+      "layer": "core",
+      "id": "C14d",
+      "name": "字段名同名抛中文错误",
+      "passed": true,
+      "expected": "抛错且含\"不能相同\"",
+      "actual": "{\"threw\":true,\"message\":\"ID 字段、父字段与子节点字段名不能相同。\"}"
+    },
+    {
+      "layer": "core",
+      "id": "C14e",
+      "name": "children 与 id 同名抛中文错误",
+      "passed": true,
+      "expected": "抛错且含\"不能相同\"",
+      "actual": "{\"threw\":true,\"message\":\"ID 字段、父字段与子节点字段名不能相同。\"}"
+    },
+    {
+      "layer": "core",
+      "id": "C14f",
+      "name": "validateOptions 直接调用给出相同校验",
+      "passed": true,
+      "expected": "空→不能为空 / 同名→不能相同 / 正常→空串",
+      "actual": "{\"a\":\"字段名不能为空，请检查 ID 字段、父字段与子节点字段名。\",\"b\":\"ID 字段、父字段与子节点字段名不能相同。\"}"
+    },
+    {
+      "layer": "core",
+      "id": "C15a",
+      "name": "5000 层构建成功且 maxDepth=5000",
+      "passed": true,
+      "expected": "roots=1, maxDepth=5000, total=5000, <3s",
+      "actual": "{\"roots\":1,\"stats\":{\"total\":5000,\"valid\":5000,\"roots\":1,\"maxDepth\":5000,\"orphans\":0,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0},\"ms\":18}"
+    },
+    {
+      "layer": "core",
+      "id": "C15b",
+      "name": ">1000 层自动切换紧凑输出并有输出提示",
+      "passed": true,
+      "expected": "无换行 / 5000 个 id / 5000 个 children / 以根开头 / 含输出提示",
+      "actual": "{\"hasNewline\":false,\"idCount\":5000,\"childCount\":5000,\"head\":\"{\\\"id\\\":1,\\\"parentId\\\":0,\\\"name\\\":\\\"n1\\\",\\\"children\\\":[{\\\"id\\\":2,\\\"parentId\\\":1,\\\"name\\\":\\\"n2\\\",\\\"children\\\":[\",\"issues\":[{\"level\":\"info\",\"tag\":\"输出\",\"text\":\"树深度 5000 超过 1000 层，JSON 已改用紧凑格式，避免超大缩进影响性能。\"}]}"
+    },
+    {
+      "layer": "core",
+      "id": "C16",
+      "name": "200 层缩进输出逐字一致（含换行）",
+      "passed": true,
+      "expected": "逐字一致 / 带缩进 / depth=200",
+      "actual": "{\"same\":true,\"err\":\"\",\"lenA\":570874,\"lenB\":570874,\"depth\":200}"
+    },
+    {
+      "layer": "core",
+      "id": "C16b",
+      "name": "stringifyJson 紧凑模式与原生一致",
+      "passed": true,
+      "expected": "逐字一致",
+      "actual": "{\"a\":\"{\\\"a\\\":[1,null,\\\"x\\\"],\\\"b\\\":{\\\"c\\\":true}}\"}"
+    },
+    {
+      "layer": "core",
+      "id": "C17",
+      "name": "宽树 5000 节点：roots=1, children=4999, <1s",
+      "passed": true,
+      "expected": "ms<1000 / children=4999 / maxDepth=2 / total=5000",
+      "actual": "{\"ms\":12,\"roots\":1,\"children\":4999,\"stats\":{\"total\":5000,\"valid\":5000,\"roots\":1,\"maxDepth\":2,\"orphans\":0,\"cycles\":0,\"duplicates\":0,\"selfRefs\":0,\"skipped\":0}}"
+    },
+    {
+      "layer": "core",
+      "id": "C18a",
+      "name": "resolveFields 开/关探测行为正确",
+      "passed": true,
+      "expected": "on→(_id,parent_id,2 提示)，off→(id,parentId,0 提示)",
+      "actual": "{\"on\":{\"idField\":\"_id\",\"parentField\":\"parent_id\",\"childrenField\":\"children\"},\"issues\":[{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「id」，已自动探测 ID 字段为「_id」。\"},{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"未找到「parentId」，已自动探测父字段为「parent_id」。\"}],\"off\":{\"idField\":\"id\",\"parentField\":\"parentId\",\"childrenField\":\"children\"},\"issues2\":[]}"
+    },
+    {
+      "layer": "core",
+      "id": "C18b",
+      "name": "shallowOutput 保留字段并标记循环",
+      "passed": true,
+      "expected": "保留 id/parentId/name，剔除 children，置 __circularRef",
+      "actual": "{\"id\":7,\"parentId\":null,\"name\":\"x\",\"__circularRef\":true}"
+    },
+    {
+      "layer": "core",
+      "id": "C18c",
+      "name": "导出 API 与候选常量齐全",
+      "passed": true,
+      "expected": "11 个导出存在，候选常量含 _id/parent_id",
+      "actual": "[\"buildTree\",\"resolveFields\",\"isRootMarker\",\"stringifyJson\",\"shallowOutput\",\"makeIssue\",\"collectKeys\",\"validateOptions\",\"typeName\",\"ID_CANDIDATES\",\"PARENT_CANDIDATES\"]"
+    },
+    {
+      "layer": "core",
+      "id": "C19a",
+      "name": "跳过/孤儿/自引用/循环 四类 tag 出现且级别 warn",
+      "passed": true,
+      "expected": "四类 tag 均出现且 level=warn",
+      "actual": "[\"跳过\",\"孤儿\",\"自引用\",\"循环\"]"
+    },
+    {
+      "layer": "core",
+      "id": "C19b",
+      "name": "makeIssue 结构正确",
+      "passed": true,
+      "expected": "{level,tag,text}",
+      "actual": "{\"level\":\"info\",\"tag\":\"探测\",\"text\":\"x\"}"
+    },
+    {
+      "layer": "registry",
+      "id": "R01a",
+      "name": "treebuild.js 位于 core 段（password.js 之后、UI 层之前）",
+      "passed": true,
+      "expected": "password.js < treebuild.js < <!-- UI 层 --> < dom.js",
+      "actual": "{\"pwdPos\":961,\"tbPos\":1007,\"uiMark\":1042,\"domPos\":1071}"
+    },
+    {
+      "layer": "registry",
+      "id": "R01b",
+      "name": "README 工具数 70 且含新工具条目与截图引用",
+      "passed": true,
+      "expected": "工具数 70、新工具条目、10 号截图引用齐全且无残留 69",
+      "actual": "{\"has70\":true,\"hasEntry\":true}"
+    },
+    {
+      "layer": "registry",
+      "id": "R02a",
+      "name": "注册表工具总数 = 70",
+      "passed": true,
+      "expected": "70",
+      "actual": "70"
+    },
+    {
+      "layer": "registry",
+      "id": "R02b",
+      "name": "convert-parent-child 可查且元数据正确",
+      "passed": true,
+      "expected": "id/cat/name/outLang/view 全部正确",
+      "actual": "{\"id\":\"convert-parent-child\",\"cat\":\"convert\",\"name\":\"JSON 数组 → 父子结构\",\"outLang\":\"json\",\"view\":\"text\"}"
+    },
+    {
+      "layer": "registry",
+      "id": "R02c",
+      "name": "工具 id 全局唯一",
+      "passed": true,
+      "expected": "70 个 id 唯一",
+      "actual": "70"
+    },
+    {
+      "layer": "registry",
+      "id": "R03a",
+      "name": "参数数量 = 7 且 id 顺序正确",
+      "passed": true,
+      "expected": "id 顺序 idField,parentField,childrenField,duplicateStrategy,autoDetect,removeParentField,keepOtherFields",
+      "actual": "[\"idField\",\"parentField\",\"childrenField\",\"duplicateStrategy\",\"autoDetect\",\"removeParentField\",\"keepOtherFields\"]"
+    },
+    {
+      "layer": "registry",
+      "id": "R03b",
+      "name": "参数类型与默认值正确",
+      "passed": true,
+      "expected": "类型/默认值逐项对齐",
+      "actual": "{\"idField\":\"id\",\"parentField\":\"parentId\",\"childrenField\":\"children\",\"duplicateStrategy\":\"first\",\"autoDetect\":true,\"removeParentField\":false,\"keepOtherFields\":true}"
+    },
+    {
+      "layer": "registry",
+      "id": "R03c",
+      "name": "duplicateStrategy 选项为 first/last",
+      "passed": true,
+      "expected": "[first,last]",
+      "actual": "[\"first\",\"last\"]"
+    },
+    {
+      "layer": "registry",
+      "id": "R04a",
+      "name": "输出为合法 JSON 且与 data 深等价",
+      "passed": true,
+      "expected": "JSON.parse 成功且 output 与 data 深等价",
+      "actual": "{\"err\":\"\",\"head\":\"{\\n  \\\"id\\\": 1,\\n  \\\"parentId\\\": null,\\n  \\\"name\\\": \\\"总部\\\",\\n  \\\"code\\\": \\\"HQ\\\",\\n  \\\"children\\\": [\\n    {\\n      \\\"id\\\": 2,\\n      \\\"parentId\\\": \"}"
+    },
+    {
+      "layer": "registry",
+      "id": "R04b",
+      "name": "摘要格式正确（输入 4 / 有效 4 / 根 1 / 深度 3 / 自动处理 0）",
+      "passed": true,
+      "expected": "构建完成 · 输入 4 项 / 有效 4 项 / 根 1 个 / 最大深度 3，自动处理 0 项。",
+      "actual": "构建完成 · 输入 4 项 / 有效 4 项 / 根 1 个 / 最大深度 3，自动处理 0 项。"
+    },
+    {
+      "layer": "registry",
+      "id": "R04c",
+      "name": "view=text / outLang=json / notices 为字符串数组",
+      "passed": true,
+      "expected": "view=text, outLang=json, notices 全字符串",
+      "actual": "{\"view\":\"text\",\"outLang\":\"json\",\"notices\":[\"构建完成 · 输入 4 项 / 有效 4 项 / 根 1 个 / 最大深度 3，自动处理 0 项。\"]}"
+    },
+    {
+      "layer": "registry",
+      "id": "R05",
+      "name": "notices 含 [孤儿]/[自引用]/[跳过]，摘要 K=3",
+      "passed": true,
+      "expected": "三类 tag 提示齐全且 K=3",
+      "actual": "[\"构建完成 · 输入 4 项 / 有效 3 项 / 根 3 个 / 最大深度 1，自动处理 3 项。\",\"[跳过] 第 4 项不是对象（null），已跳过。\",\"[孤儿] 节点「2」的父 ID「999」不存在，已提升为根。\",\"[自引用] 节点「3」的父字段指向自身，已提升为根。\"]"
+    },
+    {
+      "layer": "registry",
+      "id": "R06a",
+      "name": "duplicateStrategy=first/last 输出不同",
+      "passed": true,
+      "expected": "v 分别为 first / last",
+      "actual": "{\"f\":\"first\",\"l\":\"last\"}"
+    },
+    {
+      "layer": "registry",
+      "id": "R06b",
+      "name": "removeParentField=true 移除 parentId",
+      "passed": true,
+      "expected": "输出无 parentId 但保留 name",
+      "actual": "[\"id\",\"name\",\"code\",\"children\"]"
+    },
+    {
+      "layer": "registry",
+      "id": "R06c",
+      "name": "keepOtherFields=false 仅 id/children",
+      "passed": true,
+      "expected": "keys=[children,id]",
+      "actual": "[\"id\",\"children\"]"
+    },
+    {
+      "layer": "registry",
+      "id": "R06d",
+      "name": "自定义 id/parent/children 字段名可执行",
+      "passed": true,
+      "expected": "root.uid=r，items=[c]，无 children",
+      "actual": "{\"data\":{\"uid\":\"r\",\"par\":null,\"itemsOld\":1,\"label\":\"根\",\"items\":[{\"uid\":\"c\",\"par\":\"r\",\"label\":\"子\",\"items\":[]}]}}"
+    },
+    {
+      "layer": "registry",
+      "id": "R07a",
+      "name": "非法 JSON 返回中文错误",
+      "passed": true,
+      "expected": "含 JSON 的中文错误",
+      "actual": "JSON 解析失败"
+    },
+    {
+      "layer": "registry",
+      "id": "R07b",
+      "name": "非数组返回中文错误",
+      "passed": true,
+      "expected": "含\"输入应为 JSON 数组\"",
+      "actual": "输入应为 JSON 数组"
+    },
+    {
+      "layer": "registry",
+      "id": "R07c",
+      "name": "空数组返回中文错误",
+      "passed": true,
+      "expected": "含\"输入数组为空\"",
+      "actual": "输入数组为空：至少需要 1 个节点。"
+    },
+    {
+      "layer": "registry",
+      "id": "R07d",
+      "name": "空输入串返回中文错误",
+      "passed": true,
+      "expected": "含\"输入为空\"",
+      "actual": "输入为空：请粘贴 JSON 数组。"
+    },
+    {
+      "layer": "registry",
+      "id": "R08",
+      "name": "字段名空或同名均由 run() 返回中文错误",
+      "passed": true,
+      "expected": "空→字段名不能为空；同名→不能相同",
+      "actual": "{\"empty\":\"字段名不能为空，请检查 ID 字段、父字段与子节点字段名。\",\"same\":\"ID 字段、父字段与子节点字段名不能相同。\",\"sameChild\":\"ID 字段、父字段与子节点字段名不能相同。\"}"
+    },
+    {
+      "layer": "registry",
+      "id": "R09",
+      "name": "70 工具逐一调用 run() 无异常、均有返回",
+      "passed": true,
+      "expected": "0 个异常",
+      "actual": "[]"
+    }
+  ],
+  "defects": [],
+  "performance": {
+    "cycleBuildMs": 0,
+    "deep5000BuildMs": 18,
+    "wide5000BuildMs": 12
+  },
+  "routing": "NoOne",
+  "verdict": "PASS",
+  "summary": {
+    "total": 68,
+    "passed": 68,
+    "failed": 0,
+    "byLayer": {
+      "core": {
+        "total": 46,
+        "passed": 46
+      },
+      "registry": {
+        "total": 22,
+        "passed": 22
+      }
+    }
+  },
+  "finishedAt": "2026-11-25T02:12:18.169Z"
+}

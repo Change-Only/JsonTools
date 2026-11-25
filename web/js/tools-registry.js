@@ -16,6 +16,7 @@
   function cg() { return core().codegen; }
   function cc() { return core().codec; }
   function an() { return core().analyze; }
+  function tb() { return core().treebuild; }
 
   function pretty(v, indent) { return j().stringify(v, { indent: indent == null ? 2 : indent }); }
   function compact(v) { return j().minify(v, {}); }
@@ -531,6 +532,60 @@
       var opts = { title: params.title, rootName: params.title };
       if (params.id) opts.id = params.id;
       return { output: cg().toJsonSchema(reqJson(ctx), opts), outLang: 'json' };
+    }
+  });
+
+  convertTool({
+    id: 'convert-parent-child', cat: 'convert', name: 'JSON 数组 → 父子结构', icon: 'tree', outLang: 'json', view: 'text',
+    desc: '按 ID / 父 ID 关系把对象数组重建为嵌套树，自动处理重复 ID、孤儿、自引用与循环引用',
+    params: [
+      txt('idField', 'ID 字段名', 'id', '如 id'),
+      txt('parentField', '父字段名', 'parentId', '如 parentId'),
+      txt('childrenField', '子节点字段名', 'children', '如 children'),
+      sel('duplicateStrategy', '重复 ID 处理', [
+        { value: 'first', label: '保留首个（跳过重复）' },
+        { value: 'last', label: '保留最后（后者覆盖）' }
+      ], 'first'),
+      chk('autoDetect', '自动探测常见字段名', true),
+      chk('removeParentField', '移除原父字段', false),
+      chk('keepOtherFields', '保留其它字段', true)
+    ],
+    run: function (input, params, ctx) {
+      var mod = tb();
+      if (!mod || typeof mod.buildTree !== 'function') {
+        return { output: '', view: 'text', outLang: 'json', error: '父子结构核心模块未加载（js/core/treebuild.js）' };
+      }
+      if (input === null || input === undefined || String(input).trim() === '') {
+        throw new Error('输入为空：请粘贴 JSON 数组。');
+      }
+      var rows = asArray(reqJson(ctx));
+      var opts = {
+        idField: params.idField,
+        parentField: params.parentField,
+        childrenField: params.childrenField,
+        dupMode: params.duplicateStrategy === 'last' ? 'last' : 'first',
+        autoDetect: !!params.autoDetect,
+        removeParent: !!params.removeParentField,
+        keepOther: !!params.keepOtherFields
+      };
+      var result = mod.buildTree(rows, opts);
+      var notices = [];
+      var problems = 0;
+      for (var i = 0; i < result.issues.length; i++) {
+        var it = result.issues[i];
+        if (it.level !== 'info') problems++;
+        notices.push('[' + it.tag + '] ' + it.text);
+      }
+      notices.unshift('构建完成 · 输入 ' + result.stats.total + ' 项 / 有效 ' + result.stats.valid +
+        ' 项 / 根 ' + result.stats.roots + ' 个 / 最大深度 ' + result.stats.maxDepth +
+        '，自动处理 ' + problems + ' 项。');
+      return {
+        output: result.meta.outputText,
+        data: result.meta.outputValue,
+        view: 'text',
+        outLang: 'json',
+        notices: notices
+      };
     }
   });
 

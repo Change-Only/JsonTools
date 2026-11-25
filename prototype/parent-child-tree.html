@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="JSON 工具箱 · 父子结构重建工具原型">
+  <title>父子结构重建 · JSON 工具箱（原型）</title>
+  <!-- 内联 favicon：避免 file:// 下产生 404 控制台错误 -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234F46E5'/%3E%3Ctext x='16' y='23' font-size='19' font-family='sans-serif' font-weight='bold' text-anchor='middle' fill='white'%3EJ%3C/text%3E%3C/svg%3E">
+  <style>
+  /*! ============================================================
+   * 内联主题令牌（取自 web/css/tokens.css，保持工具箱视觉一致）
+   * ============================================================ */
+  :root {
+    --bg: #F6F7F9;
+    --bg-panel: #FFFFFF;
+    --bg-subtle: #F1F3F5;
+    --bg-hover: #F1F3F5;
+    --border: #E4E7EB;
+    --border-strong: #D3D8DE;
+    --text: #1F2329;
+    --text-secondary: #5A6473;
+    --text-tertiary: #8A94A3;
+    --primary: #4F46E5;
+    --primary-hover: #4338CA;
+    --primary-soft: #EEF0FF;
+    --success: #12906B;
+    --warning: #B7791F;
+    --danger: #D93025;
+    --code-bg: #FFFFFF;
+    --radius: 10px;
+    --radius-sm: 6px;
+    --radius-lg: 14px;
+    --shadow-sm: 0 1px 2px rgba(16,24,40,.05);
+    --shadow-md: 0 4px 12px rgba(16,24,40,.08);
+    --shadow-lg: 0 12px 32px rgba(16,24,40,.14);
+    --dur: 150ms;
+    --font-ui: "Segoe UI", "Microsoft YaHei UI", system-ui, -apple-system, sans-serif;
+    --font-mono: "Cascadia Code", "JetBrains Mono", Consolas, "Courier New", monospace;
+    --code-size: 12.5px;
+    --code-line: 20px;
+    --tok-key: #0B5FFF;
+    --tok-str: #12906B;
+    --tok-num: #B7791F;
+    --tok-lit: #8250DF;
+    --tok-punc: #5A6473;
+    --t-object: #4F46E5;
+    --t-array: #0E7490;
+    --t-string: #12906B;
+    --t-number: #B7791F;
+    --t-boolean: #8250DF;
+    --t-null: #8A94A3;
+    color-scheme: light;
+  }
+  html[data-theme="dark"] {
+    --bg: #0E1014;
+    --bg-panel: #161A20;
+    --bg-subtle: #1C2128;
+    --bg-hover: #1F252D;
+    --border: #272E38;
+    --border-strong: #38414D;
+    --text: #E6E9ED;
+    --text-secondary: #A2ACB8;
+    --text-tertiary: #6E7885;
+    --primary: #7C7CF0;
+    --primary-hover: #8F8FF5;
+    --primary-soft: #1E2130;
+    --success: #3DD68C;
+    --warning: #E0A94A;
+    --danger: #F0645B;
+    --code-bg: #12161B;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.35);
+    --shadow-md: 0 4px 12px rgba(0,0,0,.45);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,.55);
+    --tok-key: #79B8FF;
+    --tok-str: #7EE787;
+    --tok-num: #F0B429;
+    --tok-lit: #D2A8FF;
+    --tok-punc: #A2ACB8;
+    --t-object: #8F8FF5;
+    --t-array: #56C8E0;
+    --t-string: #3DD68C;
+    --t-number: #F0B429;
+    --t-boolean: #D2A8FF;
+    --t-null: #8A94A3;
+    color-scheme: dark;
+  }
+
+  /*! ============================================================
+   * 基础布局（取自 web/css/layout.css）
+   * ============================================================ */
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--text);
+    background: var(--bg);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  #app { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
+
+  .jt-topbar {
+    height: 48px; flex: 0 0 48px; display: flex; align-items: center; gap: 14px;
+    padding: 0 14px; background: var(--bg-panel); border-bottom: 1px solid var(--border); z-index: 20;
+  }
+  .jt-brand { display: flex; align-items: center; gap: 9px; min-width: 210px; }
+  .jt-logo {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 8px; color: #fff;
+    background: linear-gradient(135deg, var(--primary), #7C5CFC);
+    box-shadow: 0 2px 6px color-mix(in srgb, var(--primary) 32%, transparent);
+    font-family: var(--font-mono); font-size: 15px; font-weight: 700;
+  }
+  .jt-brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+  .jt-brand-text b { font-size: 14px; font-weight: 650; letter-spacing: .2px; }
+  .jt-brand-text small { font-size: 10.5px; color: var(--text-tertiary); }
+  .jt-top-note {
+    font-size: 11px; color: var(--primary); background: var(--primary-soft);
+    border: 1px solid color-mix(in srgb, var(--primary) 24%, transparent);
+    border-radius: 20px; padding: 3px 10px;
+  }
+  .jt-top-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+  .jt-top-hint { font-size: 11.5px; color: var(--text-tertiary); }
+
+  .jt-workspace {
+    flex: 1; display: flex; flex-direction: column; min-width: 0; min-height: 0;
+    padding: 12px 14px 10px; gap: 9px; overflow: hidden;
+  }
+  .jt-statusbar {
+    height: 26px; flex: 0 0 26px; display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 0 14px; font-size: 11.5px; color: var(--text-secondary);
+    background: var(--bg-panel); border-top: 1px solid var(--border);
+  }
+  .jt-status-left { display: flex; align-items: center; gap: 7px; min-width: 0; }
+  .jt-status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); flex: 0 0 auto; }
+  .jt-status-msg { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60vw; }
+  .jt-status-right { display: flex; align-items: center; gap: 14px; }
+  .jt-status-time { font-family: var(--font-mono); color: var(--text-tertiary); }
+
+  .jt-editors { display: flex; flex: 1; min-height: 0; gap: 0; }
+  .jt-splitter {
+    flex: 0 0 8px; cursor: col-resize; background: transparent; position: relative;
+    border-radius: 3px; transition: background var(--dur);
+  }
+  .jt-splitter::after {
+    content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 2px; height: 40px; border-radius: 2px; background: var(--border-strong);
+    transition: background var(--dur), height var(--dur);
+  }
+  .jt-splitter:hover::after, .jt-splitter.jt-active::after { background: var(--primary); height: 64px; }
+  body.jt-col-resizing { cursor: col-resize; user-select: none; }
+  body.jt-col-resizing textarea { pointer-events: none; }
+
+  /*! ============================================================
+   * 组件（取自 web/css/components.css）
+   * ============================================================ */
+  .jt-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    height: 29px; padding: 0 11px; font-family: var(--font-ui); font-size: 12.5px;
+    color: var(--text); background: var(--bg-panel); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap;
+    transition: background var(--dur), border-color var(--dur), color var(--dur), box-shadow var(--dur);
+  }
+  .jt-btn:hover:not(:disabled) { background: var(--bg-hover); border-color: var(--border-strong); }
+  .jt-btn:active:not(:disabled) { transform: translateY(.5px); }
+  .jt-btn:disabled { opacity: .6; cursor: not-allowed; }
+  .jt-btn-primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .jt-btn-primary:hover:not(:disabled) { background: var(--primary-hover); border-color: var(--primary-hover); }
+  .jt-btn-sm { height: 24px; padding: 0 8px; font-size: 12px; }
+  .jt-icon-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; padding: 0; color: var(--text-secondary);
+    background: transparent; border: 1px solid transparent; border-radius: var(--radius-sm); cursor: pointer;
+    transition: background var(--dur), color var(--dur), border-color var(--dur);
+  }
+  .jt-icon-btn:hover { background: var(--bg-hover); color: var(--text); }
+  .jt-tool-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; padding: 0; color: var(--text-secondary);
+    background: transparent; border: 0; border-radius: var(--radius-sm); cursor: pointer;
+    transition: background var(--dur), color var(--dur);
+  }
+  .jt-tool-btn:hover { background: var(--bg-hover); color: var(--primary); }
+  :focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; border-radius: 4px; }
+
+  /* 工具头部 */
+  .jt-toolhead { display: flex; flex-direction: column; gap: 2px; flex: 0 0 auto; }
+  .jt-toolhead-row { display: flex; align-items: center; gap: 10px; }
+  .jt-th-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 9px; color: var(--primary);
+    background: var(--primary-soft); border: 1px solid color-mix(in srgb, var(--primary) 18%, transparent);
+  }
+  .jt-th-name { margin: 0; font-size: 15.5px; font-weight: 650; }
+  .jt-th-cat {
+    font-size: 10.5px; color: var(--text-tertiary); background: var(--bg-subtle);
+    border: 1px solid var(--border); border-radius: 20px; padding: 2px 9px;
+  }
+  .jt-th-desc { margin: 0 0 0 40px; font-size: 12px; color: var(--text-secondary); }
+
+  /* 参数条 */
+  .jt-params {
+    display: flex; flex-wrap: wrap; align-items: flex-end; gap: 9px 13px;
+    padding: 9px 12px; background: var(--bg-panel);
+    border: 1px solid var(--border); border-radius: var(--radius); flex: 0 0 auto;
+  }
+  .jt-param { display: flex; flex-direction: column; gap: 4px; }
+  .jt-param-label { font-size: 11px; color: var(--text-tertiary); letter-spacing: .2px; }
+  .jt-input, .jt-select {
+    height: 29px; padding: 0 9px; font-family: var(--font-ui); font-size: 12.5px;
+    color: var(--text); background: var(--bg-panel); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); outline: none;
+    transition: border-color var(--dur), box-shadow var(--dur);
+  }
+  .jt-input { width: 114px; font-family: var(--font-mono); }
+  .jt-select { min-width: 168px; cursor: pointer; }
+  .jt-input:focus, .jt-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+  .jt-checks { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding-bottom: 1px; }
+  .jt-checkline {
+    display: inline-flex; align-items: center; gap: 6px; height: 29px; padding: 0 9px;
+    font-size: 12px; color: var(--text-secondary); background: var(--bg-subtle);
+    border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer;
+    transition: border-color var(--dur), color var(--dur);
+  }
+  .jt-checkline:hover { border-color: var(--border-strong); color: var(--text); }
+  .jt-check { width: 14px; height: 14px; accent-color: var(--primary); cursor: pointer; margin: 0; }
+  .jt-runwrap { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  .jt-param-tip {
+    flex: 1 1 100%; font-size: 11px; color: var(--text-tertiary);
+    border-top: 1px dashed var(--border); padding-top: 7px; line-height: 1.5;
+  }
+  .jt-param-tip code {
+    font-family: var(--font-mono); font-size: 10.5px; color: var(--text-secondary);
+    background: var(--bg-subtle); border-radius: 3px; padding: 1px 4px;
+  }
+
+  /* 统计 chips */
+  .jt-stats { display: flex; flex-wrap: wrap; gap: 6px; flex: 0 0 auto; }
+  .jt-stat-chip {
+    display: inline-flex; align-items: center; gap: 6px; height: 25px; padding: 0 10px;
+    font-size: 11.5px; color: var(--text-secondary); background: var(--bg-panel);
+    border: 1px solid var(--border); border-radius: 20px;
+  }
+  .jt-stat-chip b { font-family: var(--font-mono); font-size: 12px; color: var(--primary); font-weight: 650; }
+  .jt-stat-chip.is-warn { color: var(--warning); border-color: color-mix(in srgb, var(--warning) 40%, var(--border)); background: color-mix(in srgb, var(--warning) 8%, var(--bg-panel)); }
+  .jt-stat-chip.is-warn b { color: var(--warning); }
+  .jt-stat-chip.is-danger { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 40%, var(--border)); background: color-mix(in srgb, var(--danger) 8%, var(--bg-panel)); }
+  .jt-stat-chip.is-danger b { color: var(--danger); }
+  .jt-stat-note { margin-left: auto; font-size: 11px; color: var(--text-tertiary); align-self: center; }
+
+  /* 提示区 */
+  .jt-notice {
+    flex: 0 0 auto; max-height: 104px; overflow: auto; padding: 5px 10px 6px;
+    background: color-mix(in srgb, var(--warning) 6%, var(--bg-panel));
+    border: 1px solid color-mix(in srgb, var(--warning) 28%, var(--border));
+    border-left: 3px solid var(--warning); border-radius: var(--radius-sm);
+  }
+  .jt-notice-head { display: flex; align-items: center; gap: 8px; height: 20px; }
+  .jt-notice-title { font-size: 11.5px; font-weight: 650; color: var(--warning); }
+  .jt-notice-sum { font-size: 11px; color: var(--text-tertiary); }
+  .jt-notice-list { margin: 2px 0 0; padding: 0; list-style: none; }
+  .jt-notice-item {
+    display: flex; align-items: baseline; gap: 7px; padding: 2px 0;
+    font-size: 11.5px; line-height: 1.5; color: var(--text-secondary);
+  }
+  .jt-notice-tag {
+    flex: 0 0 auto; font-size: 10px; padding: 0 6px; border-radius: 4px;
+    color: var(--warning); background: color-mix(in srgb, var(--warning) 14%, transparent);
+  }
+  .jt-notice-item.jt-n-info .jt-notice-tag { color: var(--primary); background: var(--primary-soft); }
+  .jt-notice-item.jt-n-error .jt-notice-tag { color: var(--danger); background: color-mix(in srgb, var(--danger) 12%, transparent); }
+
+  /* 面板 */
+  .jt-panel {
+    display: flex; flex-direction: column; min-width: 0; min-height: 0;
+    background: var(--bg-panel); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; flex: 1 1 0;
+  }
+  .jt-panel-head {
+    display: flex; align-items: center; gap: 9px; height: 34px; flex: 0 0 34px;
+    padding: 0 7px 0 11px; border-bottom: 1px solid var(--border); background: var(--bg-panel);
+  }
+  .jt-panel-title { display: flex; align-items: center; gap: 7px; min-width: 0; }
+  .jt-panel-title > svg { color: var(--primary); flex: 0 0 auto; }
+  .jt-panel-name { font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+  .jt-panel-stats { font-size: 11px; color: var(--text-tertiary); font-family: var(--font-mono); white-space: nowrap; }
+  .jt-badge {
+    font-size: 10.5px; font-weight: 600; color: var(--text-secondary); background: var(--bg-subtle);
+    border: 1px solid var(--border); border-radius: 20px; padding: 1px 8px; white-space: nowrap;
+  }
+  .jt-panel-actions { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+  .jt-panel-body { display: flex; flex: 1; min-height: 0; position: relative; }
+  .jt-panel-foot {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    height: 22px; flex: 0 0 22px; padding: 0 10px; font-size: 10.5px;
+    color: var(--text-tertiary); background: var(--bg-subtle); border-top: 1px solid var(--border);
+  }
+  .jt-panel-foot kbd {
+    font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary);
+    background: var(--bg-panel); border: 1px solid var(--border); border-radius: 3px; padding: 0 4px;
+  }
+
+  /* 分段切换 */
+  .jt-viewtoggle { display: inline-flex; align-items: center; }
+  .jt-seg {
+    font-family: var(--font-ui); font-size: 11px; line-height: 1; color: var(--text-secondary);
+    background: var(--bg-subtle); border: 1px solid var(--border); padding: 5px 9px; cursor: pointer;
+    transition: background var(--dur), color var(--dur);
+  }
+  .jt-seg:first-child { border-radius: var(--radius-sm) 0 0 var(--radius-sm); border-right: 0; }
+  .jt-seg:last-child { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .jt-seg:hover:not(.active) { background: var(--bg-hover); color: var(--primary); }
+  .jt-seg.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+  /* 代码区 / 行号 */
+  .jt-gutter {
+    flex: 0 0 46px; width: 46px; overflow: hidden; padding-top: 8px;
+    background: var(--bg-subtle); border-right: 1px solid var(--border); user-select: none;
+  }
+  .jt-gutter-inner {
+    font-family: var(--font-mono); font-size: 11.5px; line-height: var(--code-line);
+    color: var(--text-tertiary); text-align: right; white-space: pre; padding-right: 9px;
+  }
+  .jt-area { flex: 1; min-width: 0; position: relative; overflow: auto; background: var(--code-bg); }
+  .jt-textarea {
+    display: block; width: 100%; height: 100%; min-height: 100%; margin: 0; padding: 8px 12px;
+    border: 0; outline: none; resize: none; font-family: var(--font-mono);
+    font-size: var(--code-size); line-height: var(--code-line); color: var(--text);
+    background: transparent; white-space: pre; tab-size: 2; overflow: auto;
+  }
+  .jt-textarea::placeholder { color: var(--text-tertiary); }
+  .jt-code {
+    margin: 0; padding: 8px 12px; min-height: 100%; font-family: var(--font-mono);
+    font-size: var(--code-size); line-height: var(--code-line); color: var(--text);
+    background: transparent; white-space: pre; tab-size: 2;
+  }
+  .tok-key { color: var(--tok-key); }
+  .tok-str { color: var(--tok-str); }
+  .tok-num { color: var(--tok-num); }
+  .tok-lit { color: var(--tok-lit); font-style: italic; }
+  .tok-punc { color: var(--tok-punc); }
+
+  /* 错误条 / 空状态 */
+  .jt-errbar {
+    display: flex; align-items: flex-start; gap: 8px; padding: 7px 12px; font-size: 12px;
+    color: var(--danger); background: color-mix(in srgb, var(--danger) 8%, var(--bg-panel));
+    border-top: 1px solid var(--border); border-left: 3px solid var(--danger); flex: 0 0 auto;
+  }
+  .jt-errbar svg { flex: 0 0 auto; margin-top: 1px; }
+  .jt-errbar-msg { line-height: 1.5; color: var(--text-secondary); word-break: break-word; }
+  .jt-empty { display: none; }
+  .jt-empty:not([hidden]) {
+    display: flex; position: absolute; inset: 0; z-index: 5; align-items: center; justify-content: center;
+    background: var(--bg-panel); pointer-events: none; color: var(--text-tertiary);
+  }
+  .jt-empty-inner { text-align: center; line-height: 1.9; padding: 12px; }
+  .jt-empty-inner > svg { color: var(--border-strong); margin-bottom: 4px; }
+  .jt-empty-inner p { margin: 2px 0 0; font-size: 12.5px; }
+  .jt-empty-inner .jt-empty-sub { font-size: 11.5px; color: var(--text-tertiary); }
+
+  /* 树形视图 */
+  .jt-tree-wrap { display: flex; flex-direction: column; }
+  .jt-tree-bar {
+    display: flex; align-items: center; gap: 6px; flex: 0 0 auto;
+    padding: 6px 10px; font-family: var(--font-ui); border-bottom: 1px solid var(--border);
+  }
+  .jt-tree-bar-title { font-size: 11px; color: var(--text-tertiary); }
+  .jt-tree-bar-spacer { flex: 1 1 auto; }
+  .jt-tree-bar-btn {
+    font-family: var(--font-ui); font-size: 11px; line-height: 1; color: var(--text-secondary);
+    background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 4px 8px; cursor: pointer; transition: background var(--dur), color var(--dur);
+  }
+  .jt-tree-bar-btn:hover { background: var(--bg-hover); color: var(--primary); }
+  .jt-tree-scroll { flex: 1; min-height: 0; overflow: auto; background: var(--code-bg); }
+  .jt-tree { padding: 6px 4px 12px; font-family: var(--font-mono); font-size: 12.5px; }
+  .jt-trow {
+    display: flex; align-items: center; gap: 5px; min-height: 23px; line-height: 23px;
+    border-radius: 4px; padding-right: 10px; cursor: pointer;
+  }
+  .jt-trow:hover { background: var(--bg-hover); }
+  .jt-ttoggle {
+    display: inline-flex; width: 15px; height: 15px; flex: 0 0 15px; align-items: center; justify-content: center;
+    color: var(--text-tertiary); cursor: pointer; transition: transform var(--dur), color var(--dur);
+  }
+  .jt-ttoggle:hover { color: var(--primary); }
+  .jt-ttoggle.jt-open { transform: rotate(90deg); }
+  .jt-tspacer { display: inline-block; width: 15px; flex: 0 0 15px; }
+  .jt-tkey { color: var(--tok-key); }
+  .jt-tcolon { color: var(--tok-punc); }
+  .jt-tval { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 46%; }
+  .jt-tname { color: var(--text-secondary); font-family: var(--font-ui); font-size: 11.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .jt-tree-count {
+    flex: 0 0 auto; font-family: var(--font-ui); font-size: 10.5px; color: var(--text-tertiary);
+    background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 10px; padding: 0 7px;
+  }
+  .jt-tree-flag {
+    flex: 0 0 auto; font-family: var(--font-ui); font-size: 10px; padding: 0 6px; border-radius: 4px;
+    color: var(--warning); background: color-mix(in srgb, var(--warning) 12%, transparent);
+  }
+  .jt-tree-flag.flag-danger { color: var(--danger); background: color-mix(in srgb, var(--danger) 12%, transparent); }
+  .v-object { color: var(--t-object); }
+  .v-array { color: var(--t-array); }
+  .v-string { color: var(--t-string); }
+  .v-number { color: var(--t-number); }
+  .v-boolean { color: var(--t-boolean); }
+  .v-null { color: var(--t-null); font-style: italic; }
+
+  /* Toast */
+  .jt-toasts { position: fixed; right: 18px; bottom: 40px; display: flex; flex-direction: column; gap: 8px; z-index: 200; pointer-events: none; }
+  .jt-toast {
+    display: flex; align-items: center; gap: 8px; max-width: 360px; padding: 9px 13px;
+    font-size: 12.5px; color: var(--text); background: var(--bg-panel);
+    border: 1px solid var(--border); border-left: 3px solid var(--text-tertiary);
+    border-radius: var(--radius); box-shadow: var(--shadow-md);
+    transform: translateX(24px); opacity: 0; transition: transform var(--dur), opacity var(--dur);
+    pointer-events: auto; cursor: pointer;
+  }
+  .jt-toast.in { transform: translateX(0); opacity: 1; }
+  .jt-toast.success { border-left-color: var(--success); }
+  .jt-toast.success > svg { color: var(--success); }
+  .jt-toast.error { border-left-color: var(--danger); }
+  .jt-toast.error > svg { color: var(--danger); }
+  .jt-toast.warn { border-left-color: var(--warning); }
+  .jt-toast.warn > svg { color: var(--warning); }
+  .jt-toast.info { border-left-color: var(--primary); }
+  .jt-toast.info > svg { color: var(--primary); }
+
+  /* 弹窗 */
+  .jt-modal-overlay {
+    position: fixed; inset: 0; z-index: 150; display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,.35); opacity: 0; transition: opacity var(--dur);
+  }
+  .jt-modal-overlay.show { opacity: 1; }
+  .jt-modal {
+    display: flex; flex-direction: column; max-height: 82vh; width: 100%; max-width: 640px; margin: 20px;
+    background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg); transform: translateY(8px) scale(.99); transition: transform var(--dur);
+  }
+  .jt-modal-overlay.show .jt-modal { transform: none; }
+  .jt-modal-head { display: flex; align-items: center; gap: 10px; padding: 12px 12px 11px 18px; border-bottom: 1px solid var(--border); }
+  .jt-modal-title { margin: 0; font-size: 14px; font-weight: 650; flex: 1; }
+  .jt-modal-body { padding: 14px 18px; overflow: auto; }
+  .jt-modal-path { font-size: 11.5px; color: var(--text-tertiary); margin-bottom: 8px; word-break: break-all; }
+  .jt-modal-code {
+    margin: 0; padding: 10px 12px; font-family: var(--font-mono); font-size: 12px; line-height: 19px;
+    color: var(--text); background: var(--bg-subtle); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); white-space: pre; overflow: auto; max-height: 46vh;
+  }
+  .jt-modal-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 11px 18px 15px; border-top: 1px solid var(--border); }
+
+  @media (max-width: 900px) {
+    .jt-brand { min-width: 0; }
+    .jt-top-hint, .jt-top-note { display: none; }
+    .jt-editors { flex-direction: column; }
+    .jt-splitter { cursor: row-resize; flex-basis: 8px; }
+    .jt-splitter::after { width: 40px; height: 2px; }
+    .jt-splitter:hover::after, .jt-splitter.jt-active::after { width: 64px; height: 2px; }
+    body.jt-col-resizing { cursor: row-resize; }
+    .jt-runwrap { margin-left: 0; }
+    .jt-stat-note { display: none; }
+  }
+  </style>
+</head>
+<body>
+<noscript><div style="padding:20px;color:#D93025">本工具需要启用 JavaScript 才能使用。</div></noscript>
+
+<div id="app">
+  <!-- 顶部栏 -->
+  <header class="jt-topbar">
+    <div class="jt-brand">
+      <span class="jt-logo">J</span>
+      <span class="jt-brand-text"><b>JSON 工具箱</b><small>JSON TOOLBOX</small></span>
+    </div>
+    <span class="jt-top-note">独立原型 · 待验收</span>
+    <div class="jt-top-actions">
+      <span class="jt-top-hint">单文件 / 离线可用</span>
+      <button type="button" class="jt-icon-btn" id="themeBtn" title="切换浅色 / 深色主题" aria-label="切换浅色或深色主题"><span data-icon="moon"></span></button>
+    </div>
+  </header>
+
+  <main class="jt-workspace">
+    <!-- 工具头部 -->
+    <div class="jt-toolhead">
+      <div class="jt-toolhead-row">
+        <span class="jt-th-icon"><span data-icon="tree" data-size="17"></span></span>
+        <h1 class="jt-th-name">父子结构重建</h1>
+        <span class="jt-th-cat">结构转换</span>
+      </div>
+      <p class="jt-th-desc">输入带 ID 与父 ID 的 JSON 数组，按父子关系重建为嵌套树（子节点写入 children 字段）。</p>
+    </div>
+
+    <!-- 参数区 -->
+    <section class="jt-params" aria-label="构建参数">
+      <label class="jt-param">
+        <span class="jt-param-label">ID 字段名</span>
+        <input class="jt-input" id="idField" type="text" value="id" spellcheck="false" autocomplete="off">
+      </label>
+      <label class="jt-param">
+        <span class="jt-param-label">父字段名</span>
+        <input class="jt-input" id="parentField" type="text" value="parentId" spellcheck="false" autocomplete="off">
+      </label>
+      <label class="jt-param">
+        <span class="jt-param-label">子节点字段名</span>
+        <input class="jt-input" id="childrenField" type="text" value="children" spellcheck="false" autocomplete="off">
+      </label>
+      <label class="jt-param">
+        <span class="jt-param-label">重复 ID 处理</span>
+        <select class="jt-select" id="dupMode">
+          <option value="first">保留首个（跳过重复）</option>
+          <option value="last">保留最后（后者覆盖）</option>
+        </select>
+      </label>
+      <div class="jt-param">
+        <span class="jt-param-label">构建选项</span>
+        <div class="jt-checks">
+          <label class="jt-checkline"><input class="jt-check" id="autoDetect" type="checkbox" checked><span>自动探测常见字段名</span></label>
+          <label class="jt-checkline"><input class="jt-check" id="removeParent" type="checkbox"><span>移除原父字段</span></label>
+          <label class="jt-checkline"><input class="jt-check" id="keepOther" type="checkbox" checked><span>保留其它字段</span></label>
+        </div>
+      </div>
+      <div class="jt-runwrap">
+        <button type="button" class="jt-btn jt-btn-primary" id="runBtn"><span data-icon="play" data-size="14"></span><span id="runBtnText">构建树结构</span></button>
+      </div>
+      <div class="jt-param-tip">
+        根判定：父字段为 <code>null</code> / <code>undefined</code> / <code>''</code> / <code>0</code> / <code>'0'</code> / <code>'root'</code> 或指向不存在的 ID 时均视为根节点；ID 按字符串匹配（数字 <code>1</code> 与字符串 <code>'1'</code> 视为同一节点）；子节点字段将被重建覆盖。
+      </div>
+    </section>
+
+    <!-- 统计 -->
+    <div class="jt-stats" id="stats" hidden aria-live="polite">
+      <span class="jt-stat-chip" id="chipTotal"><b id="stTotal">0</b> 输入节点</span>
+      <span class="jt-stat-chip" id="chipRoots"><b id="stRoots">0</b> 根节点</span>
+      <span class="jt-stat-chip" id="chipDepth"><b id="stDepth">0</b> 最大深度</span>
+      <span class="jt-stat-chip" id="chipOrphans"><b id="stOrphans">0</b> 孤儿</span>
+      <span class="jt-stat-chip" id="chipCycles"><b id="stCycles">0</b> 循环</span>
+      <span class="jt-stat-chip" id="chipDups"><b id="stDups">0</b> 重复 ID</span>
+      <span class="jt-stat-chip" id="chipSelf"><b id="stSelf">0</b> 自引用</span>
+      <span class="jt-stat-note" id="statNote"></span>
+    </div>
+
+    <!-- 提示 -->
+    <div class="jt-notice" id="notice" hidden aria-live="polite">
+      <div class="jt-notice-head">
+        <span class="jt-notice-title">处理提示</span>
+        <span class="jt-notice-sum" id="noticeSum"></span>
+      </div>
+      <ul class="jt-notice-list" id="noticeList"></ul>
+    </div>
+
+    <!-- 双面板 -->
+    <div class="jt-editors" id="editors">
+      <!-- 输入面板 -->
+      <section class="jt-panel" id="inputPanel" style="flex:0 0 50%">
+        <div class="jt-panel-head">
+          <div class="jt-panel-title">
+            <span data-icon="code" data-size="15"></span>
+            <span class="jt-panel-name">输入 · JSON 数组</span>
+            <span class="jt-panel-stats" id="inputMeta">0 字符 · 1 行</span>
+          </div>
+          <div class="jt-panel-actions">
+            <button type="button" class="jt-btn jt-btn-sm" id="loadExample"><span data-icon="spark" data-size="13"></span>载入示例</button>
+            <button type="button" class="jt-tool-btn" id="clearInput" title="清空输入" aria-label="清空输入"><span data-icon="trash" data-size="14"></span></button>
+          </div>
+        </div>
+        <div class="jt-panel-body" id="inputBody">
+          <div class="jt-gutter" id="inputGutter"><div class="jt-gutter-inner" id="inputGutterInner">1</div></div>
+          <div class="jt-area"><textarea class="jt-textarea" id="input" spellcheck="false" placeholder='在此粘贴 JSON 数组，例如：[{"id":1,"parentId":null,"name":"根节点"}]' aria-label="JSON 数组输入"></textarea></div>
+          <div class="jt-empty" id="inputEmpty">
+            <div class="jt-empty-inner">
+              <span data-icon="code" data-size="30"></span>
+              <p>粘贴 JSON 数组开始</p>
+              <p class="jt-empty-sub">或点击右上角「载入示例」查看效果</p>
+            </div>
+          </div>
+        </div>
+        <div class="jt-panel-foot"><span>支持对象数组，字段可自动探测</span><span><kbd>Ctrl</kbd> + <kbd>Enter</kbd> 执行</span></div>
+      </section>
+
+      <div class="jt-splitter" id="splitter" role="separator" aria-label="拖动调整面板宽度" tabindex="0"></div>
+
+      <!-- 输出面板 -->
+      <section class="jt-panel" id="outputPanel" style="flex:1 1 0">
+        <div class="jt-panel-head">
+          <div class="jt-panel-title">
+            <span data-icon="tree" data-size="15"></span>
+            <span class="jt-panel-name">输出 · 父子结构</span>
+            <span class="jt-badge" id="outBadge">JSON</span>
+          </div>
+          <div class="jt-viewtoggle" role="tablist" aria-label="结果视图">
+            <button type="button" class="jt-seg active" id="segJson" role="tab" aria-selected="true">JSON 视图</button>
+            <button type="button" class="jt-seg" id="segTree" role="tab" aria-selected="false">树形视图</button>
+          </div>
+          <div class="jt-panel-actions">
+            <button type="button" class="jt-btn jt-btn-sm" id="copyOut" title="复制输出"><span data-icon="copy" data-size="13"></span>复制</button>
+            <button type="button" class="jt-btn jt-btn-sm" id="downloadOut" title="下载 .json"><span data-icon="download" data-size="13"></span>下载</button>
+            <button type="button" class="jt-tool-btn" id="clearOut" title="清空结果" aria-label="清空结果"><span data-icon="trash" data-size="14"></span></button>
+          </div>
+        </div>
+
+        <div class="jt-panel-body" id="jsonView">
+          <div class="jt-gutter" id="outGutter"><div class="jt-gutter-inner" id="outGutterInner">1</div></div>
+          <div class="jt-area" id="outArea"><pre class="jt-code" id="outCode"></pre></div>
+          <div class="jt-empty" id="outEmpty">
+            <div class="jt-empty-inner">
+              <span data-icon="tree" data-size="30"></span>
+              <p id="outEmptyMsg">构建结果将显示在这里</p>
+              <p class="jt-empty-sub">先粘贴数组并点击「构建树结构」</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="jt-panel-body jt-tree-wrap" id="treeView" hidden>
+          <div class="jt-tree-bar">
+            <span class="jt-tree-bar-title" id="treeBarTitle">折叠状态 · 点击 ▶ 展开，点击节点查看原始对象</span>
+            <span class="jt-tree-bar-spacer"></span>
+            <button type="button" class="jt-tree-bar-btn" id="expandAll">全部展开</button>
+            <button type="button" class="jt-tree-bar-btn" id="collapseAll">全部折叠</button>
+          </div>
+          <div class="jt-tree-scroll" id="treeScroll"><div class="jt-tree" id="tree"></div></div>
+          <div class="jt-empty" id="treeEmpty" hidden>
+            <div class="jt-empty-inner">
+              <span data-icon="tree" data-size="30"></span>
+              <p>暂无树形结果</p>
+              <p class="jt-empty-sub">请先构建树结构</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="jt-errbar" id="errBar" hidden>
+          <span data-icon="alert" data-size="14"></span>
+          <span class="jt-errbar-msg" id="errMsg"></span>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="jt-statusbar">
+    <div class="jt-status-left"><span class="jt-status-dot" id="statusDot"></span><span class="jt-status-msg" id="statusMsg" aria-live="polite">就绪 · 等待输入</span></div>
+    <div class="jt-status-right"><span class="jt-status-time" id="statusTime">--:--:--</span><span>JSON 工具箱 · 原型 v1</span></div>
+  </footer>
+</div>
+
+<!-- Toast 容器 -->
+<div class="jt-toasts" id="toasts" aria-live="polite"></div>
+
+<!-- 原始对象弹窗 -->
+<div class="jt-modal-overlay" id="modal" hidden>
+  <div class="jt-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="jt-modal-head">
+      <h2 class="jt-modal-title" id="modalTitle">节点原始对象</h2>
+      <button type="button" class="jt-icon-btn" id="modalClose" aria-label="关闭"><span data-icon="close" data-size="15"></span></button>
+    </div>
+    <div class="jt-modal-body">
+      <div class="jt-modal-path" id="modalPath"></div>
+      <pre class="jt-modal-code" id="modalCode"></pre>
+    </div>
+    <div class="jt-modal-foot">
+      <button type="button" class="jt-btn" id="modalCopy"><span data-icon="copy" data-size="13"></span>复制对象</button>
+      <button type="button" class="jt-btn jt-btn-primary" id="modalOk">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ============================================================
+   * 0. 通用工具
+   * ============================================================ */
+  function $(id) { return document.getElementById(id); }
+
+  var ICONS = {
+    tree: '<rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M12 12H6v4M12 12h6v4"/>',
+    code: '<path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/>',
+    play: '<path d="m8 5 11 7-11 7z"/>',
+    spark: '<path d="M15 4V2M15 20v-2M8.5 9.5 3 4M21 4l-5.5 5.5M4 21l9.5-9.5"/><path d="M9 4h.01M4 9h.01"/>',
+    trash: '<path d="M3 6h18M8 6V4h8v2M6 6l1 15h10l1-15"/>',
+    copy: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+    download: '<path d="M12 3v12M12 15l-4-4M12 15l4-4M4 17v3h16v-3"/>',
+    moon: '<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+    alert: '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
+    check: '<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',
+    close: '<path d="M6 6l12 12M18 6 6 18"/>',
+    chevron: '<path d="m9 6 6 6-6 6"/>',
+    info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'
+  };
+
+  function svg(name, size) {
+    var s = size || 16;
+    return '<svg viewBox="0 0 24 24" width="' + s + '" height="' + s + '" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONS[name] || ICONS.info) + '</svg>';
+  }
+
+  function paintIcons(root) {
+    var nodes = (root || document).querySelectorAll('[data-icon]');
+    for (var i = 0; i < nodes.length; i++) {
+      nodes[i].innerHTML = svg(nodes[i].getAttribute('data-icon'), Number(nodes[i].getAttribute('data-size')) || 16);
+    }
+  }
+
+  function escapeHtml(value) {
+    return String(value === null || value === undefined ? '' : value)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function nowText() {
+    var d = new Date();
+    return pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds());
+  }
+
+  function nowMs() {
+    return (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+  }
+
+  function typeName(value) {
+    if (value === null) return 'null';
+    if (Array.isArray(value)) return '数组';
+    if (typeof value === 'object') return '对象';
+    if (typeof value === 'string') return '字符串';
+    if (typeof value === 'number') return '数字';
+    if (typeof value === 'boolean') return '布尔值';
+    return typeof value;
+  }
+
+  function setStatus(message, isError) {
+    $('statusMsg').textContent = message;
+    $('statusTime').textContent = nowText();
+    $('statusDot').style.background = isError ? 'var(--danger)' : 'var(--success)';
+  }
+
+  function toast(message, type) {
+    var host = $('toasts');
+    var el = document.createElement('div');
+    el.className = 'jt-toast ' + (type || 'info');
+    el.innerHTML = svg(type === 'error' ? 'alert' : (type === 'warn' ? 'info' : 'check'), 15) +
+      '<span>' + escapeHtml(message) + '</span>';
+    host.appendChild(el);
+    window.requestAnimationFrame(function () { el.classList.add('in'); });
+    var timer = window.setTimeout(function () {
+      el.classList.remove('in');
+      window.setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 180);
+    }, 2600);
+    el.addEventListener('click', function () {
+      window.clearTimeout(timer);
+      if (el.parentNode) el.parentNode.removeChild(el);
+    });
+  }
+
+  /* ============================================================
+   * 1. 核心逻辑：构建父子结构
+   * ============================================================ */
+
+  var ID_CANDIDATES = ['id', '_id', 'ID', 'key', 'uuid'];
+  var PARENT_CANDIDATES = ['parentId', 'parent_id', 'pid', 'parent', 'pId', 'PARENT_ID'];
+
+  function makeIssue(level, tag, text) {
+    return { level: level, tag: tag, text: text };
+  }
+
+  /** 判断父字段值是否表示「根节点」。 */
+  function isRootMarker(value) {
+    if (value === null || value === undefined) return true;
+    if (value === 0) return true;
+    if (typeof value === 'string') {
+      var t = value.trim();
+      if (t === '' || t === '0') return true;
+      if (t.toLowerCase() === 'root') return true;
+    }
+    return false;
+  }
+
+  /** 收集所有行中出现过的字段名。 */
+  function collectKeys(rows) {
+    var set = Object.create(null);
+    for (var i = 0; i < rows.length; i++) {
+      var row = rows[i];
+      if (!row || typeof row !== 'object' || Array.isArray(row)) continue;
+      for (var key in row) {
+        if (Object.prototype.hasOwnProperty.call(row, key)) set[key] = true;
+      }
+    }
+    return set;
+  }
+
+  function firstPresent(candidates, keySet) {
+    for (var i = 0; i < candidates.length; i++) {
+      if (keySet[candidates[i]]) return candidates[i];
+    }
+    return '';
+  }
+
+  /**
+   * 解析实际使用的字段名：优先用户显式填写且数据中存在的字段；
+   * 开启自动探测时，为缺失的字段挑选第一个命中的常见候选名。
+   */
+  function resolveFields(rows, opts, issues) {
+    var keySet = collectKeys(rows);
+    var idField = opts.idField || 'id';
+    var parentField = opts.parentField || 'parentId';
+
+    if (opts.autoDetect && !keySet[idField]) {
+      var detectedId = firstPresent(ID_CANDIDATES, keySet);
+      if (detectedId) {
+        idField = detectedId;
+        issues.push(makeIssue('info', '探测', '未找到「' + opts.idField + '」，已自动探测 ID 字段为「' + detectedId + '」。'));
+      }
+    }
+    if (opts.autoDetect && !keySet[parentField]) {
+      var detectedParent = firstPresent(PARENT_CANDIDATES, keySet);
+      if (detectedParent) {
+        parentField = detectedParent;
+        issues.push(makeIssue('info', '探测', '未找到「' + opts.parentField + '」，已自动探测父字段为「' + detectedParent + '」。'));
+      }
+    }
+    return {
+      idField: idField,
+      parentField: parentField,
+      childrenField: opts.childrenField || 'children'
+    };
+  }
+
+  var SPACE_CACHE = [];
+  function spaces(count) {
+    if (!SPACE_CACHE[count]) SPACE_CACHE[count] = new Array(count + 1).join(' ');
+    return SPACE_CACHE[count];
+  }
+
+  /**
+   * 迭代式 JSON 序列化：与 JSON.stringify(value, null, indent) 输出一致，
+   * 但不使用递归，因此 5000 层深链也不会触发调用栈溢出。
+   * @param {*} value 任意可序列化值
+   * @param {number} indent 缩进空格数，0 表示紧凑输出
+   * @returns {string}
+   */
+  function stringifyJson(value, indent) {
+    var useIndent = indent > 0;
+    var parts = [];
+    var stack = [{ v: value, d: 0 }];
+    while (stack.length) {
+      var item = stack.pop();
+      if (item.text !== undefined) {
+        parts.push(item.text);
+        continue;
+      }
+      var current = item.v;
+      var depth = item.d;
+      if (current === null) {
+        parts.push('null');
+        continue;
+      }
+      if (typeof current !== 'object') {
+        var primitive = JSON.stringify(current);
+        parts.push(primitive === undefined ? 'null' : primitive);
+        continue;
+      }
+      var isArray = Array.isArray(current);
+      var entries = isArray ? current : Object.keys(current);
+      if (entries.length === 0) {
+        parts.push(isArray ? '[]' : '{}');
+        continue;
+      }
+      parts.push(isArray ? '[' : '{');
+      stack.push({
+        text: (useIndent ? '\n' + spaces(depth * indent) : '') + (isArray ? ']' : '}')
+      });
+      for (var i = entries.length - 1; i >= 0; i--) {
+        if (i !== entries.length - 1) stack.push({ text: ',' });
+        if (isArray) {
+          stack.push({ v: entries[i], d: depth + 1 });
+        } else {
+          var key = entries[i];
+          var child = current[key];
+          stack.push({ v: child === undefined ? null : child, d: depth + 1 });
+          stack.push({ text: JSON.stringify(key) + ':' + (useIndent ? ' ' : '') });
+        }
+        if (useIndent) stack.push({ text: '\n' + spaces((depth + 1) * indent) });
+      }
+    }
+    return parts.join('');
+  }
+
+  /** 为单个内部节点生成浅层输出对象（子节点稍后按迭代方式挂载）。 */
+  function shallowOutput(node, fields, opts) {
+    var out = {};
+    var row = node.row;
+    if (opts.keepOther) {
+      for (var key in row) {
+        if (!Object.prototype.hasOwnProperty.call(row, key)) continue;
+        if (key === fields.childrenField) continue;
+        if (key === fields.parentField && opts.removeParent) continue;
+        out[key] = row[key];
+      }
+    } else {
+      out[fields.idField] = row[fields.idField];
+    }
+    if (node.circular) out.__circularRef = true;
+    return out;
+  }
+
+  /**
+   * 构建父子树。
+   * @param {Array<Object>} rows 输入数组
+   * @param {Object} opts { idField, parentField, childrenField, autoDetect,
+   *                        removeParent, keepOther, dupMode }
+   * @returns {{roots: Array<Object>, issues: Array<Object>, stats: Object, meta: Object}}
+   */
+  function buildTree(rows, opts) {
+    var issues = [];
+    var stats = {
+      total: rows.length, valid: 0, roots: 0, maxDepth: 0,
+      orphans: 0, cycles: 0, duplicates: 0, selfRefs: 0, skipped: 0
+    };
+    var fields = resolveFields(rows, opts, issues);
+    var idField = fields.idField;
+    var parentField = fields.parentField;
+    var childrenField = fields.childrenField;
+
+    var byKey = new Map();
+    var byUid = new Map();
+    var order = [];
+
+    /* --- 步骤 1：规范化、去重、建立字符串键索引（O(n)） --- */
+    for (var i = 0; i < rows.length; i++) {
+      var row = rows[i];
+      if (!row || typeof row !== 'object' || Array.isArray(row)) {
+        stats.skipped++;
+        issues.push(makeIssue('warn', '跳过', '第 ' + (i + 1) + ' 项不是对象（' + typeName(row) + '），已跳过。'));
+        continue;
+      }
+      if (!Object.prototype.hasOwnProperty.call(row, idField) ||
+          row[idField] === null || row[idField] === undefined || row[idField] === '') {
+        stats.skipped++;
+        issues.push(makeIssue('warn', '跳过', '第 ' + (i + 1) + ' 项缺少有效「' + idField + '」，已跳过。'));
+        continue;
+      }
+
+      var key = String(row[idField]);
+      var parentValue = row[parentField];
+      if (byKey.has(key)) {
+        stats.duplicates++;
+        var previous = byKey.get(key);
+        if (opts.dupMode === 'last') {
+          issues.push(makeIssue('warn', '重复', 'ID「' + key + '」在第 ' + (previous.index + 1) + '、' + (i + 1) + ' 项重复，已保留最后一项（后者覆盖）。'));
+          previous.row = row;
+          previous.index = i;
+          previous.rawParent = parentValue;
+        } else {
+          stats.skipped++;
+          issues.push(makeIssue('warn', '重复', 'ID「' + key + '」在第 ' + (previous.index + 1) + '、' + (i + 1) + ' 项重复，已保留首个并跳过后者。'));
+        }
+        continue;
+      }
+
+      var node = {
+        uid: 'n' + i,
+        key: key,
+        row: row,
+        index: i,
+        rawParent: parentValue,
+        parentKey: null,
+        isRoot: false,
+        orphan: false,
+        selfRef: false,
+        circular: false,
+        children: [],
+        depth: 0,
+        path: '',
+        out: null
+      };
+      byKey.set(key, node);
+      byUid.set(node.uid, node);
+      order.push(node);
+    }
+
+    if (byKey.size === 0) {
+      throw new Error('没有可用于构建的有效节点：请检查 ID 字段与重复 ID 处理方式。');
+    }
+    stats.valid = byKey.size;
+
+    /* --- 步骤 2：分类父引用（根 / 孤儿 / 自引用 / 正常） --- */
+    for (var j = 0; j < order.length; j++) {
+      var current = order[j];
+      var parent = current.row[parentField];
+      if (isRootMarker(parent)) {
+        current.isRoot = true;
+        continue;
+      }
+      if (typeof parent === 'object') {
+        current.isRoot = true;
+        current.orphan = true;
+        stats.orphans++;
+        issues.push(makeIssue('warn', '孤儿', '节点「' + current.key + '」的父字段是无效类型（对象 / 数组），已提升为根。'));
+        continue;
+      }
+      var parentKey = String(parent);
+      if (parentKey === current.key) {
+        current.isRoot = true;
+        current.selfRef = true;
+        stats.selfRefs++;
+        issues.push(makeIssue('warn', '自引用', '节点「' + current.key + '」的父字段指向自身，已提升为根。'));
+        continue;
+      }
+      if (!byKey.has(parentKey)) {
+        current.isRoot = true;
+        current.orphan = true;
+        stats.orphans++;
+        issues.push(makeIssue('warn', '孤儿', '节点「' + current.key + '」的父 ID「' + parentKey + '」不存在，已提升为根。'));
+        continue;
+      }
+      current.parentKey = parentKey;
+    }
+
+    /* --- 步骤 3：沿父链迭代检测环，断开回边并提升断环节点为根（O(n)） --- */
+    var color = new Map(); // 1 = 当前路径；2 = 已完成
+    for (var a = 0; a < order.length; a++) {
+      var startKey = order[a].key;
+      if (color.get(startKey) === 2) continue;
+      var path = [];
+      var position = new Map();
+      var cursor = startKey;
+      while (cursor !== null && color.get(cursor) !== 2) {
+        if (color.get(cursor) === 1) {
+          var loopStart = position.get(cursor);
+          var loopKeys = path.slice(loopStart);
+          var breakerKey = path[path.length - 1];
+          var breaker = byKey.get(breakerKey);
+          breaker.parentKey = null;
+          breaker.isRoot = true;
+          breaker.circular = true;
+          stats.cycles++;
+          var chain = loopKeys.concat([cursor]).join(' → ');
+          issues.push(makeIssue('warn', '循环', '检测到循环引用：' + chain + '；已断开 ' + breakerKey + ' → ' + cursor + '，将 ' + breakerKey + ' 提升为根并标记 __circularRef。'));
+          break;
+        }
+        color.set(cursor, 1);
+        position.set(cursor, path.length);
+        path.push(cursor);
+        var nextKey = byKey.get(cursor).parentKey;
+        if (nextKey === null || !byKey.has(nextKey)) break;
+        cursor = nextKey;
+      }
+      for (var p = 0; p < path.length; p++) color.set(path[p], 2);
+    }
+
+    /* --- 步骤 4：挂载子节点 --- */
+    for (var c = 0; c < order.length; c++) {
+      var child = order[c];
+      if (child.parentKey !== null && byKey.has(child.parentKey)) {
+        byKey.get(child.parentKey).children.push(child);
+      } else {
+        child.isRoot = true;
+      }
+    }
+
+    var roots = [];
+    for (var r = 0; r < order.length; r++) {
+      if (order[r].isRoot) roots.push(order[r]);
+    }
+    if (roots.length === 0) {
+      // 理论不可达（环已在步骤 3 打断），此处为防御性兜底。
+      var forcedRoot = order[0];
+      forcedRoot.parentKey = null;
+      forcedRoot.isRoot = true;
+      roots.push(forcedRoot);
+      issues.push(makeIssue('warn', '结构', '未能找到自然根节点，已将首节点提升为根。'));
+    }
+
+    /* --- 步骤 5：BFS 计算深度与路径（迭代，避免深链爆栈） --- */
+    var queue = [];
+    var visited = new Set();
+    var head = 0;
+    for (var q = 0; q < roots.length; q++) {
+      roots[q].depth = 1;
+      roots[q].path = String(roots[q].row[idField]);
+      queue.push(roots[q]);
+    }
+    while (head < queue.length) {
+      var node = queue[head++];
+      if (visited.has(node.key)) continue;
+      visited.add(node.key);
+      if (node.depth > stats.maxDepth) stats.maxDepth = node.depth;
+      for (var k = 0; k < node.children.length; k++) {
+        var kid = node.children[k];
+        if (visited.has(kid.key)) continue;
+        kid.depth = node.depth + 1;
+        kid.path = node.path + ' / ' + String(kid.row[idField]);
+        queue.push(kid);
+      }
+    }
+    stats.roots = roots.length;
+
+    /* --- 步骤 6：迭代后序生成输出对象（避免递归爆栈） --- */
+    var stack = [];
+    for (var s = roots.length - 1; s >= 0; s--) stack.push({ node: roots[s], phase: 0 });
+    while (stack.length) {
+      var top = stack[stack.length - 1];
+      if (top.phase === 0) {
+        top.node.out = shallowOutput(top.node, fields, opts);
+        top.phase = 1;
+        for (var ci = top.node.children.length - 1; ci >= 0; ci--) {
+          stack.push({ node: top.node.children[ci], phase: 0 });
+        }
+      } else {
+        var built = [];
+        for (var cj = 0; cj < top.node.children.length; cj++) {
+          built.push(top.node.children[cj].out);
+        }
+        top.node.out[childrenField] = built;
+        stack.pop();
+      }
+    }
+
+    var rootsOut = [];
+    for (var ro = 0; ro < roots.length; ro++) rootsOut.push(roots[ro].out);
+    var outputValue = rootsOut.length === 1 ? rootsOut[0] : rootsOut;
+    // 极深树的缩进会产生数十 MB 文本：超过 1000 层自动切换紧凑输出。
+    var compactOutput = stats.maxDepth > 1000;
+    if (compactOutput) {
+      issues.push(makeIssue('info', '输出', '树深度 ' + stats.maxDepth + ' 超过 1000 层，JSON 已改用紧凑格式，避免超大缩进影响性能。'));
+    }
+    var outputText = stringifyJson(outputValue, compactOutput ? 0 : 2);
+
+    return {
+      roots: rootsOut,
+      issues: issues,
+      stats: stats,
+      meta: {
+        byKey: byKey,
+        byUid: byUid,
+        order: order,
+        roots: roots,
+        fields: fields,
+        outputValue: outputValue,
+        outputText: outputText
+      }
+    };
+  }
+
+  /* ============================================================
+   * 2. 渲染层
+   * ============================================================ */
+  var HIGHLIGHT_LIMIT = 300000; // 超过该长度使用纯文本，保证大结果渲染速度
+
+  function highlightJson(text) {
+    var escaped = escapeHtml(text);
+    var tokenPattern = /("(?:\\u[a-fA-F0-9]{4}|\\[^u]|[^\\"])*"\s*:?|\b(?:true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g;
+    return escaped.replace(tokenPattern, function (match) {
+      var cls = 'tok-num';
+      if (match.charAt(0) === '"') {
+        cls = /:\s*$/.test(match) ? 'tok-key' : 'tok-str';
+      } else if (match === 'true' || match === 'false' || match === 'null') {
+        cls = 'tok-lit';
+      }
+      return '<span class="' + cls + '">' + match + '</span>';
+    });
+  }
+
+  function lineNumbers(count) {
+    var lines = new Array(count);
+    for (var i = 0; i < count; i++) lines[i] = String(i + 1);
+    return lines.join('\n');
+  }
+
+  /** @returns {boolean} 是否因结果过大而使用了纯文本模式 */
+  function renderJson(text) {
+    var lines = text.split('\n');
+    var plainText = text.length > HIGHLIGHT_LIMIT;
+    $('outGutterInner').textContent = lineNumbers(lines.length);
+    if (plainText) {
+      $('outCode').textContent = text;
+    } else {
+      $('outCode').innerHTML = highlightJson(text) + (text.charAt(text.length - 1) === '\n' ? ' ' : '');
+    }
+    $('outArea').scrollTop = 0;
+    $('outGutter').scrollTop = 0;
+    return plainText;
+  }
+
+  function setChip(chipId, valueId, value, bad) {
+    $(valueId).textContent = String(value);
+    $(chipId).classList.toggle('is-warn', bad === 'warn');
+    $(chipId).classList.toggle('is-danger', bad === 'danger');
+  }
+
+  function renderStats(stats) {
+    setChip('chipTotal', 'stTotal', stats.total, '');
+    setChip('chipRoots', 'stRoots', stats.roots, '');
+    setChip('chipDepth', 'stDepth', stats.maxDepth, '');
+    setChip('chipOrphans', 'stOrphans', stats.orphans, stats.orphans ? 'warn' : '');
+    setChip('chipCycles', 'stCycles', stats.cycles, stats.cycles ? 'danger' : '');
+    setChip('chipDups', 'stDups', stats.duplicates, stats.duplicates ? 'warn' : '');
+    setChip('chipSelf', 'stSelf', stats.selfRefs, stats.selfRefs ? 'warn' : '');
+    $('statNote').textContent = '有效节点 ' + stats.valid + ' · 跳过 ' + stats.skipped + ' 项';
+    $('stats').hidden = false;
+  }
+
+  function renderNotices(issues) {
+    if (!issues.length) {
+      $('notice').hidden = true;
+      return;
+    }
+    var html = [];
+    for (var i = 0; i < issues.length; i++) {
+      var issue = issues[i];
+      html.push('<li class="jt-notice-item jt-n-' + escapeHtml(issue.level) + '">' +
+        '<span class="jt-notice-tag">' + escapeHtml(issue.tag) + '</span>' +
+        '<span>' + escapeHtml(issue.text) + '</span></li>');
+    }
+    $('noticeList').innerHTML = html.join('');
+    var problems = 0;
+    for (var p = 0; p < issues.length; p++) if (issues[p].level !== 'info') problems++;
+    $('noticeSum').textContent = problems ? '共 ' + problems + ' 项已自动处理，详见下方' : '字段探测信息';
+    $('notice').hidden = false;
+  }
+
+  function valueClass(value) {
+    if (value === null) return 'v-null';
+    if (Array.isArray(value)) return 'v-array';
+    if (typeof value === 'object') return 'v-object';
+    if (typeof value === 'string') return 'v-string';
+    if (typeof value === 'number') return 'v-number';
+    if (typeof value === 'boolean') return 'v-boolean';
+    return '';
+  }
+
+  function primaryName(row) {
+    var keys = ['name', 'title', 'label', 'text'];
+    for (var i = 0; i < keys.length; i++) {
+      if (row[keys[i]] !== undefined && row[keys[i]] !== null && row[keys[i]] !== '') {
+        return String(row[keys[i]]);
+      }
+    }
+    return '';
+  }
+
+  function treeRowHtml(node, depth, parentUid, fields) {
+    var idValue = node.row[fields.idField];
+    var idText = String(idValue);
+    var nameText = primaryName(node.row);
+    var childCount = node.children.length;
+    var toggle = childCount
+      ? '<span class="jt-ttoggle" data-toggle="' + node.uid + '" title="展开 / 折叠">' + svg('chevron', 12) + '</span>'
+      : '<span class="jt-tspacer"></span>';
+    var flags = '';
+    if (node.orphan) flags += '<span class="jt-tree-flag">孤儿→根</span>';
+    if (node.selfRef) flags += '<span class="jt-tree-flag">自引用</span>';
+    if (node.circular) flags += '<span class="jt-tree-flag flag-danger">环已断开</span>';
+    var childBadge = childCount ? '<span class="jt-tree-count">' + childCount + ' 子节点</span>' : '';
+    var nameBadge = nameText ? '<span class="jt-tname">' + escapeHtml(nameText) + '</span>' : '';
+
+    return '<div class="jt-trow" data-uid="' + node.uid + '" data-depth="' + depth + '"' +
+      (parentUid ? ' data-parent="' + parentUid + '"' : '') +
+      ' style="padding-left:' + (4 + depth * 16) + 'px">' +
+      toggle +
+      '<span class="jt-tkey">' + escapeHtml(fields.idField) + '</span>' +
+      '<span class="jt-tcolon">:</span>' +
+      '<span class="jt-tval ' + valueClass(idValue) + '" title="' + escapeHtml(idText) + '">' + escapeHtml(idText) + '</span>' +
+      nameBadge + childBadge + flags +
+      '</div>';
+  }
+
+  function renderTree(meta) {
+    var fields = meta.fields;
+    var html = [];
+    for (var i = 0; i < meta.roots.length; i++) {
+      html.push(treeRowHtml(meta.roots[i], 0, '', fields));
+    }
+    $('tree').innerHTML = html.join('');
+    $('treeEmpty').hidden = meta.roots.length > 0;
+    $('treeBarTitle').textContent = (meta.roots.length === 1 ? '1 个根' : meta.roots.length + ' 个根') + ' · 点击 ▶ 展开，点击节点查看原始对象';
+    $('treeScroll').scrollTop = 0;
+  }
+
+  function collapseRow(rowEl) {
+    var depth = Number(rowEl.getAttribute('data-depth')) || 0;
+    var next = rowEl.nextElementSibling;
+    while (next && next.classList.contains('jt-trow') && Number(next.getAttribute('data-depth')) > depth) {
+      var following = next.nextElementSibling;
+      rowEl.parentNode.removeChild(next);
+      next = following;
+    }
+    rowEl.setAttribute('data-open', '0');
+    var toggle = rowEl.querySelector('.jt-ttoggle');
+    if (toggle) toggle.classList.remove('jt-open');
+  }
+
+  function expandRow(rowEl, meta) {
+    var node = meta.byUid.get(rowEl.getAttribute('data-uid'));
+    if (!node || !node.children.length) return;
+    var depth = Number(rowEl.getAttribute('data-depth')) || 0;
+    var html = [];
+    for (var i = 0; i < node.children.length; i++) {
+      html.push(treeRowHtml(node.children[i], depth + 1, node.uid, meta.fields));
+    }
+    rowEl.insertAdjacentHTML('afterend', html.join(''));
+    rowEl.setAttribute('data-open', '1');
+    var toggle = rowEl.querySelector('.jt-ttoggle');
+    if (toggle) toggle.classList.add('jt-open');
+  }
+
+  function renderAllTreeNodes(expand) {
+    var meta = state.meta;
+    if (!meta) { toast('请先构建树结构', 'warn'); return; }
+    if (!expand) { renderTree(meta); return; }
+    var html = [];
+    var stack = [];
+    for (var i = meta.roots.length - 1; i >= 0; i--) stack.push({ node: meta.roots[i], depth: 0, parentUid: '' });
+    while (stack.length) {
+      var item = stack.pop();
+      html.push(treeRowHtml(item.node, item.depth, item.parentUid, meta.fields));
+      for (var c = item.node.children.length - 1; c >= 0; c--) {
+        stack.push({ node: item.node.children[c], depth: item.depth + 1, parentUid: item.node.uid });
+      }
+    }
+    $('tree').innerHTML = html.join('');
+    $('treeEmpty').hidden = true;
+    var rows = $('tree').querySelectorAll('.jt-trow');
+    for (var r = 0; r < rows.length; r++) {
+      if (rows[r].querySelector('.jt-ttoggle')) rows[r].setAttribute('data-open', '1');
+    }
+    var toggles = $('tree').querySelectorAll('.jt-ttoggle');
+    for (var t = 0; t < toggles.length; t++) toggles[t].classList.add('jt-open');
+  }
+
+  /* ============================================================
+   * 3. 状态与交互
+   * ============================================================ */
+  var state = {
+    running: false,
+    result: null,
+    meta: null,
+    outputText: '',
+    view: 'json',
+    modalRaw: null,
+    modalSeq: 0
+  };
+
+  var EXAMPLE_ROWS = [
+    { id: 1, parentId: null, name: '集团总部', type: 'root', code: 'HQ' },
+    { id: 2, parentId: 1, name: '技术中心', type: 'dept', owner: '张三' },
+    { id: 3, parentId: 1, name: '市场中心', type: 'dept', owner: '李四' },
+    { id: 4, parentId: 2, name: '前端组', type: 'team', size: 8 },
+    { id: 5, parentId: 2, name: '后端组', type: 'team', size: 12 },
+    { id: 6, parentId: 4, name: '平台前端', type: 'group', lead: '王五' },
+    { id: '7', parentId: 4, name: '移动端', type: 'group', lead: '赵六' },
+    { id: 'root-ops', parentId: 'root', name: '运营中心', type: 'dept' },
+    { id: 9, parentId: 999, name: '孤儿节点', type: 'unknown', note: '父节点不存在，将提升为根' }
+  ];
+
+  function readOptions() {
+    return {
+      idField: $('idField').value.trim(),
+      parentField: $('parentField').value.trim(),
+      childrenField: $('childrenField').value.trim(),
+      autoDetect: $('autoDetect').checked,
+      removeParent: $('removeParent').checked,
+      keepOther: $('keepOther').checked,
+      dupMode: $('dupMode').value
+    };
+  }
+
+  function validateOptions(opts) {
+    if (!opts.idField || !opts.parentField || !opts.childrenField) {
+      return '字段名不能为空，请检查 ID 字段、父字段与子节点字段名。';
+    }
+    if (opts.idField === opts.parentField || opts.idField === opts.childrenField || opts.parentField === opts.childrenField) {
+      return 'ID 字段、父字段与子节点字段名不能相同。';
+    }
+    return '';
+  }
+
+  function parseErrorMessage(error, text) {
+    var message = error && error.message ? error.message : String(error);
+    var match = /position\s+(\d+)/i.exec(message);
+    if (match) {
+      var pos = Math.min(Number(match[1]), text.length);
+      var before = text.slice(0, pos).split('\n');
+      return '第 ' + before.length + ' 行第 ' + (before[before.length - 1].length + 1) + ' 列附近（' + message + '）';
+    }
+    return message;
+  }
+
+  function showError(message) {
+    $('errMsg').textContent = message;
+    $('errBar').hidden = false;
+    $('outEmptyMsg').textContent = '构建失败，请检查输入与参数';
+    $('outEmpty').hidden = false;
+    $('treeEmpty').hidden = false;
+  }
+
+  function clearError() {
+    $('errBar').hidden = true;
+    $('errMsg').textContent = '';
+  }
+
+  function clearResult(showMessage) {
+    state.result = null;
+    state.meta = null;
+    state.outputText = '';
+    $('outCode').textContent = '';
+    $('outGutterInner').textContent = '1';
+    $('tree').innerHTML = '';
+    $('stats').hidden = true;
+    $('notice').hidden = true;
+    clearError();
+    $('outEmptyMsg').textContent = showMessage || '构建结果将显示在这里';
+    $('outEmpty').hidden = false;
+    $('treeEmpty').hidden = false;
+  }
+
+  function syncDetectedFields(fields) {
+    if ($('idField').value.trim() !== fields.idField) $('idField').value = fields.idField;
+    if ($('parentField').value.trim() !== fields.parentField) $('parentField').value = fields.parentField;
+    if ($('childrenField').value.trim() !== fields.childrenField) $('childrenField').value = fields.childrenField;
+  }
+
+  function switchView(view, force) {
+    if (!force && view === state.view) return;
+    state.view = view;
+    var isJson = view === 'json';
+    $('jsonView').hidden = !isJson;
+    $('treeView').hidden = isJson;
+    $('segJson').classList.toggle('active', isJson);
+    $('segTree').classList.toggle('active', !isJson);
+    $('segJson').setAttribute('aria-selected', isJson ? 'true' : 'false');
+    $('segTree').setAttribute('aria-selected', isJson ? 'false' : 'true');
+    $('outBadge').textContent = isJson ? 'JSON' : 'TREE';
+  }
+
+  function runBuild() {
+    if (state.running) return;
+    if (!$('modal').hidden) closeModal();
+    state.running = true;
+    var button = $('runBtn');
+    button.disabled = true;
+    $('runBtnText').textContent = '构建中…';
+    clearError();
+    setStatus('正在解析与构建…');
+
+    // 让浏览器先绘制「构建中」状态，再执行重计算。
+    window.setTimeout(function () {
+      try {
+        var text = $('input').value;
+        if (!text.trim()) throw new Error('输入为空：请粘贴 JSON 数组，或点击「载入示例」。');
+
+        var parsed;
+        try {
+          parsed = JSON.parse(text);
+        } catch (parseError) {
+          throw new Error('JSON 解析失败：' + parseErrorMessage(parseError, text) + '，请检查括号、逗号与引号。');
+        }
+        if (!Array.isArray(parsed)) {
+          throw new Error('输入应为 JSON 数组，当前是' + typeName(parsed) + '。');
+        }
+        if (parsed.length === 0) {
+          throw new Error('输入数组为空：至少需要 1 个节点。');
+        }
+
+        var opts = readOptions();
+        var optionError = validateOptions(opts);
+        if (optionError) throw new Error(optionError);
+
+        var started = nowMs();
+        var result = buildTree(parsed, opts);
+        var elapsed = Math.round(nowMs() - started);
+
+        state.result = result;
+        state.meta = result.meta;
+        state.outputText = result.meta.outputText;
+
+        syncDetectedFields(result.meta.fields);
+        renderStats(result.stats);
+        renderNotices(result.issues);
+        var plainTextMode = renderJson(state.outputText);
+        renderTree(result.meta);
+        $('outEmpty').hidden = true;
+        $('treeEmpty').hidden = result.meta.roots.length > 0;
+
+        var warnings = 0;
+        for (var i = 0; i < result.issues.length; i++) {
+          if (result.issues[i].level !== 'info') warnings++;
+        }
+        setStatus('构建完成 · ' + result.stats.roots + ' 个根 / 深度 ' + result.stats.maxDepth +
+          ' · 用时 ' + elapsed + ' ms' + (plainTextMode ? ' · 大结果已用纯文本渲染' : ''));
+        toast('构建完成' + (warnings ? ' · ' + warnings + ' 项已自动处理' : ''), warnings ? 'warn' : 'success');
+      } catch (error) {
+        var message = error && error.message ? error.message : String(error);
+        clearResult('构建失败，请检查输入与参数');
+        showError(message);
+        setStatus('构建失败：' + message, true);
+        toast('构建失败：' + message, 'error');
+      } finally {
+        state.running = false;
+        button.disabled = false;
+        $('runBtnText').textContent = '构建树结构';
+      }
+    }, 0);
+  }
+
+  function updateInputMeta() {
+    var value = $('input').value;
+    var lines = value.split('\n').length;
+    $('inputMeta').textContent = value.length + ' 字符 · ' + lines + ' 行';
+    $('inputGutterInner').textContent = lineNumbers(lines);
+    $('inputEmpty').hidden = value.length > 0;
+  }
+
+  function copyText(text, successMessage) {
+    if (!text) { toast('暂无可复制的内容', 'warn'); return; }
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (ignore) { ok = false; }
+      document.body.removeChild(ta);
+      return ok;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        toast(successMessage, 'success');
+      }, function () {
+        var copied = fallback();
+        toast(copied ? successMessage : '复制失败，请手动选择文本', copied ? 'success' : 'error');
+      });
+    } else {
+      var ok = fallback();
+      toast(ok ? successMessage : '复制失败，请手动选择文本', ok ? 'success' : 'error');
+    }
+  }
+
+  function downloadOutput() {
+    if (!state.outputText) { toast('暂无可下载的结果', 'warn'); return; }
+    try {
+      var blob = new Blob([state.outputText], { type: 'application/json;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = 'parent-child-tree.json';
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      window.setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      toast('已下载 parent-child-tree.json', 'success');
+    } catch (error) {
+      toast('下载失败：' + (error && error.message ? error.message : String(error)), 'error');
+    }
+  }
+
+  function showNodeModal(uid) {
+    if (!state.meta) { toast('请先构建树结构', 'warn'); return; }
+    var node = state.meta.byUid.get(uid);
+    if (!node) return;
+    state.modalRaw = node.row;
+    $('modalTitle').textContent = '节点原始对象 · ' + node.key;
+    $('modalPath').textContent = '路径：' + node.path + '　深度：' + node.depth;
+    var text = JSON.stringify(node.row, null, 2);
+    $('modalCode').innerHTML = highlightJson(text);
+    $('modal').hidden = false;
+    state.modalSeq++;
+    var seq = state.modalSeq;
+    window.requestAnimationFrame(function () {
+      if (seq === state.modalSeq && !$('modal').hidden) $('modal').classList.add('show');
+    });
+    $('modalClose').focus();
+  }
+
+  function closeModal() {
+    if ($('modal').hidden) return;
+    state.modalSeq++; // 作废尚未执行的淡入回调
+    var seq = state.modalSeq;
+    $('modal').classList.remove('show');
+    window.setTimeout(function () {
+      if (seq !== state.modalSeq) return; // 期间被重新打开则保留
+      $('modal').hidden = true;
+      state.modalRaw = null;
+    }, 160);
+  }
+
+  function initTheme() {
+    var theme = 'light';
+    try {
+      var stored = window.localStorage.getItem('jtc-prototype-theme');
+      if (stored === 'dark' || stored === 'light') theme = stored;
+    } catch (ignore) { /* file:// 下 localStorage 可能不可用 */ }
+    document.documentElement.setAttribute('data-theme', theme);
+    $('themeBtn').innerHTML = svg(theme === 'dark' ? 'sun' : 'moon', 16);
+    $('themeBtn').addEventListener('click', function () {
+      var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      $('themeBtn').innerHTML = svg(next === 'dark' ? 'sun' : 'moon', 16);
+      try { window.localStorage.setItem('jtc-prototype-theme', next); } catch (ignore) { /* 忽略 */ }
+    });
+  }
+
+  function initSplitter() {
+    var splitter = $('splitter');
+    var editors = $('editors');
+    var left = $('inputPanel');
+    var dragging = false;
+
+    splitter.addEventListener('pointerdown', function (event) {
+      dragging = true;
+      splitter.classList.add('jt-active');
+      document.body.classList.add('jt-col-resizing');
+      if (splitter.setPointerCapture) splitter.setPointerCapture(event.pointerId);
+      event.preventDefault();
+    });
+    splitter.addEventListener('pointermove', function (event) {
+      if (!dragging) return;
+      var rect = editors.getBoundingClientRect();
+      var vertical = window.matchMedia && window.matchMedia('(max-width: 900px)').matches;
+      var ratio = vertical
+        ? (event.clientY - rect.top) / rect.height
+        : (event.clientX - rect.left) / rect.width;
+      ratio = Math.max(0.25, Math.min(0.75, ratio));
+      left.style.flex = '0 0 ' + (ratio * 100).toFixed(2) + '%';
+    });
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      splitter.classList.remove('jt-active');
+      document.body.classList.remove('jt-col-resizing');
+    }
+    splitter.addEventListener('pointerup', endDrag);
+    splitter.addEventListener('pointercancel', endDrag);
+    splitter.addEventListener('keydown', function (event) {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      var current = parseFloat(left.style.flex) || 50;
+      var next = Math.max(25, Math.min(75, current + (event.key === 'ArrowLeft' ? -2 : 2)));
+      left.style.flex = '0 0 ' + next + '%';
+    });
+  }
+
+  function bindEvents() {
+    $('runBtn').addEventListener('click', runBuild);
+    $('segJson').addEventListener('click', function () { switchView('json'); });
+    $('segTree').addEventListener('click', function () { switchView('tree'); });
+    $('copyOut').addEventListener('click', function () { copyText(state.outputText, '输出已复制到剪贴板'); });
+    $('downloadOut').addEventListener('click', downloadOutput);
+    $('clearOut').addEventListener('click', function () {
+      clearResult();
+      setStatus('结果已清空');
+      toast('结果已清空', 'info');
+    });
+
+    $('input').addEventListener('input', updateInputMeta);
+    $('input').addEventListener('scroll', function () {
+      $('inputGutter').scrollTop = $('input').scrollTop;
+    });
+    $('clearInput').addEventListener('click', function () {
+      $('input').value = '';
+      updateInputMeta();
+      clearResult();
+      setStatus('输入已清空');
+      $('input').focus();
+    });
+    $('loadExample').addEventListener('click', function () {
+      $('input').value = JSON.stringify(EXAMPLE_ROWS, null, 2);
+      updateInputMeta();
+      runBuild();
+      toast('示例已载入并构建', 'info');
+    });
+
+    $('outArea').addEventListener('scroll', function () {
+      $('outGutter').scrollTop = $('outArea').scrollTop;
+    });
+
+    $('expandAll').addEventListener('click', function () { renderAllTreeNodes(true); });
+    $('collapseAll').addEventListener('click', function () { renderAllTreeNodes(false); });
+    $('tree').addEventListener('click', function (event) {
+      var target = event.target;
+      var toggle = target.closest ? target.closest('[data-toggle]') : null;
+      if (toggle) {
+        event.stopPropagation();
+        var rowEl = toggle.closest('.jt-trow');
+        if (!rowEl) return;
+        if (rowEl.getAttribute('data-open') === '1') collapseRow(rowEl);
+        else expandRow(rowEl, state.meta);
+        return;
+      }
+      var row = target.closest ? target.closest('.jt-trow') : null;
+      if (row) showNodeModal(row.getAttribute('data-uid'));
+    });
+
+    $('modalClose').addEventListener('click', closeModal);
+    $('modalOk').addEventListener('click', closeModal);
+    $('modalCopy').addEventListener('click', function () {
+      copyText(state.modalRaw ? JSON.stringify(state.modalRaw, null, 2) : '', '原始对象已复制');
+    });
+    $('modal').addEventListener('click', function (event) {
+      if (event.target === $('modal')) closeModal();
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && !$('modal').hidden) { closeModal(); return; }
+      if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+        event.preventDefault();
+        if ($('modal').hidden) runBuild();
+      }
+    });
+
+    initSplitter();
+  }
+
+  /* ============================================================
+   * 4. 启动
+   * ============================================================ */
+  paintIcons();
+  initTheme();
+  bindEvents();
+  updateInputMeta();
+  clearResult();
+  setStatus('就绪 · 等待输入');
+
+  // 暴露核心函数，便于验收时在控制台直接调用核验。
+  window.ParentChildTreePrototype = {
+    buildTree: buildTree,
+    isRootMarker: isRootMarker,
+    resolveFields: resolveFields,
+    highlightJson: highlightJson,
+    EXAMPLE_ROWS: EXAMPLE_ROWS
+  };
+})();
+</script>
+</body>
+</html>

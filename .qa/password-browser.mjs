@@ -79,7 +79,7 @@ const init = await page.evaluate(() => ({
   hasDDL: !!document.querySelector('.jt-nav-item[data-id="convert-ddl"]'),
   core: !!(window.JTCore && window.JTCore.password && typeof window.JTCore.password.generate === 'function')
 }));
-rec('首屏工具项总数 = 69', init.nav === 69, 'nav=' + init.nav);
+rec('首屏工具项总数 = 70', init.nav === 70, 'nav=' + init.nav);
 rec('密码生成器工具在导航可见', init.hasPwd);
 rec('JSON→建表 DDL 工具在导航可见', init.hasDDL);
 rec('password.js core 已在浏览器加载', init.core);
